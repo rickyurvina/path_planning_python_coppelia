@@ -23,18 +23,19 @@ def getData():
         exit()
     sim.simxStartSimulation(clientID, sim.simx_opmode_oneshot_wait)
 
-    num_cuboids = 4  # Definir el número de cuboides que estarán presentes en la escena
+    num_cuboids = 40  # Definir el número de cuboides que estarán presentes en la escena
     cuboid_handles = []
     positions = []
     weights = []
     for i in range(num_cuboids):
         _, cuboid_handle = sim.simxGetObjectHandle(clientID, f'Cuboid{i + 1}', sim.simx_opmode_blocking)
         cuboid_handles.append(cuboid_handle)
-        _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
-        pos = [round(position[0], 1), round(position[1], 1)]
-        positions.append(pos)
         _, mass = sim.simxGetObjectFloatParameter(clientID, cuboid_handle, 3005, sim.simx_opmode_blocking)
-        weights.append(round(float(mass), 1))
+        if mass > 0:
+            weights.append(float(mass))
+            _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
+            pos = [position[0], position[1]]
+            positions.append(pos)
 
     positions = np.array(positions)
     distance_matrix = distance_matrix(positions)

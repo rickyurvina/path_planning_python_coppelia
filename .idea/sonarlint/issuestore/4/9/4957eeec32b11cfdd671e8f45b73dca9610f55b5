@@ -1,622 +1,0 @@
-
-kpython:S2208"GImport only needed names or import the module and then use its members.(‡‰›Æûÿÿÿÿ8¶¿¼õ…1
-[python:S5754"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8¶¿¼õ…1
-spython:S117"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ô±Æú8¶¿¼õ…1
-vpython:S117"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ô±Æú8¶¿¼õ…1
-xpython:S117"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ô±Æú8¶¿¼õ…1
-zpython:S1542"ZRename function "simxGetJointPosition" to match the regular expression ^[a-z_][a-z0-9_]*$.(ô±Æú8¶¿¼õ…1
-xpython:S117—"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(öäë³üÿÿÿÿ8¶¿¼õ…1
-{python:S117—"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(öäë³üÿÿÿÿ8¶¿¼õ…1
-}python:S117—"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(öäë³üÿÿÿÿ8¶¿¼õ…1
-python:S1542—"ZRename function "simxSetJointPosition" to match the regular expression ^[a-z_][a-z0-9_]*$.(öäë³üÿÿÿÿ8¶¿¼õ…1
-spython:S117ž"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÙÆÒ8¶¿¼õ…1
-vpython:S117ž"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÙÆÒ8¶¿¼õ…1
-xpython:S117ž"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÙÆÒ8¶¿¼õ…1
-xpython:S1542ž"XRename function "simxGetJointMatrix" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÙÆÒ8¶¿¼õ…1
-spython:S117©"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Öˆ¡»8¶¿¼õ…1
-vpython:S117©"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Öˆ¡»8¶¿¼õ…1
-xpython:S117©"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Öˆ¡»8¶¿¼õ…1
-python:S1542©"aRename function "simxSetSphericalJointMatrix" to match the regular expression ^[a-z_][a-z0-9_]*$.(Öˆ¡»8¶¿¼õ…1
-spython:S117°"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(éíÚÔ8¶¿¼õ…1
-vpython:S117°"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(éíÚÔ8¶¿¼õ…1
-xpython:S117°"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(éíÚÔ8·¿¼õ…1
-ypython:S117°"ZRename this parameter "targetVelocity" to match the regular expression ^[_a-z][a-z0-9_]*$.(éíÚÔ8·¿¼õ…1
-€python:S1542°"`Rename function "simxSetJointTargetVelocity" to match the regular expression ^[a-z_][a-z0-9_]*$.(éíÚÔ8·¿¼õ…1
-xpython:S117·"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(òÙüÿÿÿÿ8·¿¼õ…1
-{python:S117·"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(òÙüÿÿÿÿ8·¿¼õ…1
-}python:S117·"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(òÙüÿÿÿÿ8·¿¼õ…1
-~python:S117·"ZRename this parameter "targetPosition" to match the regular expression ^[_a-z][a-z0-9_]*$.(òÙüÿÿÿÿ8·¿¼õ…1
-…python:S1542·"`Rename function "simxSetJointTargetPosition" to match the regular expression ^[a-z_][a-z0-9_]*$.(òÙüÿÿÿÿ8·¿¼õ…1
-xpython:S117¾"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(­¢†âþÿÿÿÿ8·¿¼õ…1
-{python:S117¾"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(­¢†âþÿÿÿÿ8·¿¼õ…1
-}python:S117¾"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(­¢†âþÿÿÿÿ8·¿¼õ…1
-|python:S1542¾"WRename function "simxJointGetForce" to match the regular expression ^[a-z_][a-z0-9_]*$.(­¢†âþÿÿÿÿ8·¿¼õ…1
-spython:S117Å"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¯–™Ø8·¿¼õ…1
-vpython:S117Å"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(¯–™Ø8·¿¼õ…1
-xpython:S117Å"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(¯–™Ø8·¿¼õ…1
-wpython:S1542Å"WRename function "simxGetJointForce" to match the regular expression ^[a-z_][a-z0-9_]*$.(¯–™Ø8·¿¼õ…1
-spython:S117Ì"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ýÞûµ8·¿¼õ…1
-vpython:S117Ì"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ýÞûµ8·¿¼õ…1
-xpython:S117Ì"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ýÞûµ8·¿¼õ…1
-zpython:S1542Ì"ZRename function "simxGetJointMaxForce" to match the regular expression ^[a-z_][a-z0-9_]*$.(ýÞûµ8·¿¼õ…1
-spython:S117Ó"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(½ÔÆ8·¿¼õ…1
-vpython:S117Ó"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(½ÔÆ8·¿¼õ…1
-xpython:S117Ó"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(½ÔÆ8·¿¼õ…1
-wpython:S1542Ó"WRename function "simxSetJointForce" to match the regular expression ^[a-z_][a-z0-9_]*$.(½ÔÆ8·¿¼õ…1
-xpython:S117Ù"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ƒÂÊÔúÿÿÿÿ8·¿¼õ…1
-{python:S117Ù"WRename this parameter "jointHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ƒÂÊÔúÿÿÿÿ8·¿¼õ…1
-}python:S117Ù"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ƒÂÊÔúÿÿÿÿ8·¿¼õ…1
-python:S1542Ù"ZRename function "simxSetJointMaxForce" to match the regular expression ^[a-z_][a-z0-9_]*$.(ƒÂÊÔúÿÿÿÿ8·¿¼õ…1
-spython:S117ß"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷‘š·8·¿¼õ…1
-|python:S117ß"]Rename this parameter "forceSensorHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷‘š·8·¿¼õ…1
-{python:S117ä"\Rename this local variable "forceVector" to match the regular expression ^[_a-z][a-z0-9_]*$.(Š¶ôý8·¿¼õ…1
-xpython:S117ß"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷‘š·8·¿¼õ…1
-{python:S117å"]Rename this local variable "torqueVector" to match the regular expression ^[_a-z][a-z0-9_]*$.(‹¿¡*8·¿¼õ…1
-ypython:S1542ß"YRename function "simxReadForceSensor" to match the regular expression ^[a-z_][a-z0-9_]*$.(÷‘š·8·¿¼õ…1
-Cpython:S125í"Remove this commented out code.(‹ºÂÍùÿÿÿÿ8·¿¼õ…1
-xpython:S117ó"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(æ‹¬¨þÿÿÿÿ8·¿¼õ…1
-python:S117ó"]Rename this parameter "forceSensorHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(æ‹¬¨þÿÿÿÿ8·¿¼õ…1
-}python:S117ó"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(æ‹¬¨þÿÿÿÿ8·¿¼õ…1
-python:S1542ó"ZRename function "simxBreakForceSensor" to match the regular expression ^[a-z_][a-z0-9_]*$.(æ‹¬¨þÿÿÿÿ8·¿¼õ…1
-~python:S117ÿ"ZRename this local variable "auxValues" to match the regular expression ^[_a-z][a-z0-9_]*$.(«£¨¤ùÿÿÿÿ8·¿¼õ…1
-zpython:S117ƒ"[Rename this local variable "auxValues2" to match the regular expression ^[_a-z][a-z0-9_]*$.(ñÕ‘8·¿¼õ…1
-ƒpython:S117€"_Rename this local variable "auxValuesCount" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÒÙ‡‡üÿÿÿÿ8·¿¼õ…1
-spython:S117ù"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ü—€¦8·¿¼õ…1
-}python:S117þ"_Rename this local variable "detectionState" to match the regular expression ^[_a-z][a-z0-9_]*$.(ëÑÅ98·¿¼õ…1
-xpython:S117ù"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ü—€¦8·¿¼õ…1
-wpython:S117ù"XRename this parameter "sensorHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ü—€¦8·¿¼õ…1
-zpython:S1542ù"ZRename function "simxReadVisionSensor" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ü—€¦8·¿¼õ…1
-xpython:S117"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ËÿÄÿÿÿÿÿ8·¿¼õ…1
-zpython:S117"VRename this parameter "objectName" to match the regular expression ^[_a-z][a-z0-9_]*$.(ËÿÄÿÿÿÿÿ8·¿¼õ…1
-}python:S117"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ËÿÄÿÿÿÿÿ8·¿¼õ…1
-~python:S1542"YRename function "simxGetObjectHandle" to match the regular expression ^[a-z_][a-z0-9_]*$.(ËÿÄÿÿÿÿÿ8·¿¼õ…1
-‚python:S117 "^Rename this local variable "bytesPerPixel" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÍÊÈîýÿÿÿÿ8·¿¼õ…1
-xpython:S117™"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(†¾þÿÿÿÿ8·¿¼õ…1
-}python:S117™"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(†¾þÿÿÿÿ8·¿¼õ…1
-|python:S117™"XRename this parameter "sensorHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(†¾þÿÿÿÿ8·¿¼õ…1
-ƒpython:S1542™"^Rename function "simxGetVisionSensorImage" to match the regular expression ^[a-z_][a-z0-9_]*$.(†¾þÿÿÿÿ8·¿¼õ…1
-spython:S117¯"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(“‚Íí8·¿¼õ…1
-xpython:S117¯"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(“‚Íí8·¿¼õ…1
-wpython:S117¯"XRename this parameter "sensorHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(“‚Íí8·¿¼õ…1
-~python:S1542¯"^Rename function "simxSetVisionSensorImage" to match the regular expression ^[a-z_][a-z0-9_]*$.(“‚Íí8·¿¼õ…1
-spython:S117·"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(áÑÈÂ8·¿¼õ…1
-xpython:S117·"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(áÑÈÂ8·¿¼õ…1
-wpython:S117·"XRename this parameter "sensorHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(áÑÈÂ8·¿¼õ…1
-„python:S1542·"dRename function "simxGetVisionSensorDepthBuffer" to match the regular expression ^[a-z_][a-z0-9_]*$.(áÑÈÂ8¸¿¼õ…1
-Ppython:S5806¿"+Rename this variable; it shadows a builtin.(ÁòóËÿÿÿÿÿ8¸¿¼õ…1
-upython:S117È"VRename this parameter "childIndex" to match the regular expression ^[_a-z][a-z0-9_]*$.(Öñ·÷8¸¿¼õ…1
-python:S117Ì"bRename this local variable "childObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(½õßº8¸¿¼õ…1
-spython:S117È"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Öñ·÷8¸¿¼õ…1
-xpython:S117È"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Öñ·÷8¸¿¼õ…1
-}python:S117È"^Rename this parameter "parentObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Öñ·÷8¸¿¼õ…1
-xpython:S1542È"XRename function "simxGetObjectChild" to match the regular expression ^[a-z_][a-z0-9_]*$.(Öñ·÷8¸¿¼õ…1
-|python:S117Ï"]Rename this parameter "childObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(€ôÒ’8¸¿¼õ…1
-spython:S117Ï"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(€ôÒ’8¸¿¼õ…1
-xpython:S117Ï"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(€ôÒ’8¸¿¼õ…1
-‚python:S117Ô"cRename this local variable "parentObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å£ºÓ8¸¿¼õ…1
-ypython:S1542Ï"YRename function "simxGetObjectParent" to match the regular expression ^[a-z_][a-z0-9_]*$.(€ôÒ’8¸¿¼õ…1
-rpython:S117×"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(–¯ãB8¸¿¼õ…1
-ƒpython:S117Ý"eRename this local variable "detectedObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ç‘P8¸¿¼õ…1
-‚python:S117Þ"^Rename this local variable "detectedPoint" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÆüÅÑüÿÿÿÿ8¸¿¼õ…1
-‹python:S117ß"lRename this local variable "detectedSurfaceNormalVector" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄÒƒâ8¸¿¼õ…1
-}python:S117Ü"_Rename this local variable "detectionState" to match the regular expression ^[_a-z][a-z0-9_]*$.(ëÑÅ98¸¿¼õ…1
-wpython:S117×"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(–¯ãB8¸¿¼õ…1
-vpython:S117×"XRename this parameter "sensorHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(–¯ãB8¸¿¼õ…1
-|python:S1542×"]Rename function "simxReadProximitySensor" to match the regular expression ^[a-z_][a-z0-9_]*$.(–¯ãB8¸¿¼õ…1
-python:S117í"[Rename this local variable "baseHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(†µÃÓùÿÿÿÿ8¸¿¼õ…1
-xpython:S117é"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘‡´¾ûÿÿÿÿ8¸¿¼õ…1
-€python:S117é"\Rename this parameter "modelPathAndName" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘‡´¾ûÿÿÿÿ8¸¿¼õ…1
-}python:S117é"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘‡´¾ûÿÿÿÿ8¸¿¼õ…1
-xpython:S1542é"SRename function "simxLoadModel" to match the regular expression ^[a-z_][a-z0-9_]*$.(‘‡´¾ûÿÿÿÿ8¸¿¼õ…1
-xpython:S117ò"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(œ®„™þÿÿÿÿ8¸¿¼õ…1
-}python:S117ò"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(œ®„™þÿÿÿÿ8¸¿¼õ…1
-xpython:S117ø"ZRename this local variable "uiHandles" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÙäÉ*8¸¿¼õ…1
-}python:S117ò"YRename this parameter "uiPathAndName" to match the regular expression ^[_a-z][a-z0-9_]*$.(œ®„™þÿÿÿÿ8¸¿¼õ…1
-upython:S1542ò"PRename function "simxLoadUI" to match the regular expression ^[a-z_][a-z0-9_]*$.(œ®„™þÿÿÿÿ8¸¿¼õ…1
-spython:S117†"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(üñº8¸¿¼õ…1
-xpython:S117†"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(üñº8¸¿¼õ…1
-{python:S117†"\Rename this parameter "scenePathAndName" to match the regular expression ^[_a-z][a-z0-9_]*$.(üñº8¸¿¼õ…1
-spython:S1542†"SRename function "simxLoadScene" to match the regular expression ^[a-z_][a-z0-9_]*$.(üñº8¸¿¼õ…1
-rpython:S117"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ð­æm8¸¿¼õ…1
-wpython:S117"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ð­æm8¸¿¼õ…1
-xpython:S1542"YRename function "simxStartSimulation" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ð­æm8¸¿¼õ…1
-spython:S117–"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(­åÑ8¸¿¼õ…1
-xpython:S117–"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(­åÑ8¸¿¼õ…1
-ypython:S1542–"YRename function "simxPauseSimulation" to match the regular expression ^[a-z_][a-z0-9_]*$.(­åÑ8¸¿¼õ…1
-xpython:S117"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ÃÙÐûÿÿÿÿ8¸¿¼õ…1
-}python:S117"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ÃÙÐûÿÿÿÿ8¸¿¼õ…1
-}python:S1542"XRename function "simxStopSimulation" to match the regular expression ^[a-z_][a-z0-9_]*$.(”ÃÙÐûÿÿÿÿ8¸¿¼õ…1
-xpython:S117¤"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ú‹¾Ìûÿÿÿÿ8¸¿¼õ…1
-}python:S117¤"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ú‹¾Ìûÿÿÿÿ8¸¿¼õ…1
-vpython:S117¤"RRename this parameter "uiName" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ú‹¾Ìûÿÿÿÿ8¸¿¼õ…1
-zpython:S1542¤"URename function "simxGetUIHandle" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ú‹¾Ìûÿÿÿÿ8¸¿¼õ…1
-xpython:S117®"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ù“ÿÿÿÿÿ8¸¿¼õ…1
-}python:S117®"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ù“ÿÿÿÿÿ8¸¿¼õ…1
-zpython:S117®"VRename this parameter "uiButtonID" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ù“ÿÿÿÿÿ8¸¿¼õ…1
-xpython:S117®"TRename this parameter "uiHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ù“ÿÿÿÿÿ8¸¿¼õ…1
-zpython:S1542®"URename function "simxGetUISlider" to match the regular expression ^[a-z_][a-z0-9_]*$.(”ù“ÿÿÿÿÿ8¸¿¼õ…1
-spython:S117¶"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ô¯©¤8¸¿¼õ…1
-xpython:S117¶"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ô¯©¤8¸¿¼õ…1
-upython:S117¶"VRename this parameter "uiButtonID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ô¯©¤8¸¿¼õ…1
-spython:S117¶"TRename this parameter "uiHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ô¯©¤8¸¿¼õ…1
-upython:S1542¶"URename function "simxSetUISlider" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ô¯©¤8¸¿¼õ…1
-~python:S117Ã"ZRename this local variable "auxValues" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ†‚Ùûÿÿÿÿ8¸¿¼õ…1
-xpython:S117½"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(°¨âüýÿÿÿÿ8¸¿¼õ…1
-}python:S117½"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(°¨âüýÿÿÿÿ8¸¿¼õ…1
-python:S117Â"`Rename this local variable "uiEventButtonID" to match the regular expression ^[_a-z][a-z0-9_]*$.(“×Ÿ†8¸¿¼õ…1
-xpython:S117½"TRename this parameter "uiHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(°¨âüýÿÿÿÿ8¸¿¼õ…1
-python:S1542½"ZRename function "simxGetUIEventButton" to match the regular expression ^[a-z_][a-z0-9_]*$.(°¨âüýÿÿÿÿ8¸¿¼õ…1
-xpython:S117Ê"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¯ûÿ£þÿÿÿÿ8¸¿¼õ…1
-}python:S117Ê"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(¯ûÿ£þÿÿÿÿ8¸¿¼õ…1
-zpython:S117Ê"VRename this parameter "uiButtonID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¯ûÿ£þÿÿÿÿ8¸¿¼õ…1
-xpython:S117Ê"TRename this parameter "uiHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(¯ûÿ£þÿÿÿÿ8¸¿¼õ…1
-‚python:S1542Ê"]Rename function "simxGetUIButtonProperty" to match the regular expression ^[a-z_][a-z0-9_]*$.(¯ûÿ£þÿÿÿÿ8¸¿¼õ…1
-rpython:S117Ò"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÒƒÏ`8¸¿¼õ…1
-wpython:S117Ò"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÒƒÏ`8¸¿¼õ…1
-tpython:S117Ò"VRename this parameter "uiButtonID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÒƒÏ`8¹¿¼õ…1
-rpython:S117Ò"TRename this parameter "uiHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÒƒÏ`8¹¿¼õ…1
-|python:S1542Ò"]Rename function "simxSetUIButtonProperty" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÒƒÏ`8¹¿¼õ…1
-xpython:S117Ù"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÆÇÕýøÿÿÿÿ8¹¿¼õ…1
-}python:S117Ù"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÆÇÕýøÿÿÿÿ8¹¿¼õ…1
-‚python:S1542Ù"]Rename function "simxAddStatusbarMessage" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÆÇÕýøÿÿÿÿ8¹¿¼õ…1
-python:S117â"[Rename this parameter "backgroundColor" to match the regular expression ^[_a-z][a-z0-9_]*$.(é ¾Ôÿÿÿÿÿ8¹¿¼õ…1
-†python:S117÷"bRename this local variable "c_backgroundColor" to match the regular expression ^[_a-z][a-z0-9_]*$.(¶ã§éüÿÿÿÿ8¹¿¼õ…1
-{python:S117ó"\Rename this local variable "c_textColor" to match the regular expression ^[_a-z][a-z0-9_]*$.(þ…ä8¹¿¼õ…1
-xpython:S117â"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(é ¾Ôÿÿÿÿÿ8¹¿¼õ…1
-}python:S117ç"^Rename this local variable "consoleHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Þæ³–8¹¿¼õ…1
-xpython:S117â"TRename this parameter "maxLines" to match the regular expression ^[_a-z][a-z0-9_]*$.(é ¾Ôÿÿÿÿÿ8¹¿¼õ…1
-}python:S117â"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(é ¾Ôÿÿÿÿÿ8¹¿¼õ…1
-ypython:S117â"URename this parameter "textColor" to match the regular expression ^[_a-z][a-z0-9_]*$.(é ¾Ôÿÿÿÿÿ8¹¿¼õ…1
-ƒpython:S1542â"^Rename function "simxAuxiliaryConsoleOpen" to match the regular expression ^[a-z_][a-z0-9_]*$.(é ¾Ôÿÿÿÿÿ8¹¿¼õ…1
-xpython:S117ü"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ù­‘úÿÿÿÿ8¹¿¼õ…1
-}python:S117ü"YRename this parameter "consoleHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ù­‘úÿÿÿÿ8¹¿¼õ…1
-}python:S117ü"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ù­‘úÿÿÿÿ8¹¿¼õ…1
-„python:S1542ü"_Rename function "simxAuxiliaryConsoleClose" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ù­‘úÿÿÿÿ8¹¿¼õ…1
-spython:S117ƒ"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(†ßÅµ8¹¿¼õ…1
-xpython:S117ƒ"YRename this parameter "consoleHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(†ßÅµ8¹¿¼õ…1
-xpython:S117ƒ"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(†ßÅµ8¹¿¼õ…1
-python:S1542ƒ"_Rename function "simxAuxiliaryConsolePrint" to match the regular expression ^[a-z_][a-z0-9_]*$.(†ßÅµ8¹¿¼õ…1
-spython:S117Œ"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(‰¦Öž8¹¿¼õ…1
-xpython:S117Œ"YRename this parameter "consoleHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(‰¦Öž8¹¿¼õ…1
-xpython:S117Œ"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(‰¦Öž8¹¿¼õ…1
-tpython:S117Œ"URename this parameter "showState" to match the regular expression ^[_a-z][a-z0-9_]*$.(‰¦Öž8¹¿¼õ…1
-~python:S1542Œ"^Rename function "simxAuxiliaryConsoleShow" to match the regular expression ^[a-z_][a-z0-9_]*$.(‰¦Öž8¹¿¼õ…1
-spython:S117“"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å³ü8¹¿¼õ…1
-€python:S117—"\Rename this local variable "eulerAngles" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÍÄüûûÿÿÿÿ8¹¿¼õ…1
-wpython:S117“"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å³ü8¹¿¼õ…1
-xpython:S117“"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å³ü8¹¿¼õ…1
-python:S117“"bRename this parameter "relativeToObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å³ü8¹¿¼õ…1
-~python:S1542“"^Rename function "simxGetObjectOrientation" to match the regular expression ^[a-z_][a-z0-9_]*$.(Å³ü8¹¿¼õ…1
-spython:S117ž"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨žÙä8¹¿¼õ…1
-wpython:S117ž"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨žÙä8¹¿¼õ…1
-xpython:S117ž"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨žÙä8¹¿¼õ…1
-python:S117ž"bRename this parameter "relativeToObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨žÙä8¹¿¼õ…1
-}python:S1542ž"]Rename function "simxGetObjectQuaternion" to match the regular expression ^[a-z_][a-z0-9_]*$.(¨žÙä8¹¿¼õ…1
-xpython:S117©"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÿá¦Šÿÿÿÿÿ8¹¿¼õ…1
-|python:S117©"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÿá¦Šÿÿÿÿÿ8¹¿¼õ…1
-}python:S117©"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÿá¦Šÿÿÿÿÿ8¹¿¼õ…1
-†python:S117©"bRename this parameter "relativeToObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÿá¦Šÿÿÿÿÿ8¹¿¼õ…1
-€python:S1542©"[Rename function "simxGetObjectPosition" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÿá¦Šÿÿÿÿÿ8¹¿¼õ…1
-xpython:S117´"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(‡Ù¸ïþÿÿÿÿ8¹¿¼õ…1
-{python:S117´"WRename this parameter "eulerAngles" to match the regular expression ^[_a-z][a-z0-9_]*$.(‡Ù¸ïþÿÿÿÿ8¹¿¼õ…1
-|python:S117´"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(‡Ù¸ïþÿÿÿÿ8¹¿¼õ…1
-}python:S117´"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(‡Ù¸ïþÿÿÿÿ8¹¿¼õ…1
-†python:S117´"bRename this parameter "relativeToObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(‡Ù¸ïþÿÿÿÿ8¹¿¼õ…1
-ƒpython:S1542´"^Rename function "simxSetObjectOrientation" to match the regular expression ^[a-z_][a-z0-9_]*$.(‡Ù¸ïþÿÿÿÿ8¹¿¼õ…1
-xpython:S117¼"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷‡Ñéÿÿÿÿÿ8¹¿¼õ…1
-|python:S117¼"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷‡Ñéÿÿÿÿÿ8¹¿¼õ…1
-}python:S117¼"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷‡Ñéÿÿÿÿÿ8¹¿¼õ…1
-†python:S117¼"bRename this parameter "relativeToObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷‡Ñéÿÿÿÿÿ8¹¿¼õ…1
-‚python:S1542¼"]Rename function "simxSetObjectQuaternion" to match the regular expression ^[a-z_][a-z0-9_]*$.(÷‡Ñéÿÿÿÿÿ8¹¿¼õ…1
-xpython:S117Ä"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(˜©ÿ¯üÿÿÿÿ8¹¿¼õ…1
-|python:S117Ä"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(˜©ÿ¯üÿÿÿÿ8¹¿¼õ…1
-}python:S117Ä"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(˜©ÿ¯üÿÿÿÿ8¹¿¼õ…1
-†python:S117Ä"bRename this parameter "relativeToObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(˜©ÿ¯üÿÿÿÿ8¹¿¼õ…1
-€python:S1542Ä"[Rename function "simxSetObjectPosition" to match the regular expression ^[a-z_][a-z0-9_]*$.(˜©ÿ¯üÿÿÿÿ8¹¿¼õ…1
-spython:S117Ì"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷à¨’8¹¿¼õ…1
-vpython:S117Ì"WRename this parameter "keepInPlace" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷à¨’8¹¿¼õ…1
-wpython:S117Ì"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷à¨’8¹¿¼õ…1
-xpython:S117Ì"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷à¨’8¹¿¼õ…1
-wpython:S117Ì"XRename this parameter "parentObject" to match the regular expression ^[_a-z][a-z0-9_]*$.(÷à¨’8¹¿¼õ…1
-ypython:S1542Ì"YRename function "simxSetObjectParent" to match the regular expression ^[a-z_][a-z0-9_]*$.(÷à¨’8¹¿¼õ…1
-xpython:S117Ó"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(±µï¸ùÿÿÿÿ8¹¿¼õ…1
-~python:S117Ó"ZRename this parameter "downStateLabel" to match the regular expression ^[_a-z][a-z0-9_]*$.(±µï¸ùÿÿÿÿ8¹¿¼õ…1
-}python:S117Ó"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(±µï¸ùÿÿÿÿ8¹¿¼õ…1
-zpython:S117Ó"VRename this parameter "uiButtonID" to match the regular expression ^[_a-z][a-z0-9_]*$.(±µï¸ùÿÿÿÿ8¹¿¼õ…1
-xpython:S117Ó"TRename this parameter "uiHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(±µï¸ùÿÿÿÿ8¹¿¼õ…1
-|python:S117Ó"XRename this parameter "upStateLabel" to match the regular expression ^[_a-z][a-z0-9_]*$.(±µï¸ùÿÿÿÿ8¹¿¼õ…1
-python:S1542Ó"ZRename function "simxSetUIButtonLabel" to match the regular expression ^[a-z_][a-z0-9_]*$.(±µï¸ùÿÿÿÿ8¹¿¼õ…1
-spython:S117ß"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Á³ê…8¹¿¼õ…1
-xpython:S117ä"YRename this local variable "errorCnt" to match the regular expression ^[_a-z][a-z0-9_]*$.(×Ý‡8¹¿¼õ…1
-|python:S117å"]Rename this local variable "errorStrings" to match the regular expression ^[_a-z][a-z0-9_]*$.(€ÇÊ·8¹¿¼õ…1
-xpython:S117ß"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Á³ê…8¹¿¼õ…1
-wpython:S1542ß"WRename function "simxGetLastErrors" to match the regular expression ^[a-z_][a-z0-9_]*$.(Á³ê…8¹¿¼õ…1
-Epython:S1481é"%Remove the unused local variable "i".(Ü­ƒÓ8¹¿¼õ…1
-spython:S117ù"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ËñŸº8¹¿¼õ…1
-xpython:S117ù"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ËñŸº8¹¿¼õ…1
-zpython:S117ù"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(ËñŸº8¹¿¼õ…1
-{python:S117ý"\Rename this local variable "paramValues" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÏÙ²8¹¿¼õ…1
-{python:S1542ù"[Rename function "simxGetArrayParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(ËñŸº8¹¿¼õ…1
-‚python:S117‰"^Rename this local variable "c_paramValues" to match the regular expression ^[_a-z][a-z0-9_]*$.(ó™ððÿÿÿÿÿ8¹¿¼õ…1
-spython:S117„"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(°Í½“8¹¿¼õ…1
-xpython:S117„"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(°Í½“8¹¿¼õ…1
-zpython:S117„"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(°Í½“8¹¿¼õ…1
-vpython:S117„"WRename this parameter "paramValues" to match the regular expression ^[_a-z][a-z0-9_]*$.(°Í½“8¹¿¼õ…1
-{python:S1542„"[Rename function "simxSetArrayParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(°Í½“8º¿¼õ…1
-spython:S117Œ"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õ”Ñ§8º¿¼õ…1
-xpython:S117Œ"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õ”Ñ§8º¿¼õ…1
-zpython:S117Œ"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õ”Ñ§8º¿¼õ…1
-python:S117‘"[Rename this local variable "paramValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(¥ôïÕûÿÿÿÿ8º¿¼õ…1
-}python:S1542Œ"]Rename function "simxGetBooleanParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(Õ”Ñ§8º¿¼õ…1
-rpython:S117”"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ÕŒ8º¿¼õ…1
-wpython:S117”"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ÕŒ8º¿¼õ…1
-ypython:S117”"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ÕŒ8º¿¼õ…1
-tpython:S117”"VRename this parameter "paramValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(”ÕŒ8º¿¼õ…1
-|python:S1542”"]Rename function "simxSetBooleanParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(”ÕŒ8º¿¼õ…1
-xpython:S117›"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÓáªÒþÿÿÿÿ8º¿¼õ…1
-}python:S117›"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÓáªÒþÿÿÿÿ8º¿¼õ…1
-python:S117›"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÓáªÒþÿÿÿÿ8º¿¼õ…1
-python:S117 "[Rename this local variable "paramValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(î¹°áùÿÿÿÿ8º¿¼õ…1
-‚python:S1542›"]Rename function "simxGetIntegerParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÓáªÒþÿÿÿÿ8º¿¼õ…1
-spython:S117£"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¢žŸ8º¿¼õ…1
-xpython:S117£"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(¢žŸ8º¿¼õ…1
-zpython:S117£"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(¢žŸ8º¿¼õ…1
-upython:S117£"VRename this parameter "paramValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(¢žŸ8º¿¼õ…1
-}python:S1542£"]Rename function "simxSetIntegerParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(¢žŸ8º¿¼õ…1
-spython:S117ª"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆûŒ„8º¿¼õ…1
-xpython:S117ª"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆûŒ„8º¿¼õ…1
-zpython:S117ª"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆûŒ„8º¿¼õ…1
-python:S117¯"[Rename this local variable "paramValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å¤»®þÿÿÿÿ8º¿¼õ…1
-~python:S1542ª"^Rename function "simxGetFloatingParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(ˆûŒ„8º¿¼õ…1
-spython:S117²"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ„Ë«8º¿¼õ…1
-xpython:S117²"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ„Ë«8º¿¼õ…1
-zpython:S117²"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ„Ë«8º¿¼õ…1
-upython:S117²"VRename this parameter "paramValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ„Ë«8º¿¼õ…1
-~python:S1542²"^Rename function "simxSetFloatingParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(Æ„Ë«8º¿¼õ…1
-xpython:S117¹"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘âŒ¡üÿÿÿÿ8º¿¼õ…1
-}python:S117¹"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘âŒ¡üÿÿÿÿ8º¿¼õ…1
-python:S117¹"[Rename this parameter "paramIdentifier" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘âŒ¡üÿÿÿÿ8º¿¼õ…1
-zpython:S117½"[Rename this local variable "paramValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÉË·Œ8º¿¼õ…1
-python:S1542¹"\Rename function "simxGetStringParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(‘âŒ¡üÿÿÿÿ8º¿¼õ…1
-xpython:S117Ï"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¶ƒ–ˆøÿÿÿÿ8º¿¼õ…1
-ƒpython:S117Ï"_Rename this parameter "collisionObjectName" to match the regular expression ^[_a-z][a-z0-9_]*$.(¶ƒ–ˆøÿÿÿÿ8º¿¼õ…1
-}python:S117Ï"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(¶ƒ–ˆøÿÿÿÿ8º¿¼õ…1
-python:S1542Ï"\Rename function "simxGetCollisionHandle" to match the regular expression ^[a-z_][a-z0-9_]*$.(¶ƒ–ˆøÿÿÿÿ8º¿¼õ…1
-xpython:S117Ù"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(­Š·Šÿÿÿÿÿ8º¿¼õ…1
-~python:S117Ù"ZRename this parameter "collectionName" to match the regular expression ^[_a-z][a-z0-9_]*$.(­Š·Šÿÿÿÿÿ8º¿¼õ…1
-}python:S117Ù"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(­Š·Šÿÿÿÿÿ8º¿¼õ…1
-‚python:S1542Ù"]Rename function "simxGetCollectionHandle" to match the regular expression ^[a-z_][a-z0-9_]*$.(­Š·Šÿÿÿÿÿ8º¿¼õ…1
-xpython:S117ã"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ð“ÆËùÿÿÿÿ8º¿¼õ…1
-‚python:S117ã"^Rename this parameter "distanceObjectName" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ð“ÆËùÿÿÿÿ8º¿¼õ…1
-}python:S117ã"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ð“ÆËùÿÿÿÿ8º¿¼õ…1
-€python:S1542ã"[Rename function "simxGetDistanceHandle" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ð“ÆËùÿÿÿÿ8º¿¼õ…1
-xpython:S117í"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(±©Ð²ÿÿÿÿÿ8º¿¼õ…1
-…python:S117í"aRename this parameter "collisionObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(±©Ð²ÿÿÿÿÿ8º¿¼õ…1
-~python:S117ñ"_Rename this local variable "collisionState" to match the regular expression ^[_a-z][a-z0-9_]*$.(âþ¯Ò8º¿¼õ…1
-}python:S117í"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(±©Ð²ÿÿÿÿÿ8º¿¼õ…1
-|python:S1542í"WRename function "simxReadCollision" to match the regular expression ^[a-z_][a-z0-9_]*$.(±©Ð²ÿÿÿÿÿ8º¿¼õ…1
-spython:S117ô"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ìï–—8º¿¼õ…1
-python:S117ô"`Rename this parameter "distanceObjectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ìï–—8º¿¼õ…1
-„python:S117ù"`Rename this local variable "minimumDistance" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÌÞ×ëøÿÿÿÿ8º¿¼õ…1
-xpython:S117ô"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ìï–—8º¿¼õ…1
-vpython:S1542ô"VRename function "simxReadDistance" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ìï–—8º¿¼õ…1
-xpython:S117ü"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ç¥žôýÿÿÿÿ8º¿¼õ…1
-|python:S117ü"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ç¥žôýÿÿÿÿ8º¿¼õ…1
-}python:S117ü"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ç¥žôýÿÿÿÿ8º¿¼õ…1
-{python:S1542ü"VRename function "simxRemoveObject" to match the regular expression ^[a-z_][a-z0-9_]*$.(ç¥žôýÿÿÿÿ8º¿¼õ…1
-xpython:S117ƒ"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÀÇ¸’øÿÿÿÿ8º¿¼õ…1
-|python:S117ƒ"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÀÇ¸’øÿÿÿÿ8º¿¼õ…1
-}python:S117ƒ"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÀÇ¸’øÿÿÿÿ8º¿¼õ…1
-zpython:S1542ƒ"URename function "simxRemoveModel" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÀÇ¸’øÿÿÿÿ8º¿¼õ…1
-xpython:S117Š"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(€ÝžÄûÿÿÿÿ8º¿¼õ…1
-}python:S117Š"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(€ÝžÄûÿÿÿÿ8º¿¼õ…1
-xpython:S117Š"TRename this parameter "uiHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(€ÝžÄûÿÿÿÿ8º¿¼õ…1
-wpython:S1542Š"RRename function "simxRemoveUI" to match the regular expression ^[a-z_][a-z0-9_]*$.(€ÝžÄûÿÿÿÿ8º¿¼õ…1
-xpython:S117‘"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(°ß¾¥þÿÿÿÿ8º¿¼õ…1
-}python:S117‘"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(°ß¾¥þÿÿÿÿ8º¿¼õ…1
-ypython:S1542‘"TRename function "simxCloseScene" to match the regular expression ^[a-z_][a-z0-9_]*$.(°ß¾¥þÿÿÿÿ8º¿¼õ…1
-xpython:S117˜"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(²¼ÎÊÿÿÿÿÿ8º¿¼õ…1
-zpython:S117"\Rename this local variable "objectCount" to match the regular expression ^[_a-z][a-z0-9_]*$.(þÒ‰a8º¿¼õ…1
-}python:S117ž"^Rename this local variable "objectHandles" to match the regular expression ^[_a-z][a-z0-9_]*$.(Û¤¶…8º¿¼õ…1
-zpython:S117˜"VRename this parameter "objectType" to match the regular expression ^[_a-z][a-z0-9_]*$.(²¼ÎÊÿÿÿÿÿ8º¿¼õ…1
-}python:S117˜"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(²¼ÎÊÿÿÿÿÿ8º¿¼õ…1
-ypython:S1542˜"TRename function "simxGetObjects" to match the regular expression ^[a-z_][a-z0-9_]*$.(²¼ÎÊÿÿÿÿÿ8»¿¼õ…1
-~python:S117²"_Rename this local variable "c_dialogColors" to match the regular expression ^[_a-z][a-z0-9_]*$.(î©œÏ8»¿¼õ…1
-ƒpython:S117¶"_Rename this local variable "c_dialogHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(®Çš°ùÿÿÿÿ8»¿¼õ…1
-‚python:S117®"^Rename this local variable "c_titleColors" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÚÐ§ýÿÿÿÿ8»¿¼õ…1
-python:S117·"[Rename this local variable "c_uiHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÔÆ—åþÿÿÿÿ8»¿¼õ…1
-xpython:S117©"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-|python:S117©"XRename this parameter "dialogColors" to match the regular expression ^[_a-z][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-zpython:S117©"VRename this parameter "dialogType" to match the regular expression ^[_a-z][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-{python:S117©"WRename this parameter "initialText" to match the regular expression ^[_a-z][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-xpython:S117©"TRename this parameter "mainText" to match the regular expression ^[_a-z][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-}python:S117©"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-{python:S117©"WRename this parameter "titleColors" to match the regular expression ^[_a-z][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-ypython:S117©"URename this parameter "titleText" to match the regular expression ^[_a-z][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-|python:S1542©"WRename function "simxDisplayDialog" to match the regular expression ^[a-z_][a-z0-9_]*$.(–ã´½ýÿÿÿÿ8»¿¼õ…1
-xpython:S117Á"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(é¹ó°øÿÿÿÿ8»¿¼õ…1
-|python:S117Á"XRename this parameter "dialogHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(é¹ó°øÿÿÿÿ8»¿¼õ…1
-}python:S117Á"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(é¹ó°øÿÿÿÿ8»¿¼õ…1
-xpython:S1542Á"SRename function "simxEndDialog" to match the regular expression ^[a-z_][a-z0-9_]*$.(é¹ó°øÿÿÿÿ8»¿¼õ…1
-xpython:S117È"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ü©´ ûÿÿÿÿ8»¿¼õ…1
-|python:S117È"XRename this parameter "dialogHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ü©´ ûÿÿÿÿ8»¿¼õ…1
-~python:S117Ì"ZRename this local variable "inputText" to match the regular expression ^[_a-z][a-z0-9_]*$.( ±¦ˆøÿÿÿÿ8»¿¼õ…1
-}python:S117È"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ü©´ ûÿÿÿÿ8»¿¼õ…1
-}python:S1542È"XRename function "simxGetDialogInput" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ü©´ ûÿÿÿÿ8»¿¼õ…1
-xpython:S117à"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸ëŸÕùÿÿÿÿ8»¿¼õ…1
-|python:S117à"XRename this parameter "dialogHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸ëŸÕùÿÿÿÿ8»¿¼õ…1
-}python:S117à"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸ëŸÕùÿÿÿÿ8»¿¼õ…1
-~python:S1542à"YRename function "simxGetDialogResult" to match the regular expression ^[a-z_][a-z0-9_]*$.(¸ëŸÕùÿÿÿÿ8»¿¼õ…1
-python:S117ë"`Rename this local variable "c_objectHandles" to match the regular expression ^[_a-z][a-z0-9_]*$.(­•®Ž8»¿¼õ…1
-xpython:S117ç"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(³˜ý²ùÿÿÿÿ8»¿¼õ…1
-ƒpython:S117í"_Rename this local variable "newObjectCount" to match the regular expression ^[_a-z][a-z0-9_]*$.(ºÞïûÿÿÿÿ8»¿¼õ…1
-…python:S117î"aRename this local variable "newObjectHandles" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÎêÇžüÿÿÿÿ8»¿¼õ…1
-}python:S117ç"YRename this parameter "objectHandles" to match the regular expression ^[_a-z][a-z0-9_]*$.(³˜ý²ùÿÿÿÿ8»¿¼õ…1
-}python:S117ç"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(³˜ý²ùÿÿÿÿ8»¿¼õ…1
-python:S1542ç"ZRename function "simxCopyPasteObjects" to match the regular expression ^[a-z_][a-z0-9_]*$.(³˜ý²ùÿÿÿÿ8»¿¼õ…1
-xpython:S117ù"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÏŸ²Êøÿÿÿÿ8»¿¼õ…1
-zpython:S117ý"\Rename this local variable "objectCount" to match the regular expression ^[_a-z][a-z0-9_]*$.(þÒ‰a8»¿¼õ…1
-}python:S117þ"^Rename this local variable "objectHandles" to match the regular expression ^[_a-z][a-z0-9_]*$.(Û¤¶…8»¿¼õ…1
-}python:S117ù"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÏŸ²Êøÿÿÿÿ8»¿¼õ…1
-python:S1542ù"\Rename function "simxGetObjectSelection" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÏŸ²Êøÿÿÿÿ8»¿¼õ…1
-python:S117"`Rename this local variable "c_objectHandles" to match the regular expression ^[_a-z][a-z0-9_]*$.(­•®Ž8»¿¼õ…1
-xpython:S117Š"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(–æ»—ùÿÿÿÿ8»¿¼õ…1
-}python:S117Š"YRename this parameter "objectHandles" to match the regular expression ^[_a-z][a-z0-9_]*$.(–æ»—ùÿÿÿÿ8»¿¼õ…1
-}python:S117Š"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(–æ»—ùÿÿÿÿ8»¿¼õ…1
-python:S1542Š"\Rename function "simxSetObjectSelection" to match the regular expression ^[a-z_][a-z0-9_]*$.(–æ»—ùÿÿÿÿ8»¿¼õ…1
-xpython:S117’"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ñå˜øÿÿÿÿ8»¿¼õ…1
-}python:S117’"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ñå˜øÿÿÿÿ8»¿¼õ…1
-zpython:S117’"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ñå˜øÿÿÿÿ8»¿¼õ…1
-python:S1542’"ZRename function "simxClearFloatSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ñå˜øÿÿÿÿ8»¿¼õ…1
-xpython:S117›"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(û‰ÀËýÿÿÿÿ8»¿¼õ…1
-}python:S117›"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(û‰ÀËýÿÿÿÿ8»¿¼õ…1
-zpython:S117›"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(û‰ÀËýÿÿÿÿ8»¿¼õ…1
-python:S1542›"\Rename function "simxClearIntegerSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(û‰ÀËýÿÿÿÿ8»¿¼õ…1
-spython:S117¤"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(àÏÈŠ8»¿¼õ…1
-xpython:S117¤"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(àÏÈŠ8»¿¼õ…1
-upython:S117¤"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(àÏÈŠ8»¿¼õ…1
-{python:S1542¤"[Rename function "simxClearStringSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(àÏÈŠ8»¿¼õ…1
-xpython:S117­"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ë¬•þÿÿÿÿ8»¿¼õ…1
-}python:S117­"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ë¬•þÿÿÿÿ8»¿¼õ…1
-zpython:S117­"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ë¬•þÿÿÿÿ8»¿¼õ…1
-{python:S117²"\Rename this local variable "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(®ž•–8»¿¼õ…1
-}python:S1542­"XRename function "simxGetFloatSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ë¬•þÿÿÿÿ8»¿¼õ…1
-spython:S117·"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(•™ÅØ8»¿¼õ…1
-xpython:S117·"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(•™ÅØ8»¿¼õ…1
-upython:S117·"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(•™ÅØ8»¿¼õ…1
-zpython:S117¼"\Rename this local variable "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(†²Ðs8»¿¼õ…1
-zpython:S1542·"ZRename function "simxGetIntegerSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(•™ÅØ8»¿¼õ…1
-xpython:S117Á"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ã±˜þÿÿÿÿ8»¿¼õ…1
-}python:S117Á"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ã±˜þÿÿÿÿ8»¿¼õ…1
-|python:S117Æ"]Rename this local variable "signalLength" to match the regular expression ^[_a-z][a-z0-9_]*$.(îßáå8»¿¼õ…1
-zpython:S117Á"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(ã±˜þÿÿÿÿ8»¿¼õ…1
-{python:S117Ç"\Rename this local variable "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(–š™8¼¿¼õ…1
-~python:S1542Á"YRename function "simxGetStringSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(ã±˜þÿÿÿÿ8¼¿¼õ…1
-spython:S117Õ"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ±˜Ê8¼¿¼õ…1
-xpython:S117Õ"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ±˜Ê8¼¿¼õ…1
-|python:S117Ú"]Rename this local variable "signalLength" to match the regular expression ^[_a-z][a-z0-9_]*$.(îßáå8¼¿¼õ…1
-upython:S117Õ"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ±˜Ê8¼¿¼õ…1
-{python:S117Û"\Rename this local variable "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(–š™8¼¿¼õ…1
-python:S1542Õ"aRename function "simxGetAndClearStringSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(Æ±˜Ê8¼¿¼õ…1
-xpython:S117é"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÍšÆ²øÿÿÿÿ8¼¿¼õ…1
-}python:S117é"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÍšÆ²øÿÿÿÿ8¼¿¼õ…1
-|python:S117î"]Rename this local variable "signalLength" to match the regular expression ^[_a-z][a-z0-9_]*$.(îßáå8¼¿¼õ…1
-zpython:S117é"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÍšÆ²øÿÿÿÿ8¼¿¼õ…1
-{python:S117ï"\Rename this local variable "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(–š™8¼¿¼õ…1
-python:S1542é"ZRename function "simxReadStringStream" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÍšÆ²øÿÿÿÿ8¼¿¼õ…1
-spython:S117ý"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÕôÊ8¼¿¼õ…1
-xpython:S117ý"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÕôÊ8¼¿¼õ…1
-upython:S117ý"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÕôÊ8¼¿¼õ…1
-vpython:S117ý"WRename this parameter "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÕôÊ8¼¿¼õ…1
-xpython:S1542ý"XRename function "simxSetFloatSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÕôÊ8¼¿¼õ…1
-xpython:S117†"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(êøÙûÿÿÿÿ8¼¿¼õ…1
-}python:S117†"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(êøÙûÿÿÿÿ8¼¿¼õ…1
-zpython:S117†"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(êøÙûÿÿÿÿ8¼¿¼õ…1
-{python:S117†"WRename this parameter "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(êøÙûÿÿÿÿ8¼¿¼õ…1
-python:S1542†"ZRename function "simxSetIntegerSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(êøÙûÿÿÿÿ8¼¿¼õ…1
-xpython:S117"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(™ˆºÀúÿÿÿÿ8¼¿¼õ…1
-}python:S117"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(™ˆºÀúÿÿÿÿ8¼¿¼õ…1
-ypython:S117”"URename this local variable "sigV" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨©ƒÁÿÿÿÿÿ8¼¿¼õ…1
-zpython:S117"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(™ˆºÀúÿÿÿÿ8¼¿¼õ…1
-{python:S117"WRename this parameter "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(™ˆºÀúÿÿÿÿ8¼¿¼õ…1
-~python:S1542"YRename function "simxSetStringSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(™ˆºÀúÿÿÿÿ8¼¿¼õ…1
-spython:S117¦"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(éïºã8¼¿¼õ…1
-xpython:S117¦"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(éïºã8¼¿¼õ…1
-ypython:S117«"URename this local variable "sigV" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨©ƒÁÿÿÿÿÿ8¼¿¼õ…1
-upython:S117¦"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(éïºã8¼¿¼õ…1
-vpython:S117¦"WRename this parameter "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(éïºã8¼¿¼õ…1
-|python:S1542¦"\Rename function "simxAppendStringSignal" to match the regular expression ^[a-z_][a-z0-9_]*$.(éïºã8¼¿¼õ…1
-spython:S117½"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ú¬Ž8¼¿¼õ…1
-xpython:S117½"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ú¬Ž8¼¿¼õ…1
-ypython:S117Â"URename this local variable "sigV" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨©ƒÁÿÿÿÿÿ8¼¿¼õ…1
-upython:S117½"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ú¬Ž8¼¿¼õ…1
-vpython:S117½"WRename this parameter "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ú¬Ž8¼¿¼õ…1
-{python:S1542½"[Rename function "simxWriteStringStream" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ú¬Ž8¼¿¼õ…1
-xpython:S117Ô"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ø¿Žðýÿÿÿÿ8¼¿¼õ…1
-|python:S117Ô"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ø¿Žðýÿÿÿÿ8¼¿¼õ…1
-}python:S117Ô"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ø¿Žðýÿÿÿÿ8¼¿¼õ…1
-{python:S117Ô"WRename this parameter "parameterID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ø¿Žðýÿÿÿÿ8¼¿¼õ…1
-ƒpython:S117Ù"_Rename this local variable "parameterValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(¡Ý­üùÿÿÿÿ8¼¿¼õ…1
-†python:S1542Ô"aRename function "simxGetObjectFloatParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(ø¿Žðýÿÿÿÿ8¼¿¼õ…1
-xpython:S117Ü"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ó¸ùðûÿÿÿÿ8¼¿¼õ…1
-|python:S117Ü"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ó¸ùðûÿÿÿÿ8¼¿¼õ…1
-}python:S117Ü"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ó¸ùðûÿÿÿÿ8¼¿¼õ…1
-{python:S117Ü"WRename this parameter "parameterID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ó¸ùðûÿÿÿÿ8¼¿¼õ…1
-~python:S117Ü"ZRename this parameter "parameterValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(ó¸ùðûÿÿÿÿ8¼¿¼õ…1
-†python:S1542Ü"aRename function "simxSetObjectFloatParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(ó¸ùðûÿÿÿÿ8¼¿¼õ…1
-xpython:S117ã"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Áó¹Æüÿÿÿÿ8¼¿¼õ…1
-|python:S117ã"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Áó¹Æüÿÿÿÿ8¼¿¼õ…1
-}python:S117ã"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Áó¹Æüÿÿÿÿ8¼¿¼õ…1
-{python:S117ã"WRename this parameter "parameterID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Áó¹Æüÿÿÿÿ8¼¿¼õ…1
-ƒpython:S117è"_Rename this local variable "parameterValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(Á°Òíûÿÿÿÿ8¼¿¼õ…1
-„python:S1542ã"_Rename function "simxGetObjectIntParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(Áó¹Æüÿÿÿÿ8¼¿¼õ…1
-spython:S117ë"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄÏ¦€8¼¿¼õ…1
-wpython:S117ë"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄÏ¦€8¼¿¼õ…1
-xpython:S117ë"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄÏ¦€8¼¿¼õ…1
-vpython:S117ë"WRename this parameter "parameterID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄÏ¦€8¼¿¼õ…1
-ypython:S117ë"ZRename this parameter "parameterValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄÏ¦€8¼¿¼õ…1
-python:S1542ë"_Rename function "simxSetObjectIntParameter" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÄÏ¦€8¼¿¼õ…1
-xpython:S117ò"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(»üµ‹ÿÿÿÿÿ8¼¿¼õ…1
-|python:S117ò"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(»üµ‹ÿÿÿÿÿ8¼¿¼õ…1
-}python:S117ò"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(»üµ‹ÿÿÿÿÿ8¼¿¼õ…1
-python:S1542ò"ZRename function "simxGetModelProperty" to match the regular expression ^[a-z_][a-z0-9_]*$.(»üµ‹ÿÿÿÿÿ8¼¿¼õ…1
-xpython:S117ù"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å«ª…ûÿÿÿÿ8¼¿¼õ…1
-|python:S117ù"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å«ª…ûÿÿÿÿ8¼¿¼õ…1
-}python:S117ù"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(Å«ª…ûÿÿÿÿ8¼¿¼õ…1
-python:S1542ù"ZRename function "simxSetModelProperty" to match the regular expression ^[a-z_][a-z0-9_]*$.(Å«ª…ûÿÿÿÿ8¼¿¼õ…1
-ƒpython:S117€	"_Rename this parameter "commThreadCycleInMs" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ˜Žíüÿÿÿÿ8¼¿¼õ…1
-python:S117€	"]Rename this parameter "connectionAddress" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ˜Žíüÿÿÿÿ8¼¿¼õ…1
-~python:S117€	"ZRename this parameter "connectionPort" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ˜Žíüÿÿÿÿ8¼¿¼õ…1
-Žpython:S117€	"jRename this parameter "doNotReconnectOnceDisconnected" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ˜Žíüÿÿÿÿ8¼¿¼õ…1
-{python:S117€	"WRename this parameter "timeOutInMs" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ˜Žíüÿÿÿÿ8¼¿¼õ…1
-‚python:S117€	"^Rename this parameter "waitUntilConnected" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ˜Žíüÿÿÿÿ8¼¿¼õ…1
-tpython:S1542€	"ORename function "simxStart" to match the regular expression ^[a-z_][a-z0-9_]*$.(ˆ˜Žíüÿÿÿÿ8¼¿¼õ…1
-xpython:S117‰	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(Š„¥øüÿÿÿÿ8¼¿¼õ…1
-upython:S1542‰	"PRename function "simxFinish" to match the regular expression ^[a-z_][a-z0-9_]*$.(Š„¥øüÿÿÿÿ8¼¿¼õ…1
-xpython:S117	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ô¬Èúÿÿÿÿ8¼¿¼õ…1
-xpython:S117”	"YRename this local variable "pingTime" to match the regular expression ^[_a-z][a-z0-9_]*$.(¶×•–8¼¿¼õ…1
-zpython:S1542	"URename function "simxGetPingTime" to match the regular expression ^[a-z_][a-z0-9_]*$.(ô¬Èúÿÿÿÿ8¼¿¼õ…1
-xpython:S117—	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Í¡Çýÿÿÿÿ8¼¿¼õ…1
-}python:S1542—	"XRename function "simxGetLastCmdTime" to match the regular expression ^[a-z_][a-z0-9_]*$.(¾Í¡Çýÿÿÿÿ8¼¿¼õ…1
-spython:S117ž	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(óÕÏ©8¼¿¼õ…1
-|python:S1542ž	"\Rename function "simxSynchronousTrigger" to match the regular expression ^[a-z_][a-z0-9_]*$.(óÕÏ©8¼¿¼õ…1
-xpython:S117¥	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(×ç§ûúÿÿÿÿ8¼¿¼õ…1
-zpython:S1542¥	"URename function "simxSynchronous" to match the regular expression ^[a-z_][a-z0-9_]*$.(×ç§ûúÿÿÿÿ8¼¿¼õ…1
-spython:S117¬	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÓÇþ–8½¿¼õ…1
-|python:S1542¬	"\Rename function "simxPauseCommunication" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÓÇþ–8½¿¼õ…1
-spython:S117³	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ŸôûÍ8½¿¼õ…1
-spython:S117³	"TRename this parameter "infoType" to match the regular expression ^[_a-z][a-z0-9_]*$.(ŸôûÍ8½¿¼õ…1
-zpython:S1542³	"ZRename function "simxGetInMessageInfo" to match the regular expression ^[a-z_][a-z0-9_]*$.(ŸôûÍ8½¿¼õ…1
-spython:S117º	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(£œèÂ8½¿¼õ…1
-spython:S117º	"TRename this parameter "infoType" to match the regular expression ^[_a-z][a-z0-9_]*$.(£œèÂ8½¿¼õ…1
-{python:S1542º	"[Rename function "simxGetOutMessageInfo" to match the regular expression ^[a-z_][a-z0-9_]*$.(£œèÂ8½¿¼õ…1
-xpython:S117Á	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÃÛ’÷þÿÿÿÿ8½¿¼õ…1
-~python:S1542Á	"YRename function "simxGetConnectionId" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÃÛ’÷þÿÿÿÿ8½¿¼õ…1
-zpython:S117È	"VRename this parameter "bufferSize" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ôúý½þÿÿÿÿ8½¿¼õ…1
-{python:S1542È	"VRename function "simxCreateBuffer" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ôúý½þÿÿÿÿ8½¿¼õ…1
-|python:S1542Ï	"WRename function "simxReleaseBuffer" to match the regular expression ^[a-z_][a-z0-9_]*$.(ï¿þÿÿÿÿ8½¿¼õ…1
-spython:S117Ö	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(…ßûí8½¿¼õ…1
-~python:S117Ö	"_Rename this parameter "fileName_serverSide" to match the regular expression ^[_a-z][a-z0-9_]*$.(…ßûí8½¿¼õ…1
-zpython:S117Ö	"[Rename this parameter "filePathAndName" to match the regular expression ^[_a-z][a-z0-9_]*$.(…ßûí8½¿¼õ…1
-xpython:S117Ö	"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(…ßûí8½¿¼õ…1
-rpython:S117Ö	"SRename this parameter "timeOut" to match the regular expression ^[_a-z][a-z0-9_]*$.(…ßûí8½¿¼õ…1
-vpython:S1542Ö	"VRename function "simxTransferFile" to match the regular expression ^[a-z_][a-z0-9_]*$.(…ßûí8½¿¼õ…1
-spython:S117ß	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ç€ÿ¿8½¿¼õ…1
-~python:S117ß	"_Rename this parameter "fileName_serverSide" to match the regular expression ^[_a-z][a-z0-9_]*$.(ç€ÿ¿8½¿¼õ…1
-xpython:S117ß	"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ç€ÿ¿8½¿¼õ…1
-spython:S1542ß	"SRename function "simxEraseFile" to match the regular expression ^[a-z_][a-z0-9_]*$.(ç€ÿ¿8½¿¼õ…1
-spython:S117è	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ò¬êä8½¿¼õ…1
-xpython:S117è	"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ò¬êä8½¿¼õ…1
-upython:S1542è	"URename function "simxCreateDummy" to match the regular expression ^[a-z_][a-z0-9_]*$.(ò¬êä8½¿¼õ…1
-spython:S117ô	"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(µ´Êæ8½¿¼õ…1
-python:S117ù	"`Rename this local variable "retSignalLength" to match the regular expression ^[_a-z][a-z0-9_]*$.(›š8½¿¼õ…1
-xpython:S117ô	"YRename this parameter "retSignalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(µ´Êæ8½¿¼õ…1
-~python:S117ú	"_Rename this local variable "retSignalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÝÛç8½¿¼õ…1
-ypython:S117ü	"URename this local variable "sigV" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨©ƒÁÿÿÿÿÿ8½¿¼õ…1
-upython:S117ô	"VRename this parameter "signalName" to match the regular expression ^[_a-z][a-z0-9_]*$.(µ´Êæ8½¿¼õ…1
-vpython:S117ô	"WRename this parameter "signalValue" to match the regular expression ^[_a-z][a-z0-9_]*$.(µ´Êæ8½¿¼õ…1
-vpython:S117ô	"WRename this parameter "timeOutInMs" to match the regular expression ^[_a-z][a-z0-9_]*$.(µ´Êæ8½¿¼õ…1
-opython:S1542ô	"ORename function "simxQuery" to match the regular expression ^[a-z_][a-z0-9_]*$.(µ´Êæ8½¿¼õ…1
-tpython:S3776ô	"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(µ´Êæ8½¿¼õ…1
-spython:S117š
-"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸ì‚š8½¿¼õ…1
-spython:S117š
-"TRename this parameter "dataType" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸ì‚š8½¿¼õ…1
-xpython:S117¡
-"ZRename this local variable "floatData" to match the regular expression ^[_a-z][a-z0-9_]*$.(šô—?8½¿¼õ…1
-python:S117§
-"[Rename this local variable "floatDataC" to match the regular expression ^[_a-z][a-z0-9_]*$.(²ß¼þÿÿÿÿ8½¿¼õ…1
-zpython:S117¨
-"[Rename this local variable "floatDataP" to match the regular expression ^[_a-z][a-z0-9_]*$.(ãÔéï8½¿¼õ…1
-}python:S117£
-"YRename this local variable "handlesC" to match the regular expression ^[_a-z][a-z0-9_]*$.(àáÂŽùÿÿÿÿ8½¿¼õ…1
-wpython:S117¤
-"YRename this local variable "handlesP" to match the regular expression ^[_a-z][a-z0-9_]*$.(¹ñ¼8½¿¼õ…1
-|python:S117 
-"XRename this local variable "intData" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ÿì–úÿÿÿÿ8½¿¼õ…1
-wpython:S117¥
-"YRename this local variable "intDataC" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÖØòs8½¿¼õ…1
-xpython:S117¦
-"YRename this local variable "intDataP" to match the regular expression ^[_a-z][a-z0-9_]*$.(•ï”È8½¿¼õ…1
-upython:S117š
-"VRename this parameter "objectType" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸ì‚š8½¿¼õ…1
-xpython:S117š
-"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸ì‚š8½¿¼õ…1
-python:S117¢
-"[Rename this local variable "stringData" to match the regular expression ^[_a-z][a-z0-9_]*$.(À¼Þ³þÿÿÿÿ8½¿¼õ…1
-€python:S117©
-"\Rename this local variable "stringDataC" to match the regular expression ^[_a-z][a-z0-9_]*$.(ú¸ï¢ýÿÿÿÿ8½¿¼õ…1
-{python:S117ª
-"\Rename this local variable "stringDataP" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘Üûú8½¿¼õ…1
-|python:S1542š
-"\Rename function "simxGetObjectGroupData" to match the regular expression ^[a-z_][a-z0-9_]*$.(¸ì‚š8½¿¼õ…1
-tpython:S3776š
-"TRefactor this function to reduce its Cognitive Complexity from 21 to the 15 allowed.(¸ì‚š8½¿¼õ…1
-~python:S117ï
-"ZRename this local variable "bufferOut" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ö«žôþÿÿÿÿ8½¿¼õ…1
-|python:S117ø
-"XRename this local variable "bufferP" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ó¨÷…ýÿÿÿÿ8½¿¼õ…1
-|python:S117÷
-"XRename this local variable "bufferS" to match the regular expression ^[_a-z][a-z0-9_]*$.(·´¿úÿÿÿÿ8½¿¼õ…1
-zpython:S117à
-"[Rename this local variable "c_inFloats" to match the regular expression ^[_a-z][a-z0-9_]*$.(“¤ŽÁ8½¿¼õ…1
-xpython:S117Þ
-"YRename this local variable "c_inInts" to match the regular expression ^[_a-z][a-z0-9_]*$.(ºìñ8½¿¼õ…1
-€python:S117ê
-"\Rename this local variable "c_inStrings" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õ©Ðîüÿÿÿÿ8½¿¼õ…1
-xpython:S117Æ
-"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8½¿¼õ…1
-ypython:S117ã
-"ZRename this local variable "concatStr" to match the regular expression ^[_a-z][a-z0-9_]*$.(é”÷´8½¿¼õ…1
-python:S117ó
-"[Rename this local variable "floatDataC" to match the regular expression ^[_a-z][a-z0-9_]*$.(²ß¼þÿÿÿÿ8½¿¼õ…1
-|python:S117í
-"]Rename this local variable "floatDataOut" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÓÎÞç8½¿¼õ…1
-zpython:S117ô
-"[Rename this local variable "floatDataP" to match the regular expression ^[_a-z][a-z0-9_]*$.(ãÔéï8½¿¼õ…1
-|python:S117Æ
-"XRename this parameter "functionName" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8½¿¼õ…1
-{python:S117Æ
-"WRename this parameter "inputBuffer" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8½¿¼õ…1
-python:S117Ë
-"]Rename this local variable "inputBufferV" to match the regular expression ^[_a-z][a-z0-9_]*$.( ©”¼üÿÿÿÿ8½¿¼õ…1
-{python:S117Æ
-"WRename this parameter "inputFloats" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8½¿¼õ…1
-ypython:S117Æ
-"URename this parameter "inputInts" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8½¿¼õ…1
-|python:S117Æ
-"XRename this parameter "inputStrings" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8¾¿¼õ…1
-wpython:S117ñ
-"YRename this local variable "intDataC" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÖØòs8¾¿¼õ…1
-zpython:S117ì
-"[Rename this local variable "intDataOut" to match the regular expression ^[_a-z][a-z0-9_]*$.(ºžÕ…8¾¿¼õ…1
-xpython:S117ò
-"YRename this local variable "intDataP" to match the regular expression ^[_a-z][a-z0-9_]*$.(•ï”È8¾¿¼õ…1
-}python:S117Æ
-"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8¾¿¼õ…1
-python:S117Æ
-"]Rename this parameter "scriptDescription" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8¾¿¼õ…1
-€python:S117õ
-"\Rename this local variable "stringDataC" to match the regular expression ^[_a-z][a-z0-9_]*$.(ú¸ï¢ýÿÿÿÿ8¾¿¼õ…1
-|python:S117î
-"^Rename this local variable "stringDataOut" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÓÅþ#8¾¿¼õ…1
-{python:S117ö
-"\Rename this local variable "stringDataP" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘Üûú8¾¿¼õ…1
-python:S1542Æ
-"\Rename function "simxCallScriptFunction" to match the regular expression ^[a-z_][a-z0-9_]*$.(¾Üç·úÿÿÿÿ8¾¿¼õ…1
-ypython:S3776Æ
-"TRefactor this function to reduce its Cognitive Complexity from 39 to the 15 allowed.(¾Üç·úÿÿÿÿ8¾¿¼õ…1
-ypython:S117œ"[Rename this local variable "angularVel" to match the regular expression ^[_a-z][a-z0-9_]*$.(«Ñ}8¾¿¼õ…1
-spython:S117—"TRename this parameter "clientID" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ…è®8¾¿¼õ…1
-ypython:S117›"ZRename this local variable "linearVel" to match the regular expression ^[_a-z][a-z0-9_]*$.(·ìÃú8¾¿¼õ…1
-wpython:S117—"XRename this parameter "objectHandle" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ…è®8¾¿¼õ…1
-xpython:S117—"YRename this parameter "operationMode" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ…è®8¾¿¼õ…1
-{python:S1542—"[Rename function "simxGetObjectVelocity" to match the regular expression ^[a-z_][a-z0-9_]*$.(ˆ…è®8¾¿¼õ…1
-rpython:S117¦"SRename this parameter "intList" to match the regular expression ^[_a-z][a-z0-9_]*$.(©Ô8¾¿¼õ…1
-rpython:S1542¦"RRename function "simxPackInts" to match the regular expression ^[a-z_][a-z0-9_]*$.(©Ô8¾¿¼õ…1
-}python:S117¶"^Rename this parameter "intsPackedInString" to match the regular expression ^[_a-z][a-z0-9_]*$.(Öö›8¾¿¼õ…1
-tpython:S1542¶"TRename function "simxUnpackInts" to match the regular expression ^[a-z_][a-z0-9_]*$.(Öö›8¾¿¼õ…1
-tpython:S117¿"URename this parameter "floatList" to match the regular expression ^[_a-z][a-z0-9_]*$.(ŒÜÌ8¾¿¼õ…1
-tpython:S1542¿"TRename function "simxPackFloats" to match the regular expression ^[a-z_][a-z0-9_]*$.(ŒÜÌ8¾¿¼õ…1
-python:S117Ï"`Rename this parameter "floatsPackedInString" to match the regular expression ^[_a-z][a-z0-9_]*$.(œéû8¾¿¼õ…1
-vpython:S1542Ï"VRename function "simxUnpackFloats" to match the regular expression ^[a-z_][a-z0-9_]*$.(œéû8¾¿¼õ…1

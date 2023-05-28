@@ -8,6 +8,7 @@ import networkx as nx
 
 distance_matrix, weights, positions = getDynamicObjectsCoppelia.getData()
 
+
 def create_data_model():
     """Stores the data for the problem."""
     data = {}
@@ -16,9 +17,10 @@ def create_data_model():
     data['positions'] = positions
     data['demands'] = weights
     data['weights'] = weights
-    data['vehicle_capacities'] = [30]
+    data['vehicle_capacities'] = [1500]
     data['depot'] = 0
     return data
+
 
 def print_solution(data, manager, routing, solution):
     """Prints solution on console."""
@@ -32,11 +34,10 @@ def print_solution(data, manager, routing, solution):
         G.add_node(i, pos=(data['positions'][i][0], data['positions'][i][1]), weight=data['weights'][i])
 
     for vehicle_id in range(data['num_vehicles']):
-        # index = routing.Start(vehicle_id)
+        index = routing.Start(vehicle_id)
         plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
         route_distance = 0
         route_load = 0
-        index = routing.Start(0)
         while not routing.IsEnd(index):
             node_index = manager.IndexToNode(index)
             route_load += data['demands'][node_index]
@@ -70,6 +71,7 @@ def print_solution(data, manager, routing, solution):
 
     print('Total distance of all routes: {}m'.format(total_distance))
     print('Total load of all routes: {}'.format(total_load))
+
 
 def main():
     """Solve the CVRP problem."""
@@ -118,7 +120,7 @@ def main():
         routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
     search_parameters.local_search_metaheuristic = (
         routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH)
-    search_parameters.time_limit.FromSeconds(1)
+    search_parameters.time_limit.FromSeconds(100)
 
     # Solve the problem.
     solution = routing.SolveWithParameters(search_parameters)
@@ -176,6 +178,7 @@ def main():
         print('Variables guardadas en el archivo "routes.pickle"')
 
     save_workspace()
+
 
 if __name__ == '__main__':
     main()

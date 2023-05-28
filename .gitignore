@@ -1,0 +1,39 @@
+# Archivos de caché
+__pycache__/
+
+# Archivos de logs
+*.log
+
+# Archivos de datos
+*.sqlite3
+
+# Archivos de compilación
+*.pyc
+*.pyo
+*.pyd
+
+# Carpeta de entorno virtual
+venv/
+.idea
+# Configuración de IDE
+.idea/ 
+
+# Carpeta de construcción
+build/
+
+# Carpeta de distribución
+dist/
+
+# Archivos de respaldo
+*.bak
+*.swp
+
+# Archivos de configuración
+*.conf
+*.env
+
+# Carpeta de migraciones de Django
+**/migrations/
+
+# Archivo de configuración de Flask
+instance/config.py
