@@ -3,8 +3,11 @@ from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 import os
 import pickle
+import matplotlib.pyplot as plt
+import networkx as nx
 
 distance_matrix, weights, positions = getDynamicObjectsCoppelia.getData()
+
 
 def create_data_model():
     """Stores the data for the problem."""
@@ -13,7 +16,8 @@ def create_data_model():
     data['num_vehicles'] = 1
     data['positions'] = positions
     data['demands'] = weights
-    data['vehicle_capacities'] = [30]
+    data['weights'] = weights
+    data['vehicle_capacities'] = [1500]
     data['depot'] = 0
     return data
 
@@ -22,6 +26,12 @@ def print_solution(data, manager, routing, solution):
     print(f'Objective: {solution.ObjectiveValue()}')
     total_distance = 0
     total_load = 0
+
+    # Crear gráfico del grafo de rutas
+    G = nx.DiGraph()
+    for i in range(manager.GetNumberOfNodes()):
+        G.add_node(i, pos=(data['positions'][i][0], data['positions'][i][1]), weight=data['weights'][i])
+
     for vehicle_id in range(data['num_vehicles']):
         index = routing.Start(vehicle_id)
         plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
@@ -32,9 +42,24 @@ def print_solution(data, manager, routing, solution):
             route_load += data['demands'][node_index]
             plan_output += ' {0} Load({1}) -> '.format(node_index, route_load)
             previous_index = index
-            index = solution.Value(routing.NextVar(index))
             route_distance += routing.GetArcCostForVehicle(
                 previous_index, index, vehicle_id)
+
+            next_node_index = manager.IndexToNode(solution.Value(routing.NextVar(index)))
+            index = solution.Value(routing.NextVar(index))
+            G.add_edge(node_index, next_node_index)
+
+        pos = nx.get_node_attributes(G, 'pos')
+        node_labels = nx.get_node_attributes(G, 'weight')
+        edge_labels = {(u, v): data['distance_matrix'][u][v] for u, v in G.edges() if (u, v) in data['distance_matrix']}
+        plt.figure(figsize=(8, 8))
+        nx.draw_networkx(G, pos, with_labels=False, node_size=500, node_color='lightblue')
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+        nx.draw_networkx_labels(G, pos, labels=node_labels)
+        plt.xlabel('Eje X (metros)')
+        plt.ylabel('Eje Y (metros)')
+        plt.title('Rutas del comerciante')
+        plt.show()
         plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
                                                  route_load)
         plan_output += 'Distance of the route: {}m\n'.format(route_distance)
@@ -42,6 +67,7 @@ def print_solution(data, manager, routing, solution):
         print(plan_output)
         total_distance += route_distance
         total_load += route_load
+
     print('Total distance of all routes: {}m'.format(total_distance))
     print('Total load of all routes: {}'.format(total_load))
 
@@ -92,7 +118,7 @@ def main():
         routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
     search_parameters.local_search_metaheuristic = (
         routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH)
-    search_parameters.time_limit.FromSeconds(1)
+    search_parameters.time_limit.FromSeconds(100)
 
     # Solve the problem.
     solution = routing.SolveWithParameters(search_parameters)
@@ -117,14 +143,17 @@ def main():
 
     routes = get_routes(solution, routing, manager)
     # Display the routes.
-    # Secuencia de índices de nodos que representan la ruta óptima
     route = routes[0]
     displayGraphW.plotsPositions(route, data['demands'], data['positions'])
+    ordered_positions = []
+    for row in range(len(route)):
+        ordered_positions.append(positions[route[row]])
 
     def save_workspace():
         # Crear un diccionario con todas las variables del programa
         variables = {
             'route': route,
+            'ordered_positions': ordered_positions,
         }
         # Guardar las variables en un archivo pickle
         save_file(variables)
@@ -139,12 +168,12 @@ def main():
         while os.path.exists(os.path.join(folder, prefix + str(i) + ext)):
             i += 1
 
-        # Guardar la imagen con el nombre adecuado
+        # Guardar el workspace con el nombre adecuado
         filename = os.path.join(folder, prefix + str(i) + ext)
 
         with open(filename, 'wb') as f:
             pickle.dump(variables, f)
-        print('Variables guardadas en el archivo "variables_map.pickle"')
+        print('Variables guardadas en el archivo "routes.pickle"')
 
     save_workspace()
 

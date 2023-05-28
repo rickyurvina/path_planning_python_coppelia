@@ -21,7 +21,6 @@ def create_data_model():
     data['depot'] = 0
     return data
 
-
 def print_solution(data, manager, routing, solution):
     """Prints solution on console."""
     print(f'Objective: {solution.ObjectiveValue()}')
@@ -85,6 +84,7 @@ def main():
     # Create Routing Model.
     routing = pywrapcp.RoutingModel(manager)
 
+
     # Create and register a transit callback.
     def distance_callback(from_index, to_index):
         """Returns the distance between the two nodes."""
@@ -107,12 +107,29 @@ def main():
 
     demand_callback_index = routing.RegisterUnaryTransitCallback(
         demand_callback)
+
     routing.AddDimensionWithVehicleCapacity(
         demand_callback_index,
         0,  # null capacity slack
         data['vehicle_capacities'],  # vehicle maximum capacities
         True,  # start cumul to zero
         'Capacity')
+
+    # dimension_name = 'Distance'
+    # routing.AddDimension(
+    #     transit_callback_index,
+    #     0,  # no slack
+    #     8,  # vehicle maximum travel distance
+    #     True,  # start cumul to zero
+    #     dimension_name)
+    # distance_dimension = routing.GetDimensionOrDie(dimension_name)
+    # distance_dimension.SetGlobalSpanCostCoefficient(100)
+    # max_distance = 5  # Distancia máxima permitida
+    # distance_dimension = routing.GetDimensionOrDie('Distance')
+    # distance_dimension.SetGlobalSpanCostCoefficient(1000)  # Valor alto para penalizar violaciones de restricción
+    #
+    # for node in range(1, manager.GetNumberOfNodes()):  # Excluye el depósito (nodo 0)
+    #     routing.AddDisjunction([manager.NodeToIndex(node)], max_distance)
 
     # Setting first solution heuristic.
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
