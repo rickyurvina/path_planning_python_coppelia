@@ -2,14 +2,11 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial.distance import euclidean
-
-# Cargar las variables guardadas en el archivo .pickle
-with open('src/files/variables_map4.pickle', 'rb') as f:
-    data = pickle.load(f)
-    mapa_local = data['mapa_local']
-
-start = (100, 120)
-goal = (710, 1000)
+from src.steps.loadOcuppancyGrid import return_ocuppancy_grid
+mapa_local = return_ocuppancy_grid()['occupancy_grid']
+# mapa_local = return_ocuppancy_grid()['mapa_local']
+start = (200, 180)
+goal = (400, 180)
 
 # Definir la clase Node para representar un nodo en el árbol del RRT*
 class Node:
@@ -29,7 +26,7 @@ def collision_free(point, mapa_local):
 
 
 # Definir una función que implementa el algoritmo RRT*
-def rrt_star(start, goal, mapa_local, max_iters=5000, step_size=20):
+def rrt_star(start, goal, mapa_local, max_iters=10000, step_size=20):
     nodes = []
     nodes.append(Node(start[0], start[1]))
     for i in range(max_iters):
@@ -82,7 +79,7 @@ path = rrt_star(start, goal, mapa_local)
 
 # Graficar el mapa y el camino generado por RRT*
 fig, ax = plt.subplots(figsize=(10,10))
-ax.imshow(mapa_local, cmap='gray')
+ax.imshow(mapa_local, cmap='gray', origin='lower')
 ax.plot(start[1], start[0], 'ro', markersize=10)
 ax.plot(goal[1], goal[0], 'bo', markersize=10)
 ax.plot(path[:,1], path[:,0], 'r', linewidth=2)

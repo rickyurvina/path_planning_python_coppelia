@@ -1,0 +1,11 @@
+numpy~=1.23.5
+opencv-python~=4.6.0.66
+matplotlib~=3.7.1
+networkx~=3.1
+ortools~=9.6.2534
+scipy~=1.10.1
+opencv-python~=4.7.0.72
+opencv-python-headless==4.5.3.56
+pickle-mixin==1.0.2
+ortools==9.6.2534
+networkx==2.6.3
