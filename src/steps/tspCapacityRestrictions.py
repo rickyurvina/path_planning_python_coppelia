@@ -6,7 +6,8 @@ import pickle
 import matplotlib.pyplot as plt
 import networkx as nx
 
-distance_matrix, weights, positions = getDynamicObjectsCoppelia.getData()
+num_objects = 3
+distance_matrix, weights, positions = getDynamicObjectsCoppelia.getData(num_objects)
 
 
 def create_data_model():
@@ -20,6 +21,7 @@ def create_data_model():
     data['vehicle_capacities'] = [1500]
     data['depot'] = 0
     return data
+
 
 def print_solution(data, manager, routing, solution):
     """Prints solution on console."""
@@ -58,7 +60,7 @@ def print_solution(data, manager, routing, solution):
         nx.draw_networkx_labels(G, pos, labels=node_labels)
         plt.xlabel('Eje X (metros)')
         plt.ylabel('Eje Y (metros)')
-        plt.title('Rutas del comerciante')
+        plt.title('Ruta priorizada de recolección de cosecha')
         plt.show()
         plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
                                                  route_load)
@@ -70,6 +72,7 @@ def print_solution(data, manager, routing, solution):
 
     print('Total distance of all routes: {}m'.format(total_distance))
     print('Total load of all routes: {}'.format(total_load))
+
 
 def main():
     """Solve the CVRP problem."""
@@ -144,7 +147,7 @@ def main():
     routes = get_routes(solution, routing, manager)
     # Display the routes.
     route = routes[0]
-    displayGraphW.plotsPositions(route, data['demands'], data['positions'])
+    # displayGraphW.plotsPositions(route, data['demands'], data['positions'])
     ordered_positions = []
     for row in range(len(route)):
         ordered_positions.append(positions[route[row]])
@@ -159,7 +162,7 @@ def main():
         save_file(variables)
 
     def save_file(variables):
-        folder = "../files"
+        folder = "../files/routes"
         prefix = "routes"
         ext = ".pickle"
 

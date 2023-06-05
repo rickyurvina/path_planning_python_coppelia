@@ -19,13 +19,14 @@ def save_image(img):
     filename = os.path.join(folder, prefix + str(i) + ext)
     cv2.imwrite(filename, img)
     print("Guardado como", filename)
+
 def plotsPositions(route=none, weights=none, positions=none):
     jet = cm.get_cmap('jet')
     scalar_map = cm.ScalarMappable(norm=plt.Normalize(vmin=0, vmax=max(weights)), cmap=jet)
     # Graficar los cuboides en una escala de color JET y el camino óptimo en amarillo
     fig, ax = plt.subplots()
-    ax.set_xlim([0, 10])
-    ax.set_ylim([0, 13])
+    ax.set_xlim([-5, 5])
+    ax.set_ylim([-5, 5])
     max_weight = np.max(weights)
     cmap = plt.get_cmap('jet')  # obtener el colormap Jet
     norm = plt.Normalize(vmin=0, vmax=max_weight)  # normalizar los pesos

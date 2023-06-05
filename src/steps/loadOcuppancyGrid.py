@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pickle
 
 # Cargar las variables guardadas en el archivo .pickle
-with open('../files/variables_map57.pickle', 'rb') as f:
+with open('../files/workspaces/variables_map57.pickle', 'rb') as f:
     data = pickle.load(f)
     occupancy_grid = data['occupancy_grid']
     mapa_local = data['mapa_local']

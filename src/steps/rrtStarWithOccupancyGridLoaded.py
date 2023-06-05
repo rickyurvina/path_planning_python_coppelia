@@ -154,7 +154,7 @@ def main_rrt():
         # start = (210, 50)
         # goal = (800, 770)
         start = (210, 50)
-        goal = (430, 200)
+        goal = (400, 400)
 
         # Crear el planificador RRT*
         # rrt_star = RRTStar(start, goal, obstacle_grid)
@@ -180,4 +180,4 @@ def main_rrt():
     except Exception as e:
         print('Error RRT', e)
 
-# main_rrt()
+main_rrt()
