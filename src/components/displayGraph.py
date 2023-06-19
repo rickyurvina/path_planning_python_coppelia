@@ -4,7 +4,6 @@ import numpy as np
 from numpy.distutils.fcompiler import none
 from scipy.spatial.distance import cdist
 from src.components import getDynamicObjectsCoppelia
-import pickle
 
 # Cargar las variables guardadas en el archivo .pickle
 # with open('../files/routes2.pickle', 'rb') as f:

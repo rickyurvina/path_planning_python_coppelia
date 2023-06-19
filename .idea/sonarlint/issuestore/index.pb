@@ -24,3 +24,15 @@ H
 requirements.txt,1\9\19359a61ae2446b51b549167b014da2fcf265768
 F
 src/common/test_rrt.py,a\1\a1793d71ead304a16a5a24963aefca01e1349d36
+U
+%src/common/open_workspace_show_map.py,1\0\10d2a08c7d41e40fc88d8351cbb415cfa7dd1965
+N
+src/steps/getOcuppancyGrid1.py,a\9\a92e5015c591d1a22e19d84861b0e5d916edf65f
+U
+%src/steps/getOcuppancyGridSaveData.py,a\d\addb151db534aa57881c29eab76d5ec922090ff3
+N
+src/steps/loadOcuppancyGrid.py,a\0\a00c983185ef23765457dab44ca4dac192b277f6
+W
+'src/steps/getOcuppancyGridSaveData_2.py,e\2\e21c61c030929f18d82392baa30e4b4f38419c19
+H
+src/steps/getRGBImage.py,9\e\9e20ea77da04d26887ac2909f504da33f2c01276

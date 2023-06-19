@@ -142,22 +142,12 @@ class RRTStar:
 
 def main_rrt():
     try:
-        # Ejemplo de uso
-        # Definir el occupancy grid
         obstacle_grid = np.ones((1000, 1000))
         obstacle_grid[400:600, 400:600] = 0
-        # Agregar un obstáculo en un área del occupancy grid
-        # mapa_local[occupancy_grid == 0] = 1
-        # mapa_local[occupancy_grid == 1] = 0
-
-        # Definir los puntos de inicio y objetivo
-        # start = (210, 50)
-        # goal = (800, 770)
         start = (210, 50)
         goal = (400, 400)
 
         # Crear el planificador RRT*
-        # rrt_star = RRTStar(start, goal, obstacle_grid)
         rrt_star = RRTStar(start, goal, mapa_local)
 
         # Generar el camino
@@ -165,7 +155,6 @@ def main_rrt():
 
         # Visualizar el occupancy grid y el camino
         plt.imshow(mapa_local, cmap='gray', origin='lower')
-        # plt.imshow(obstacle_grid, cmap='gray', origin='lower')
         plt.plot(start[0], start[1], 'ro', label='Start')
         plt.plot(goal[0], goal[1], 'go', label='Goal')
         if path is not None:
@@ -180,4 +169,28 @@ def main_rrt():
     except Exception as e:
         print('Error RRT', e)
 
-main_rrt()
+# main_rrt()
+
+# Node.__init__(): O(1) (operación constante).
+#
+# RRTStar.__init__(): O(1) (operación constante).
+#
+# RRTStar.generate_path(): El costo computacional de esta función depende de los parámetros establecidos y de la cantidad de iteraciones (max_iter). En el peor caso, la complejidad sería O(max_iter). Dentro del bucle, se realizan operaciones como generar nodos aleatorios, encontrar el nodo más cercano, realizar la dirección (steering), verificar si hay obstáculos, calcular la distancia, etc., todas estas operaciones tienen una complejidad de tiempo constante (O(1)).
+#
+# RRTStar.random_node(): O(1) (operación constante).
+#
+# RRTStar.nearest_node(): O(n) en el peor caso, donde n es el número de nodos en la lista de nodos (self.node_list). Esto se debe a que se calcula la distancia entre el nodo dado y todos los nodos existentes en la lista y se encuentra el más cercano.
+#
+# RRTStar.steer(): O(1) (operación constante).
+#
+# RRTStar.distance(): O(1) (operación constante).
+#
+# RRTStar.obstacle_free(): El costo computacional de esta función depende de la longitud de la línea entre los dos nodos (from_node y to_node). Si la longitud de la línea es L, el costo será proporcional a L. En el peor caso, cuando la línea cruza una gran cantidad de obstáculos, el costo puede ser O(L).
+#
+# RRTStar.near_nodes(): O(n) en el peor caso, donde n es el número de nodos en la lista de nodos (self.node_list). Esto se debe a que se calcula la distancia entre el nodo dado y todos los nodos existentes en la lista para encontrar los nodos cercanos dentro de un radio determinado.
+#
+# RRTStar.cost_to_node(): O(d), donde d es la profundidad del árbol de nodos hasta el nodo dado. En el peor caso, si todos los nodos están conectados linealmente, el costo puede ser proporcional al número de nodos en el camino.
+#
+# RRTStar.rewire(): O(n) en el peor caso, donde n es la cantidad de nodos cercanos proporcionados. Esto se debe a que se comprueba si es beneficioso volver a enlazar cada nodo cercano y se realiza una verificación de obstáculos.
+#
+# RRTStar.extract_path(): O(d), donde d es la profundidad del árbol de nodos desde el nodo final hasta el nodo inicial. Esto se debe a que se sigue el camino desde el nodo final hasta el nodo inicial y se guarda en una lista, que luego se invierte.

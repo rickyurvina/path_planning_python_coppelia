@@ -3,8 +3,9 @@ import numpy as np
 import math
 from numpy.distutils.fcompiler import none
 
-
+#Costo computacional O(n^2)-> n= len positions
 def getData(num_objects=none):
+    # Costo computacional O(n^2)-> n= len positions
     def compute_euclidean_distance_matrix(positions):
         """Creates callback to return distance between points."""
         distances = {}
@@ -17,7 +18,7 @@ def getData(num_objects=none):
                     # Euclidean distance
                     distances[from_counter][to_counter] = (int(
                         math.hypot((from_node[0] - to_node[0]),
-                                   (from_node[1] - to_node[1]))))
+                                   (from_node[1] - to_node[1]))*100))
         return distances
 
     # Establecer la conexión con CoppeliaSim
@@ -32,6 +33,7 @@ def getData(num_objects=none):
     cuboid_handles = []
     positions = []
     weights = []
+    # Costo computacional O(n)-> n= len num_cuboids
     for i in range(num_cuboids):
         _, cuboid_handle = sim.simxGetObjectHandle(clientID, f'Obj{i}', sim.simx_opmode_blocking)
         cuboid_handles.append(cuboid_handle)
@@ -39,7 +41,7 @@ def getData(num_objects=none):
         # if mass > 0:
         weights.append(int(mass))
         _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
-        pos = [round(position[0], 2), round(position[1], 2)]
+        pos = [position[0], position[1]]
         positions.append(pos)
 
     positions = np.array(positions)
