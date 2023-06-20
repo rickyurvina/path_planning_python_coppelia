@@ -28,11 +28,17 @@ U
 %src/common/open_workspace_show_map.py,1\0\10d2a08c7d41e40fc88d8351cbb415cfa7dd1965
 N
 src/steps/getOcuppancyGrid1.py,a\9\a92e5015c591d1a22e19d84861b0e5d916edf65f
-U
-%src/steps/getOcuppancyGridSaveData.py,a\d\addb151db534aa57881c29eab76d5ec922090ff3
 N
 src/steps/loadOcuppancyGrid.py,a\0\a00c983185ef23765457dab44ca4dac192b277f6
-W
-'src/steps/getOcuppancyGridSaveData_2.py,e\2\e21c61c030929f18d82392baa30e4b4f38419c19
+[
++src/steps/rrtStarWithOccupancyGridLoaded.py,2\6\2694fa16fab4b1addaa121cfbac8dacc3455a9aa
+N
+src/components/displayGraph.py,0\3\0389ad0dc336ebe1ddd392b8c8a529106d50c86c
+U
+%src/steps/getOcuppancyGridSaveData.py,a\d\addb151db534aa57881c29eab76d5ec922090ff3
 H
 src/steps/getRGBImage.py,9\e\9e20ea77da04d26887ac2909f504da33f2c01276
+W
+'src/steps/getOcuppancyGridSaveData_2.py,e\2\e21c61c030929f18d82392baa30e4b4f38419c19
+[
++src/components/getDynamicObjectsCoppelia.py,c\6\c6b457f6981e88bad8f6a69d9d8c0694f63b7551

@@ -30,8 +30,8 @@ def plots_positions(route=none, data=none):
     scalar_map = cm.ScalarMappable(norm=plt.Normalize(vmin=0, vmax=max(weights)), cmap=jet)
     # Graficar los cuboides en una escala de color JET y el camino óptimo en amarillo
     fig, ax = plt.subplots()
-    ax.set_xlim([-3, 3])
-    ax.set_ylim([-3, 3])
+    ax.set_xlim([-5, 1])
+    ax.set_ylim([-6, 0])
 
     max_weight = np.max(weights)
     cmap = plt.get_cmap('jet')  # obtener el colormap Jet
