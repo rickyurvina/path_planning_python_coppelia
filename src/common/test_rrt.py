@@ -1,8 +1,7 @@
-import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial.distance import euclidean
-from src.steps.loadOcuppancyGrid import return_ocuppancy_grid
+from src.components.loadData import return_ocuppancy_grid
 mapa_local = return_ocuppancy_grid()['occupancy_grid']
 # mapa_local = return_ocuppancy_grid()['mapa_local']
 start = (200, 180)
