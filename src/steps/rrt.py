@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.distutils.fcompiler import none
-from src.components.loadData import load_data_occupancy_grid
-from src.components.loadData import load_solution_data
+from src.components.loadFiles import load_data_occupancy_grid
+from src.components.loadFiles import load_solution_data
+from src.components.saveFiles import get_name_to_save_plot
 
 
 class Node:
@@ -13,7 +14,7 @@ class Node:
 
 
 class RRTStar:
-    def __init__(self, start, goal, obstacle_grid, expand_dist=1.0, max_iter=10000, goal_sample_rate=0.1, radius=10.0):
+    def __init__(self, start, goal, obstacle_grid, expand_dist=3.0, max_iter=10000, goal_sample_rate=0.2, radius=30.0):
         self.start = Node(start[0], start[1])
         self.goal = Node(goal[0], goal[1])
         self.obstacle_grid = obstacle_grid
@@ -22,6 +23,7 @@ class RRTStar:
         self.goal_sample_rate = goal_sample_rate
         self.radius = radius
         self.node_list = []
+        self.ordered_positions = []
 
     def generate_path(self):
         self.node_list = [self.start]
@@ -139,26 +141,44 @@ class RRTStar:
         return path
 
 
+def shift_positions(ordered_positions):
+    scale_value = 1000 / 15
+    shifted_positions = []
+    for position in ordered_positions:
+        shifted_x = (scale_value * position[0] + 500)
+        shifted_y = (scale_value * position[1] + 500)
+        shifted_positions.append((shifted_x, shifted_y))
+    return shifted_positions
+
 
 def main_rrt(occupancy_grid=none, ordered_positions=none):
     try:
         occupancy_grid = load_data_occupancy_grid()['occupancy_grid']
         ordered_positions = load_solution_data()['ordered_positions']
-        print(ordered_positions)
-        start = (210, 50)
-        goals = [(ordered_positions[0][0]+203.8, ordered_positions[0][1]+120.705)]
+        ordered_transformed = shift_positions(ordered_positions)
 
-
+        start = (300, 50)
         # Crear el planificador RRT*
-        rrt_star = RRTStar(start, goals[0], occupancy_grid)
+        path = []
+        for index, (x, y) in enumerate(ordered_transformed):
 
-        # Generar el camino
-        path = rrt_star.generate_path()
+            goal = (x, y)
+            if index != 0:
+                start = ordered_transformed[index - 1]
+            if index == 4:
+                break
+            rrt_star = RRTStar(start, goal, occupancy_grid)
+            # Generar el camino
+            path += rrt_star.generate_path()
+            print(index)
 
         # Visualizar el occupancy grid y el camino
         plt.imshow(occupancy_grid, cmap='gray', origin='lower')
-        plt.plot(start[0], start[1], 'ro', label='Start')
-        plt.plot(goals[0][0], goals[0][1], 'go', label='Goal')
+        plt.plot(300, 50, 'ro', label='Start')
+
+        for index, (x, y) in enumerate(ordered_transformed):
+            plt.plot(ordered_transformed[index][0], ordered_transformed[index][1], 'g.')
+
         if path is not None:
             path_x, path_y = zip(*path)
             plt.plot(path_x, path_y, 'b-', label='Path')
@@ -166,9 +186,12 @@ def main_rrt(occupancy_grid=none, ordered_positions=none):
         plt.xlabel('X')
         plt.ylabel('Y')
         plt.title('RRT* Path Planning')
+        filename = get_name_to_save_plot()
+        plt.savefig(filename, dpi=500)
         plt.show()
 
     except Exception as e:
         print('Error RRT', e)
+
 
 main_rrt()

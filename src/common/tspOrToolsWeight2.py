@@ -1,8 +1,8 @@
-from src.components import getDynamicObjectsCoppelia
+from src.components import objectsCoppelia
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
-from src.components import displayGraph
-distance_matrix, weights, positions = getDynamicObjectsCoppelia.getData()
+from src.components import displaySolution
+distance_matrix, weights, positions = objectsCoppelia.getData()
 
 def create_data_model():
     """Stores the data for the problem."""
@@ -119,7 +119,7 @@ def main():
     # Display the routes.
     # Secuencia de índices de nodos que representan la ruta óptima
     route = routes[0]
-    displayGraph.plotsPositions(route)
+    displaySolution.plotsPositions(route)
 
 if __name__ == '__main__':
     main()

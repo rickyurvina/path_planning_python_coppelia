@@ -66,6 +66,7 @@ def generateOcuppancy():
             'mapa_local': mapa_local,
         }
         saveFiles.save_workspace(variables)
+        plot_occupancy(occupancy_grid)
 
         return occupancy_grid
 
@@ -74,3 +75,5 @@ def generateOcuppancy():
         print(e)
         sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
         sim.simxFinish(clientID)
+
+generateOcuppancy()
