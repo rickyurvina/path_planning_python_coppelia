@@ -23,7 +23,5 @@ U
 %src/common/open_workspace_show_map.py,1\0\10d2a08c7d41e40fc88d8351cbb415cfa7dd1965
 R
 "src/components/routesOfSolution.py,6\e\6ef193e27f79427f7cf90c83f415eb0de138a968
-H
-src/steps/generateRGB.py,d\7\d7455fc33e8ecce13d168774d6e344e07a06ddfe
 R
 "src/components/orderedPositions.py,6\1\61d9e436a06e77785164359d3600977b8fa035ee

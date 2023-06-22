@@ -1,9 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.distutils.fcompiler import none
-from src.components.loadFiles import load_data_occupancy_grid
-from src.components.loadFiles import load_solution_data
-from src.components.saveFiles import get_name_to_save_plot
+from src.components import loadFiles, saveFiles
 
 
 class Node:
@@ -151,10 +149,10 @@ def shift_positions(ordered_positions):
     return shifted_positions
 
 
-def main_rrt(occupancy_grid=none, ordered_positions=none):
+def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
     try:
-        occupancy_grid = load_data_occupancy_grid()['occupancy_grid']
-        ordered_positions = load_solution_data()['ordered_positions']
+        # occupancy_grid = loadFiles.load_data_occupancy_grid()['occupancy_grid']
+        # ordered_positions = loadFiles.load_solution_data()['ordered_positions']
         ordered_transformed = shift_positions(ordered_positions)
 
         start = (300, 50)
@@ -165,7 +163,7 @@ def main_rrt(occupancy_grid=none, ordered_positions=none):
             goal = (x, y)
             if index != 0:
                 start = ordered_transformed[index - 1]
-            if index == 4:
+            if index == 2:
                 break
             rrt_star = RRTStar(start, goal, occupancy_grid)
             # Generar el camino
@@ -173,9 +171,11 @@ def main_rrt(occupancy_grid=none, ordered_positions=none):
             print(index)
 
         # Visualizar el occupancy grid y el camino
-        plt.imshow(occupancy_grid, cmap='gray', origin='lower')
-        plt.plot(300, 50, 'ro', label='Start')
+        # img = loadFiles.load_rgb(10)['img']
+        plt.imshow(img, origin='lower', aspect='equal')
 
+        # plt.imshow(occupancy_grid, cmap='gray', origin='lower')
+        plt.plot(300, 50, 'ro', label='Start')
         for index, (x, y) in enumerate(ordered_transformed):
             plt.plot(ordered_transformed[index][0], ordered_transformed[index][1], 'g.')
 
@@ -186,7 +186,7 @@ def main_rrt(occupancy_grid=none, ordered_positions=none):
         plt.xlabel('X')
         plt.ylabel('Y')
         plt.title('RRT* Path Planning')
-        filename = get_name_to_save_plot()
+        filename = saveFiles.get_name_to_save_plot()
         plt.savefig(filename, dpi=500)
         plt.show()
 

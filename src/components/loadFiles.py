@@ -7,7 +7,14 @@ def load_data_occupancy_grid():
         data = pickle.load(f)
     return data
 
+
 def load_solution_data():
     with open('../files/workspaces/solution_variables8.pickle', 'rb') as f:
+        data = pickle.load(f)
+    return data
+
+
+def load_rgb(num):
+    with open('../files/workspaces/rgb_variables' + str(num) + '.pickle', 'rb') as f:
         data = pickle.load(f)
     return data
