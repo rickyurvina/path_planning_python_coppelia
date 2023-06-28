@@ -10,11 +10,9 @@ def create_data_model(num_objects, num_rows):
         'positions': positions,
         'distance_matrix': distance_matrix,
         'demands': weights,
-        'vehicle_capacities': [180],
+        'vehicle_capacities': [45],
         'num_vehicles': 1,
-        'depot': 2,
+        'depot': 0,
         'forbidden_connections': forbidden_connections,
-        'starts': [0],
-        'ends': [2]
     }
     return data

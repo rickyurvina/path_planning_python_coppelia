@@ -12,7 +12,7 @@ class Node:
 
 
 class RRTStar:
-    def __init__(self, start, goal, obstacle_grid, expand_dist=3.0, max_iter=10000, goal_sample_rate=0.2, radius=30.0):
+    def __init__(self, start, goal, obstacle_grid, expand_dist=1.0, max_iter=30000, goal_sample_rate=0.1, radius=10.0):
         self.start = Node(start[0], start[1])
         self.goal = Node(goal[0], goal[1])
         self.obstacle_grid = obstacle_grid
@@ -154,8 +154,9 @@ def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
         # occupancy_grid = loadFiles.load_data_occupancy_grid()['occupancy_grid']
         # ordered_positions = loadFiles.load_solution_data()['ordered_positions']
         ordered_transformed = shift_positions(ordered_positions)
+        # ordered_transformed = [(450, 450)]
 
-        start = (300, 50)
+        start = (300, 80)
         # Crear el planificador RRT*
         path = []
         for index, (x, y) in enumerate(ordered_transformed):
@@ -163,7 +164,7 @@ def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
             goal = (x, y)
             if index != 0:
                 start = ordered_transformed[index - 1]
-            if index == 2:
+            if index == 7:
                 break
             rrt_star = RRTStar(start, goal, occupancy_grid)
             # Generar el camino
@@ -175,7 +176,7 @@ def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
         plt.imshow(img, origin='lower', aspect='equal')
 
         # plt.imshow(occupancy_grid, cmap='gray', origin='lower')
-        plt.plot(300, 50, 'ro', label='Start')
+        plt.plot(300, 80, 'ro', label='Start')
         for index, (x, y) in enumerate(ordered_transformed):
             plt.plot(ordered_transformed[index][0], ordered_transformed[index][1], 'g.')
 
@@ -193,5 +194,4 @@ def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
     except Exception as e:
         print('Error RRT', e)
 
-
-main_rrt()
+# main_rrt()

@@ -52,3 +52,5 @@ def generate_rgb():
     sim.simxFinish(clientID)
     print('Conexión cerrada')
     return img
+
+# generate_rgb()

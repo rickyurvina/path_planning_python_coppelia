@@ -5,6 +5,8 @@ import time
 import matplotlib.pyplot as plt
 from src.components.plotOcuppancyGrid import plot_occupancy
 from src.components import saveFiles
+
+
 # Conectar con Coppelia
 def generateOcuppancy():
     try:
@@ -16,7 +18,11 @@ def generateOcuppancy():
             print('Conectado con Coppelia')
 
         sim.simxStartSimulation(clientID, sim.simx_opmode_oneshot)
-
+        # Obtener el handle del objeto al que se desea eliminar la textura
+        _, box_terrain = sim.simxGetObjectHandle(clientID, 'box_terrain', sim.simx_opmode_blocking)
+        # layer_property = sim.sim_objectproperty_cameravisibilitylayer
+        res = sim.simxSetObjectIntParameter(clientID, box_terrain, sim.sim_objintparam_visibility_layer, False,
+                                            sim.simx_opmode_blocking)
         # Obtener el handle del sensor de visión
         res, sensor_handle = sim.simxGetObjectHandle(clientID, 'Vision_sensor', sim.simx_opmode_oneshot_wait)
         # Obtener la transformación del sensor de visión con respecto al marco de coordenadas locales del mundo
@@ -53,6 +59,8 @@ def generateOcuppancy():
             mapa_local = np.zeros_like(occupancy_grid)
             mapa_local[occupancy_grid == 1] = 1
 
+        res = sim.simxSetObjectIntParameter(clientID, box_terrain, sim.sim_objintparam_visibility_layer, True,
+                                            sim.simx_opmode_blocking)
 
         sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
         sim.simxFinish(clientID)
@@ -66,7 +74,7 @@ def generateOcuppancy():
             'mapa_local': mapa_local,
         }
         saveFiles.save_workspace(variables)
-        # plot_occupancy(occupancy_grid)
+        plot_occupancy(occupancy_grid)
 
         return occupancy_grid
 
@@ -75,5 +83,6 @@ def generateOcuppancy():
         print(e)
         sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
         sim.simxFinish(clientID)
+
 
 # generateOcuppancy()

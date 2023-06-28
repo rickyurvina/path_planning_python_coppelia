@@ -2,7 +2,7 @@ import numpy as np
 from src.coppelia import sim
 import math
 from numpy.distutils.fcompiler import none
-
+import random
 
 # Costo computacional O(n^2)-> n= len positions
 def get_data(num_objects=none, num_rows=none):
@@ -50,7 +50,6 @@ def get_data(num_objects=none, num_rows=none):
         exit()
     sim.simxStartSimulation(clientID, sim.simx_opmode_oneshot_wait)
 
-    cuboid_handles = []
     positions = []
     weights = []
     rows = {}
@@ -62,25 +61,25 @@ def get_data(num_objects=none, num_rows=none):
         for o in range(4):
             object_name = f'hi{h + 1}b{o + 1}'
             _, cuboid_handle = sim.simxGetObjectHandle(clientID, object_name, sim.simx_opmode_blocking)
-            cuboid_handles.append(cuboid_handle)
-            _, mass = sim.simxGetObjectFloatParameter(clientID, cuboid_handle, 3005, sim.simx_opmode_blocking)
-            if (mass > 0):
-                weights.append(int(mass))
-                _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
-                pos = [position[0], position[1]]
-                positions.append(pos)
-                rows[row_name][object_name] = pos, len(positions) - 1
-        for o in range(range_centers):
+            # _, mass = sim.simxGetObjectFloatParameter(clientID, cuboid_handle, 3005, sim.simx_opmode_blocking)
+            # if (mass > 0):
+            # weights.append(int(mass))
+            weights.append(random.randint(3, 9))
+            _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
+            pos = [position[0], position[1]]
+            positions.append(pos)
+            rows[row_name][object_name] = pos, len(positions) - 1
+        for o in range(1):
             object_name = f'hi{h + 1}c{o + 1}'
             _, cuboid_handle = sim.simxGetObjectHandle(clientID, object_name, sim.simx_opmode_blocking)
-            cuboid_handles.append(cuboid_handle)
-            _, mass = sim.simxGetObjectFloatParameter(clientID, cuboid_handle, 3005, sim.simx_opmode_blocking)
-            if (mass > 0):
-                weights.append(int(mass))
-                _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
-                pos = [position[0], position[1]]
-                positions.append(pos)
-                rows[row_name][object_name] = pos, len(positions) - 1
+            # _, mass = sim.simxGetObjectFloatParameter(clientID, cuboid_handle, 3005, sim.simx_opmode_blocking)
+            # if (mass > 0):
+            weights.append(random.randint(3, 9))
+            # weights.append(int(mass))
+            _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
+            pos = [position[0], position[1]]
+            positions.append(pos)
+            rows[row_name][object_name] = pos, len(positions) - 1
 
     sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
     sim.simxFinish(clientID)
@@ -90,3 +89,9 @@ def get_data(num_objects=none, num_rows=none):
     distance_matrix = compute_euclidean_distance_matrix(positions)
 
     return distance_matrix, weights, positions, forbidden_connections
+
+
+# distance_matrix, weights, positions, forbidden_connections = get_data(10, 2)
+#
+# print(distance_matrix)
+# print(positions)
