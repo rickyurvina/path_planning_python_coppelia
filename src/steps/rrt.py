@@ -16,7 +16,9 @@ class Node:
 
 
 class RRTStar:
-    def __init__(self, start, goal, obstacle_grid, expand_dist=1.0, max_iter=30000, goal_sample_rate=0.1, radius=10.0):
+    def __init__(self, start, goal, obstacle_grid, expand_dist=int(os.getenv('EXPAND_DISTANCE')),
+                 max_iter=int(os.getenv('MAX_ITER')), goal_sample_rate=float(os.getenv('GOAL_SAMPLE_RATE')),
+                 radius=float(os.getenv('RADIUS'))):
         self.start = Node(start[0], start[1])
         self.goal = Node(goal[0], goal[1])
         self.obstacle_grid = obstacle_grid
@@ -153,46 +155,50 @@ def shift_positions(ordered_positions):
     return shifted_positions
 
 
-def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
-    try:
-        ordered_transformed = shift_positions(ordered_positions)
-        # ordered_transformed = [(450, 450)]
-        start = (int(os.getenv('START_POSITION_X')), int(os.getenv('START_POSITION_Y')))
-        # Crear el planificador RRT*
-        path = []
-        for index, (x, y) in enumerate(ordered_transformed):
-            goal = (x, y)
-            if index != 0:
-                start = ordered_transformed[index - 1]
-            if index == int(os.getenv('BREAK_AT')):
-                break
-            rrt_star = RRTStar(start, goal, occupancy_grid)
-            # Generar el camino
-            path += rrt_star.generate_path()
-            print(index)
+def main_rrt(occupancy_grid=none, ordered_positions=none, img=none, name_folder=none):
+    # try:
+    ordered_transformed = shift_positions(ordered_positions)
+    # ordered_transformed = [(450, 450)]
+    start = (int(os.getenv('START_POSITION_X')), int(os.getenv('START_POSITION_Y')))
+    plt.plot(start[0], start[1], 'ro', label='Start')
+    # Crear el planificador RRT*
+    path = []
+    for index, (x, y) in enumerate(ordered_transformed):
+        goal = (x, y)
+        if index != 0:
+            start = ordered_transformed[index - 1]
+        if index == int(os.getenv('BREAK_AT')):
+            break
+        rrt_star = RRTStar(start, goal, occupancy_grid)
+        # Generar el camino
+        path_segment = rrt_star.generate_path()
+        if path_segment is not None:
+            path += path_segment
+        else:
+            print(f"No se encontró una ruta para el punto ({x}, {y})")
+        print(index)
 
-        # Visualizar el occupancy grid y el camino
-        plt.imshow(img, origin='lower', aspect='equal')
+    # Visualizar el occupancy grid y el camino
+    plt.imshow(img, origin='lower', aspect='equal')
+    for index, (x, y) in enumerate(ordered_transformed):
+        plt.plot(ordered_transformed[index][0], ordered_transformed[index][1], 'g.')
 
-        # plt.imshow(occupancy_grid, cmap='gray', origin='lower')
-        plt.plot(start[0], start[1], 'ro', label='Start')
-        for index, (x, y) in enumerate(ordered_transformed):
-            plt.plot(ordered_transformed[index][0], ordered_transformed[index][1], 'g.')
+    if path is not None:
+        path_x, path_y = zip(*path)
+        plt.plot(path_x, path_y, 'b-', label='Path')
 
-        if path is not None:
-            path_x, path_y = zip(*path)
-            plt.plot(path_x, path_y, 'b-', label='Path')
-        plt.legend()
-        plt.xlabel('X')
-        plt.ylabel('Y')
-        plt.title('RRT* Path Planning')
-        filename = saveFiles.get_name_to_save_plot()
-        plt.savefig(filename, dpi=500)
-        plt.show()
-        return path
+    plt.legend()
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('RRT* Planificación local')
+    filename = saveFiles.get_name_to_save_plot(name_folder, 'rrt')
+    plt.savefig(filename, dpi=500)
+    plt.show()
+    return path
 
-    except Exception as e:
-        print('Error RRT', e)
+    # except Exception as e:
+    #     print('Error RRT', e)
+
 
 if __name__ == '__main__':
     occupancy_grid = loadFiles.load_data_occupancy_grid()['occupancy_grid']

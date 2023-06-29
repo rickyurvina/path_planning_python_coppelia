@@ -2,26 +2,28 @@ from src.coppelia import sim
 import numpy as np
 import cv2
 import time
-import matplotlib.pyplot as plt
 from src.components.plotsEnvironment import plot_occupancy
-from src.components import saveFiles
 
 
 # Conectar con Coppelia
-def generateOcuppancy(clientID, name_folder):
+def generate_occupancy(clientID, object_handles, name_folder):
     try:
         # Obtener el handle del objeto al que se desea eliminar la textura
         _, box_terrain = sim.simxGetObjectHandle(clientID, 'box_terrain', sim.simx_opmode_blocking)
         # layer_property = sim.sim_objectproperty_cameravisibilitylayer
         res = sim.simxSetObjectIntParameter(clientID, box_terrain, sim.sim_objintparam_visibility_layer, False,
                                             sim.simx_opmode_blocking)
+
+        for i in range(len(object_handles)):
+            res = sim.simxSetObjectIntParameter(clientID, object_handles[i], sim.sim_objintparam_visibility_layer,
+                                                False,
+                                                sim.simx_opmode_blocking)
+
         # Obtener el handle del sensor de visión
         res, sensor_handle = sim.simxGetObjectHandle(clientID, 'Vision_sensor', sim.simx_opmode_oneshot_wait)
         # Obtener la transformación del sensor de visión con respecto al marco de coordenadas locales del mundo
         _, sensor_pos = sim.simxGetObjectPosition(clientID, sensor_handle, -1, sim.simx_opmode_oneshot_wait)
         _, sensor_ori = sim.simxGetObjectOrientation(clientID, sensor_handle, -1, sim.simx_opmode_oneshot_wait)
-
-        time.sleep(1)
 
         if res != 0:
             print('Error al obtener el handle del sensor de visión')
@@ -48,9 +50,12 @@ def generateOcuppancy(clientID, name_folder):
             # Obtener el occupancy grid a partir de la imagen binarizada
             occupancy_grid = (thresh > 1).astype(np.float64)
 
-
         res = sim.simxSetObjectIntParameter(clientID, box_terrain, sim.sim_objintparam_visibility_layer, True,
                                             sim.simx_opmode_blocking)
+        for i in range(len(object_handles)):
+            res = sim.simxSetObjectIntParameter(clientID, object_handles[i], sim.sim_objintparam_visibility_layer,
+                                                True,
+                                                sim.simx_opmode_blocking)
 
         plot_occupancy(occupancy_grid, name_folder)
 

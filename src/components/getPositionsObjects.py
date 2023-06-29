@@ -9,6 +9,7 @@ def get_positions(clientID):
 
     positions = []
     weights = []
+    object_handles = []
     rows = {}
 
     for h in range(int(os.getenv('NUM_ROWS'))):
@@ -20,6 +21,7 @@ def get_positions(clientID):
             # _, mass = sim.simxGetObjectFloatParameter(clientID, cuboid_handle, 3005, sim.simx_opmode_blocking)
             # if (mass > 0):
             # weights.append(int(mass))
+            object_handles.append(cuboid_handle)
             weights.append(random.randint(3, 9))
             _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
             pos = [position[0], position[1]]
@@ -32,6 +34,7 @@ def get_positions(clientID):
             # if (mass > 0):
             weights.append(random.randint(3, 9))
             # weights.append(int(mass))
+            object_handles.append(cuboid_handle)
             _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
             pos = [position[0], position[1]]
             positions.append(pos)
@@ -39,5 +42,5 @@ def get_positions(clientID):
 
     positions = np.array(positions)
 
-    return positions, weights, rows
+    return positions, weights, rows, object_handles
 

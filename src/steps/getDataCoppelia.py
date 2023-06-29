@@ -28,8 +28,8 @@ def closeSimulation(clientID):
 def get_data(name_folder):
     try:
         clientId = startSimulation()
-        positions, weights, rows = getPositionsObjects.get_positions(clientId)
-        occupancy_grid = generateOccupancyGrid.generateOcuppancy(clientId, name_folder)
+        positions, weights, rows, object_handles = getPositionsObjects.get_positions(clientId)
+        occupancy_grid = generateOccupancyGrid.generate_occupancy(clientId, object_handles, name_folder)
         rgb = generateRGB.generate_rgb(clientId, name_folder)
         closeSimulation(clientId)
 
