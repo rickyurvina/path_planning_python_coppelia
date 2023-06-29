@@ -20,9 +20,8 @@ def save_image(img):
     print("Guardado como", filename)
 
 
-def get_name_to_save_plot():
-    folder = "../images/plots"
-    prefix = "ruta_optima"
+def get_name_to_save_plot(name_folder, prefix):
+    folder = "../solutions/" + name_folder
     ext = ".png"
     # Verificar la existencia de archivo y establecer el contador
     i = 1
@@ -34,8 +33,8 @@ def get_name_to_save_plot():
     return filename
 
 
-def save_workspace(variables):
-    folder = "../files/workspaces"
+def save_workspace(variables, name_folder):
+    folder = "../solutions/"+name_folder
     if (variables['prefix']):
         prefix = variables['prefix'] + "_variables"
     else:

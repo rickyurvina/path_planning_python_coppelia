@@ -25,16 +25,8 @@ R
 "src/components/routesOfSolution.py,6\e\6ef193e27f79427f7cf90c83f415eb0de138a968
 R
 "src/components/orderedPositions.py,6\1\61d9e436a06e77785164359d3600977b8fa035ee
-Q
-!src/components/displaySolution.py,a\8\a89770f2e803186ff60342f9a0129e240ed8a3b3
-O
-src/components/printSolution.py,6\2\625bc6423e89b4afac3958412bf054dc4d96e6e3
-O
-src/common/tspOrToolsWeight2.py,f\a\fa1561727cbcf73bd4c8e127f9c1342888c6ff67
 F
 src/common/test_rrt.py,a\1\a1793d71ead304a16a5a24963aefca01e1349d36
-S
-#src/components/plotOcuppancyGrid.py,4\1\4178e1508c1b90f14f8824a4f0fd83ac071fc56d
 H
 src/coppelia/simConst.py,a\5\a5979b3fe0df04ceab750565f4ab8538fcd3030c
 C

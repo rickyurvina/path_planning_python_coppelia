@@ -1,6 +1,6 @@
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
-from src.components.printSolution import print_solution
+from src.components.printSolutionTsp import print_solution_tsp
 from src.components.createDataTsp import create_data_model
 from src.components.displaySolution import plots_positions
 from src.components.routesOfSolution import get_routes
@@ -8,12 +8,11 @@ from src.components.orderedPositions import get_ordered_positions
 from src.components.saveFiles import save_workspace
 
 
-def main():
+def main(positions, weights, rows, name_folder):
     """Solve the CVRP problem."""
     # Instantiate the data problem.
-    num_objects = 10
-    num_rows = 2
-    data = create_data_model(num_objects, num_rows)
+
+    data = create_data_model(positions, weights, rows)
 
     # Create the routing index manager.
     manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
@@ -74,19 +73,8 @@ def main():
 
     # Print solution on console.
     if solution:
-        print_solution(data, manager, routing, solution)
-        plots_positions(get_routes(solution, routing, manager)[0], data)
-        variables = {
-            'prefix': 'solution',
-            'data': data,
-            'route': get_routes(solution, routing, manager)[0],
-            'ordered_positions': get_ordered_positions(get_routes(solution, routing, manager)[0], data['positions'])
-        }
-        save_workspace(variables)
-        return get_ordered_positions(get_routes(solution, routing, manager)[0], data['positions'])
+        print_solution_tsp(data, manager, routing, solution, name_folder)
+        plots_positions(get_routes(solution, routing, manager)[0], data, name_folder)
+        return get_ordered_positions(get_routes(solution, routing, manager)[0], data['positions']), get_routes(solution, routing, manager)[0]
     else:
         print("Solver status: Error al resolver el problema")
-
-
-if __name__ == '__main__':
-    main()

@@ -1,4 +1,4 @@
-from src.components import objectsCoppelia
+from src.components import getPositionsObjects
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 from src.components import displaySolution

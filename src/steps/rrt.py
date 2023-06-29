@@ -2,6 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy.distutils.fcompiler import none
 from src.components import loadFiles, saveFiles
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 class Node:
@@ -151,20 +155,16 @@ def shift_positions(ordered_positions):
 
 def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
     try:
-        # occupancy_grid = loadFiles.load_data_occupancy_grid()['occupancy_grid']
-        # ordered_positions = loadFiles.load_solution_data()['ordered_positions']
         ordered_transformed = shift_positions(ordered_positions)
         # ordered_transformed = [(450, 450)]
-
-        start = (300, 80)
+        start = (int(os.getenv('START_POSITION_X')), int(os.getenv('START_POSITION_Y')))
         # Crear el planificador RRT*
         path = []
         for index, (x, y) in enumerate(ordered_transformed):
-
             goal = (x, y)
             if index != 0:
                 start = ordered_transformed[index - 1]
-            if index == 7:
+            if index == int(os.getenv('BREAK_AT')):
                 break
             rrt_star = RRTStar(start, goal, occupancy_grid)
             # Generar el camino
@@ -172,11 +172,10 @@ def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
             print(index)
 
         # Visualizar el occupancy grid y el camino
-        # img = loadFiles.load_rgb(10)['img']
         plt.imshow(img, origin='lower', aspect='equal')
 
         # plt.imshow(occupancy_grid, cmap='gray', origin='lower')
-        plt.plot(300, 80, 'ro', label='Start')
+        plt.plot(start[0], start[1], 'ro', label='Start')
         for index, (x, y) in enumerate(ordered_transformed):
             plt.plot(ordered_transformed[index][0], ordered_transformed[index][1], 'g.')
 
@@ -190,8 +189,13 @@ def main_rrt(occupancy_grid=none, ordered_positions=none, img=none):
         filename = saveFiles.get_name_to_save_plot()
         plt.savefig(filename, dpi=500)
         plt.show()
+        return path
 
     except Exception as e:
         print('Error RRT', e)
 
-# main_rrt()
+if __name__ == '__main__':
+    occupancy_grid = loadFiles.load_data_occupancy_grid()['occupancy_grid']
+    ordered_positions = loadFiles.load_solution_data()['ordered_positions']
+    img = loadFiles.load_rgb(10)['img']
+    main_rrt(occupancy_grid, ordered_positions, img)

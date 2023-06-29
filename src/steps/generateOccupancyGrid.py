@@ -3,21 +3,13 @@ import numpy as np
 import cv2
 import time
 import matplotlib.pyplot as plt
-from src.components.plotOcuppancyGrid import plot_occupancy
+from src.components.plotsEnvironment import plot_occupancy
 from src.components import saveFiles
 
 
 # Conectar con Coppelia
-def generateOcuppancy():
+def generateOcuppancy(clientID, name_folder):
     try:
-        sim.simxFinish(-1)  # Cerrar todas las conexiones existentes
-        clientID = sim.simxStart('127.0.0.1', 19997, True, True, 5000, 5)  # Conectar con Coppelia
-        if clientID == -1:
-            print('Error al conectar con Coppelia')
-        else:
-            print('Conectado con Coppelia')
-
-        sim.simxStartSimulation(clientID, sim.simx_opmode_oneshot)
         # Obtener el handle del objeto al que se desea eliminar la textura
         _, box_terrain = sim.simxGetObjectHandle(clientID, 'box_terrain', sim.simx_opmode_blocking)
         # layer_property = sim.sim_objectproperty_cameravisibilitylayer
@@ -56,33 +48,13 @@ def generateOcuppancy():
             # Obtener el occupancy grid a partir de la imagen binarizada
             occupancy_grid = (thresh > 1).astype(np.float64)
 
-            mapa_local = np.zeros_like(occupancy_grid)
-            mapa_local[occupancy_grid == 1] = 1
 
         res = sim.simxSetObjectIntParameter(clientID, box_terrain, sim.sim_objintparam_visibility_layer, True,
                                             sim.simx_opmode_blocking)
 
-        sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
-        sim.simxFinish(clientID)
-
-        print('Conexión cerrada')
-        variables = {
-            'prefix': 'map',
-            'img': img,
-            'thresh': thresh,
-            'occupancy_grid': occupancy_grid,
-            'mapa_local': mapa_local,
-        }
-        saveFiles.save_workspace(variables)
-        plot_occupancy(occupancy_grid)
+        plot_occupancy(occupancy_grid, name_folder)
 
         return occupancy_grid
 
-
     except Exception as e:
         print(e)
-        sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
-        sim.simxFinish(clientID)
-
-
-# generateOcuppancy()
