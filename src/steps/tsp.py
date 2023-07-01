@@ -11,7 +11,6 @@ from src.components.saveFiles import save_workspace
 def main(positions, weights, rows, name_folder):
     """Solve the CVRP problem."""
     # Instantiate the data problem.
-
     data = create_data_model(positions, weights, rows)
 
     # Create the routing index manager.
