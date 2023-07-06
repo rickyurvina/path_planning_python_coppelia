@@ -258,7 +258,7 @@ class RRT_INFORMED:
             print("position index", index)
             start = position
             goal = self.goals[index + 1]
-            if int(os.getenv("BREAK_AT")) == 10:
+            if index == int(os.getenv('BREAK_AT')):
                 break
             if index > 0:
                 self.found = False

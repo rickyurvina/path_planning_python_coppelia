@@ -37,3 +37,5 @@ dist/
 
 # Archivo de configuración de Flask
 instance/config.py
+
+src/solutions/
