@@ -16,7 +16,7 @@ class Node:
 
 
 class RRTStar:
-    def __init__(self, start, goal, obstacle_grid, expand_dist=int(os.getenv('EXPAND_DISTANCE')),
+    def __init__(self, start, goal, obstacle_grid, expand_dist=float(os.getenv('EXPAND_DISTANCE')),
                  max_iter=int(os.getenv('MAX_ITER')), goal_sample_rate=float(os.getenv('GOAL_SAMPLE_RATE')),
                  radius=float(os.getenv('RADIUS'))):
         self.start = Node(start[0], start[1])

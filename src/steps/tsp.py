@@ -5,7 +5,6 @@ from src.components.createDataTsp import create_data_model
 from src.components.displaySolution import plots_positions
 from src.components.routesOfSolution import get_routes
 from src.components.orderedPositions import get_ordered_positions
-from src.components.saveFiles import save_workspace
 
 
 def main(positions, weights, rows, name_folder):
