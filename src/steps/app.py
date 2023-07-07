@@ -6,9 +6,10 @@ from src.components import createFolder
 from saveOnDatabase import save_data_base
 import time
 from src.components import loadFiles
-import mainInformedRrt
+import mainRrt
 from dotenv import load_dotenv
 import os
+
 load_dotenv()
 
 
@@ -33,13 +34,14 @@ def main():
 
         if os.getenv('ON_LINE') == '0':
             data = loadFiles.load_data_occupancy_grid()
+        paths = []
         # RRT
+
         start_time_rrt = time.time()
-        method = os.getenv('METHOD')
-        if method == 'RRT':
-            path = rrt.main_rrt(data['occupancy_grid'], data['ordered_positions'], data['rgb'], name_folder)
-        elif method == 'INFORMED_RRT':
-            path = mainInformedRrt.main_informed_rrt(data['occupancy_grid'], data['ordered_positions'], name_folder)
+        path_rrt = mainRrt.select_method(data['occupancy_grid'], data['ordered_positions'], data['rows'],
+                                         name_folder)
+        paths.append(path_rrt)
+
         end_time_rrt = time.time()
         execution_time_rrt = end_time_rrt - start_time_rrt
         print("execution_time_rrt", execution_time_rrt)
@@ -52,8 +54,8 @@ def main():
             'weights': data['weights'],
             'rows': data['rows'],
             'ordered_positions': data['ordered_positions'],
-            'route': path,
-            'path': path
+            'route': paths,
+            'paths': paths
         }
 
         data = {

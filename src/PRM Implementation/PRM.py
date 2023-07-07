@@ -278,6 +278,7 @@ class PRM:
         # Clear previous path
         self.path = []
 
+
         # Temporarily add start and goal to the graph
         self.samples.append(start)
         self.samples.append(goal)
