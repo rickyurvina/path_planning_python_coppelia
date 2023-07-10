@@ -8,7 +8,6 @@ import traceback
 from colorama import init, Fore
 from src.components import getRowOfPosition
 
-# Inicializar colorama (solo se requiere una vez)
 init()
 load_dotenv()
 
@@ -35,6 +34,12 @@ class RRT:
         self.vertices = []  # list of nodes
         self.found = False  # found flag
         self.name_folder = name_folder
+        self.message_nodes = "It took %d nodes to find the current path"
+        self.message_path = "The path length is %.2f"
+        self.path_no_found = "No path found"
+        self.position_index = "position index"
+        self.message_done = "Done"
+        self.message_plotted = "Plotted"
 
     def init_map(self):
         '''Intialize the map before each search
@@ -231,7 +236,6 @@ class RRT:
             fig, ax = plt.subplots(1)
             ax.imshow(self.map_array, cmap='gray', origin='lower')
 
-            # Draw Final Path if found
             if self.found:
                 for index, (goal) in enumerate(path):
                     cur = goal
@@ -241,24 +245,16 @@ class RRT:
                         # for node in self.vertices[1:-1]:
                         #     plt.plot(node.col, node.row, markersize=3, marker='o', color='y')
                         #     plt.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y', label='Tree')
-
-                        lines = []  # Lista para almacenar las coordenadas de las líneas
-
+                        lines = []
                         while cur.col != start.col or cur.row != start.row:
                             lines.append([cur.col, cur.row, cur.parent.col, cur.parent.row])
                             cur = cur.parent
-
-                        # Convertir la lista de líneas a un arreglo de Numpy
                         lines = np.array(lines)
-
-                        # Trazar todas las líneas de una vez
                         plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
-
-                    # plt.plot(cur.col, cur.row, markersize=3, marker='o', color='b')
 
             plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
             if goal:
-                plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
+              plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
             plt.title(name)
             plt.legend()
             plt.xlabel('X')
@@ -275,13 +271,14 @@ class RRT:
         try:
             path = []
             search_vertices = []
+            sum_path_length = 0
 
             self.init_map()
 
             for index, (position) in enumerate(self.goals):
                 if index == int(os.getenv('BREAK_AT')):
                     break
-                print("position index", index)
+                print(self.position_index, index)
                 start = position
                 goal = self.goals[index + 1]
                 if index > 0:
@@ -295,40 +292,43 @@ class RRT:
                     else:
                         n_pts = int(os.getenv('MIN_ITER'))
                 for i in range(n_pts):
-                    new_point = self.sample(start, goal, 0.05, 0)
-                    new_node = self.extend(goal, new_point, 10)
+                    new_point = self.sample(start, goal, float(os.getenv("GOAL_SAMPLE_RATE")), 0)
+                    new_node = self.extend(goal, new_point, int(os.getenv("RADIUS")))
                     if self.found:
                         break
 
                 if self.found:
                     steps = len(self.vertices) - 2
                     length = self.path_cost(start, goal)
-                    print(Fore.WHITE + "It took %d nodes to find the current path" % steps)
-                    print("The path length is %.2f" % length)
+                    sum_path_length = sum_path_length + length
+
+                    print(Fore.WHITE + self.message_nodes % steps)
+                    print(self.message_path % length)
                     path.append(goal)
                     search_vertices.append(self.vertices)
 
                 if not self.found:
-                    print(Fore.RED + "No path found for RRT informed")
+                    print(Fore.RED + self.path_no_found)
 
-            # Draw result
-            print("Done RRT")
-            self.draw_map(path, "RRT")
-            print("Plotted RRT")
-            return path
+            print(self.message_done)
+            self.draw_map(path, os.getenv("METHOD"))
+            print(self.message_plotted)
+            return path, sum_path_length
         except Exception as e:
             print(Fore.RED + e)
             traceback.print_exc()
 
-    def RRT_star(self, n_pts=int(os.getenv('MIN_ITER')), neighbor_size=20):
+    def RRT_star(self, n_pts=int(os.getenv('MIN_ITER')), neighbor_size=int(os.getenv('NEIGHBOR_SIZE'))):
         try:
             path = []
             search_vertices = []
             self.init_map()
+            sum_path_length = 0
+
             for index, (position) in enumerate(self.goals):
                 if index == int(os.getenv('BREAK_AT')):
                     break
-                print("position index", index)
+                print(self.position_index, index)
                 start = position
                 goal = self.goals[index + 1]
                 if index > 0:
@@ -343,85 +343,82 @@ class RRT:
                         n_pts = int(os.getenv('MIN_ITER'))
                 # Start searching
                 for i in range(n_pts):
-                    # Extend a new node
-                    new_point = self.sample(start, goal, 0.05, 0)
-                    new_node = self.extend(goal, new_point, 10)
-                    # Rewire
+                    new_point = self.sample(start, goal, float(os.getenv("GOAL_SAMPLE_RATE")), 0)
+                    new_node = self.extend(goal, new_point, int(os.getenv("RADIUS")))
                     if new_node is not None:
                         neighbors = self.get_neighbors(new_node, neighbor_size)
                         self.rewire(new_node, neighbors, start)
 
-                # Output
                 if self.found:
                     steps = len(self.vertices) - 2
                     length = self.path_cost(start, goal)
-                    print(Fore.WHITE + "It took %d nodes to find the current path" % steps)
-                    print("The path length is %.2f" % length)
+                    sum_path_length = sum_path_length + length
+                    print(Fore.WHITE + self.message_nodes % steps)
+                    print(self.message_path % length)
                     path.append(goal)
                     search_vertices.append(self.vertices)
                 else:
-                    print(Fore.RED + "No path found for RRT informed")
-            # Draw result
-            print("Done RRT STAR")
-            self.draw_map(path, "RRT_STAR")
-            print("Plotted RRT STAR")
-            return path
+                    print(Fore.RED + self.path_no_found)
+            print(self.message_done)
+            self.draw_map(path, os.getenv("METHOD"))
+            print(self.message_plotted)
+            return path, sum_path_length
         except Exception as e:
             print(Fore.RED + e)
             traceback.print_exc()
 
-    def informed_RRT_star(self, n_pts=int(os.getenv('MIN_ITER')), neighbor_size=20):
+    def informed_RRT_star(self, n_pts=int(os.getenv('MIN_ITER')), neighbor_size=int(os.getenv('NEIGHBOR_SIZE'))):
         try:
             path = []
             search_vertices = []
+            sum_path_length = 0
             self.init_map()
             # Start searching
             for index, (position) in enumerate(self.goals):
                 if index == int(os.getenv('BREAK_AT')):
                     break
-                print("position index", index)
-                start = position
-                goal = self.goals[index + 1]
-                if index > 0:
-                    self.found = False
-                    self.vertices = []
-                    self.vertices.append(start)
-                    actual_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index])
-                    next_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index + 1])
-                    if actual_row != next_row:
-                        n_pts = int(os.getenv('MAX_ITER'))
-                    else:
-                        n_pts = int(os.getenv('MIN_ITER'))
+                print(self.position_index, index)
+                if index != len(self.goals) - 1:
+                    start = position
+                    goal = self.goals[index + 1]
+                    if index > 0:
+                        self.found = False
+                        self.vertices = []
+                        self.vertices.append(start)
+                        actual_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index])
+                        next_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index + 1])
+                        if actual_row != next_row:
+                            n_pts = int(os.getenv('MAX_ITER'))
+                        else:
+                            n_pts = int(os.getenv('MIN_ITER'))
 
-                    # break
+                    for i in range(n_pts):
+                        c_best = 0
 
-                for i in range(n_pts):
-                    c_best = 0
+                        if self.found:
+                            c_best = self.path_cost(start, goal)
+
+                        new_point = self.sample(start, goal, float(os.getenv("GOAL_SAMPLE_RATE")), c_best)
+                        new_node = self.extend(goal, new_point, int(os.getenv("RADIUS")))
+                        if new_node is not None:
+                            neighbors = self.get_neighbors(new_node, neighbor_size)
+                            self.rewire(new_node, neighbors, start)
 
                     if self.found:
-                        c_best = self.path_cost(start, goal)
+                        steps = len(self.vertices) - 2
+                        length = self.path_cost(start, goal)
+                        sum_path_length = sum_path_length + length
+                        print(Fore.WHITE + self.message_nodes % steps)
+                        print(self.message_path % length)
+                    else:
+                        print(Fore.RED + self.path_no_found)
+                    path.append(goal)
+                    search_vertices.append(self.vertices)
 
-                    new_point = self.sample(start, goal, 0.05, c_best)
-                    new_node = self.extend(goal, new_point, 10)
-                    if new_node is not None:
-                        neighbors = self.get_neighbors(new_node, neighbor_size)
-                        self.rewire(new_node, neighbors, start)
-
-                if self.found:
-                    steps = len(self.vertices) - 2
-                    length = self.path_cost(start, goal)
-                    print(Fore.WHITE + "It took %d nodes to find the current path" % steps)
-                    print("The path length is %.2f" % length)
-                else:
-                    # print("No path found for RRT informed")
-                    print(Fore.RED + "No path found for RRT informed")
-                path.append(goal)
-                search_vertices.append(self.vertices)
-
-            print("Done RRT INFORMED")
-            self.draw_map(path, "RRT INFORMED")
-            print("Plotted RRT INFORMED")
-            return path
+            print(self.message_done)
+            self.draw_map(path, os.getenv("METHOD"))
+            print(self.message_plotted)
+            return path, sum_path_length
         except Exception as e:
             print(Fore.RED + e)
             traceback.print_exc()

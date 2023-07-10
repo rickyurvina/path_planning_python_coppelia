@@ -42,10 +42,10 @@ def generate_occupancy(clientID, object_handles, name_folder):
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
             # Binarizar la imagen utilizando un umbral adaptativo
-            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 13, 2)
 
             # Reducir el ruido de la imagen utilizando un filtro de mediana
-            thresh = cv2.medianBlur(thresh, 5)
+            # thresh = cv2.medianBlur(thresh, 3)
 
             # Obtener el occupancy grid a partir de la imagen binarizada
             occupancy_grid = (thresh > 1).astype(np.float64)

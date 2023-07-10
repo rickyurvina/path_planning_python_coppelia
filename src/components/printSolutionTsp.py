@@ -6,8 +6,6 @@ from src.components import saveFiles
 def print_solution_tsp(data, manager, routing, solution, name_folder):
     """Prints solution on console and visualizes the graph."""
     print(f'Objective: {solution.ObjectiveValue()}')
-    total_distance = 0
-    total_load = 0
 
     # Create graph of the route
     G = nx.DiGraph()
@@ -24,7 +22,6 @@ def print_solution_tsp(data, manager, routing, solution, name_folder):
             route_load += data['demands'][node_index]
             plan_output += ' {0} Load({1}) -> '.format(node_index, route_load)
             previous_index = index
-            route_distance += routing.GetArcCostForVehicle(previous_index, index, vehicle_id)
             next_node_index = manager.IndexToNode(solution.Value(routing.NextVar(index)))
             index = solution.Value(routing.NextVar(index))
             route_distance += routing.GetArcCostForVehicle(previous_index, index, vehicle_id)

@@ -1,4 +1,4 @@
-from PRM import PRM
+from PRM_C import PRM
 from src.components import loadFiles
 from src.components.shiftPositions import shift_positions
 from dotenv import load_dotenv

@@ -1,4 +1,4 @@
-from methodsRrt import RRT
+from RRT_C import RRT
 from src.components.shiftPositions import shift_positions
 from src.components import loadFiles
 from dotenv import load_dotenv

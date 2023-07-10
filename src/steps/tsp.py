@@ -5,6 +5,7 @@ from src.components.createDataTsp import create_data_model
 from src.components.displaySolution import plots_positions
 from src.components.routesOfSolution import get_routes
 from src.components.orderedPositions import get_ordered_positions
+from src.components import getTotalLoaded
 
 
 def main(positions, weights, rows, name_folder):
@@ -73,6 +74,10 @@ def main(positions, weights, rows, name_folder):
     if solution:
         print_solution_tsp(data, manager, routing, solution, name_folder)
         plots_positions(get_routes(solution, routing, manager)[0], data, name_folder)
-        return get_ordered_positions(get_routes(solution, routing, manager)[0], data['positions']), get_routes(solution, routing, manager)[0]
+        ordered_positions = get_ordered_positions(get_routes(solution, routing, manager)[0], data['positions'])
+        routes = get_routes(solution, routing, manager)[0]
+        total_loaded = getTotalLoaded.get_total_loaded(data, manager, routing, solution)
+        total_length = getTotalLoaded.get_total_length(data,  routing, solution)
+        return ordered_positions, routes, total_loaded, total_length
     else:
         print("Solver status: Error al resolver el problema")
