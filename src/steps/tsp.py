@@ -45,7 +45,7 @@ def main(positions, weights, rows, name_folder):
         demand_callback_index,
         0,  # null capacity slack
         data['vehicle_capacities'],  # vehicle maximum capacities
-        False,  # start cumul to zero
+        True,  # start cumul to zero
         'Capacity')
 
     penalty = 1000
@@ -73,7 +73,7 @@ def main(positions, weights, rows, name_folder):
     # Print solution on console.
     if solution:
         print_solution_tsp(data, manager, routing, solution, name_folder)
-        plots_positions(get_routes(solution, routing, manager)[0], data, name_folder)
+        plots_positions(get_routes(solution, routing, manager)[0], data, rows, name_folder)
         ordered_positions = get_ordered_positions(get_routes(solution, routing, manager)[0], data['positions'])
         routes = get_routes(solution, routing, manager)[0]
         total_loaded = getTotalLoaded.get_total_loaded(data, manager, routing, solution)

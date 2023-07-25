@@ -14,7 +14,6 @@ init()
 
 load_dotenv()
 
-
 def main():
     try:
         data = []
@@ -45,7 +44,7 @@ def main():
         paths = []
         # RRT
         start_time_rrt = time.time()
-        path_rrt, path_length_rrt = mainRrt.select_method(data['occupancy_grid'], data['ordered_positions'],
+        path_rrt, path_length_rrt = mainRrt.main_informed_rrt(data['occupancy_grid'], data['ordered_positions'],
                                                           data['rows'],
                                                           name_folder)
         paths.append(path_rrt)

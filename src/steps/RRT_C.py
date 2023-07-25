@@ -244,7 +244,7 @@ class RRT:
                         # Draw Trees or Sample points
                         # for node in self.vertices[1:-1]:
                         #     plt.plot(node.col, node.row, markersize=3, marker='o', color='y')
-                        #     plt.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y', label='Tree')
+                        #     plt.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
                         lines = []
                         while cur.col != start.col or cur.row != start.row:
                             lines.append([cur.col, cur.row, cur.parent.col, cur.parent.row])
@@ -279,36 +279,37 @@ class RRT:
                 if index == int(os.getenv('BREAK_AT')):
                     break
                 print(self.position_index, index)
-                start = position
-                goal = self.goals[index + 1]
-                if index > 0:
-                    self.found = False
-                    self.vertices = []
-                    self.vertices.append(start)
-                    actual_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index])
-                    next_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index + 1])
-                    if actual_row != next_row:
-                        n_pts = int(os.getenv('MAX_ITER'))
-                    else:
-                        n_pts = int(os.getenv('MIN_ITER'))
-                for i in range(n_pts):
-                    new_point = self.sample(start, goal, float(os.getenv("GOAL_SAMPLE_RATE")), 0)
-                    new_node = self.extend(goal, new_point, int(os.getenv("RADIUS")))
+                if index != len(self.goals) - 1:
+                    start = position
+                    goal = self.goals[index + 1]
+                    if index > 0:
+                        self.found = False
+                        self.vertices = []
+                        self.vertices.append(start)
+                        actual_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index])
+                        next_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index + 1])
+                        if actual_row != next_row:
+                            n_pts = int(os.getenv('MAX_ITER'))
+                        else:
+                            n_pts = int(os.getenv('MIN_ITER'))
+                    for i in range(n_pts):
+                        new_point = self.sample(start, goal, float(os.getenv("GOAL_SAMPLE_RATE")), 0)
+                        new_node = self.extend(goal, new_point, int(os.getenv("RADIUS")))
+                        if self.found:
+                            break
+
                     if self.found:
-                        break
+                        steps = len(self.vertices) - 2
+                        length = self.path_cost(start, goal)
+                        sum_path_length = sum_path_length + length
 
-                if self.found:
-                    steps = len(self.vertices) - 2
-                    length = self.path_cost(start, goal)
-                    sum_path_length = sum_path_length + length
+                        print(Fore.WHITE + self.message_nodes % steps)
+                        print(self.message_path % length)
+                        path.append(goal)
+                        search_vertices.append(self.vertices)
 
-                    print(Fore.WHITE + self.message_nodes % steps)
-                    print(self.message_path % length)
-                    path.append(goal)
-                    search_vertices.append(self.vertices)
-
-                if not self.found:
-                    print(Fore.RED + self.path_no_found)
+                    if not self.found:
+                        print(Fore.RED + self.path_no_found)
 
             print(self.message_done)
             self.draw_map(path, os.getenv("METHOD"))
@@ -329,36 +330,37 @@ class RRT:
                 if index == int(os.getenv('BREAK_AT')):
                     break
                 print(self.position_index, index)
-                start = position
-                goal = self.goals[index + 1]
-                if index > 0:
-                    self.found = False
-                    self.vertices = []
-                    self.vertices.append(start)
-                    actual_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index])
-                    next_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index + 1])
-                    if actual_row != next_row:
-                        n_pts = int(os.getenv('MAX_ITER'))
-                    else:
-                        n_pts = int(os.getenv('MIN_ITER'))
-                # Start searching
-                for i in range(n_pts):
-                    new_point = self.sample(start, goal, float(os.getenv("GOAL_SAMPLE_RATE")), 0)
-                    new_node = self.extend(goal, new_point, int(os.getenv("RADIUS")))
-                    if new_node is not None:
-                        neighbors = self.get_neighbors(new_node, neighbor_size)
-                        self.rewire(new_node, neighbors, start)
+                if index != len(self.goals) - 1:
+                    start = position
+                    goal = self.goals[index + 1]
+                    if index > 0:
+                        self.found = False
+                        self.vertices = []
+                        self.vertices.append(start)
+                        actual_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index])
+                        next_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index + 1])
+                        if actual_row != next_row:
+                            n_pts = int(os.getenv('MAX_ITER'))
+                        else:
+                            n_pts = int(os.getenv('MIN_ITER'))
+                    # Start searching
+                    for i in range(n_pts):
+                        new_point = self.sample(start, goal, float(os.getenv("GOAL_SAMPLE_RATE")), 0)
+                        new_node = self.extend(goal, new_point, int(os.getenv("RADIUS")))
+                        if new_node is not None:
+                            neighbors = self.get_neighbors(new_node, neighbor_size)
+                            self.rewire(new_node, neighbors, start)
 
-                if self.found:
-                    steps = len(self.vertices) - 2
-                    length = self.path_cost(start, goal)
-                    sum_path_length = sum_path_length + length
-                    print(Fore.WHITE + self.message_nodes % steps)
-                    print(self.message_path % length)
-                    path.append(goal)
-                    search_vertices.append(self.vertices)
-                else:
-                    print(Fore.RED + self.path_no_found)
+                    if self.found:
+                        steps = len(self.vertices) - 2
+                        length = self.path_cost(start, goal)
+                        sum_path_length = sum_path_length + length
+                        print(Fore.WHITE + self.message_nodes % steps)
+                        print(self.message_path % length)
+                        path.append(goal)
+                        search_vertices.append(self.vertices)
+                    else:
+                        print(Fore.RED + self.path_no_found)
             print(self.message_done)
             self.draw_map(path, os.getenv("METHOD"))
             print(self.message_plotted)

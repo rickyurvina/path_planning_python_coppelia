@@ -8,7 +8,7 @@ load_dotenv('/src/steps/.env')  # Ruta absoluta
 # Costo computacional O(1)
 def create_data_model(positions, weights, rows):
     """Stores the data for the problem."""
-    distance_matrix = euclidianDistance.compute_euclidean_distance_matrix(positions)
+    distance_matrix = euclidianDistance.compute_custom_cost_matrix(positions,weights, rows)
     forbidden_connections = forbiddenConnections.generate_forbidden_connections(rows)
     data = {
         'positions': positions,
