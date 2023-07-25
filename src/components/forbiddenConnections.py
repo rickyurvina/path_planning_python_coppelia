@@ -2,7 +2,7 @@ def generate_forbidden_connections(rows):
     forbidden_connections = []
     num_rows = len(rows)
 
-    for h in range(1, num_rows + 1):
+    for h in range(1, num_rows-1):
         current_row = rows[f'h{h}']
         prev_row = rows[f'h{h - 1}'] if h > 1 else None
         next_row = rows[f'h{h + 1}'] if h < num_rows else None
