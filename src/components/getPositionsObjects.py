@@ -15,7 +15,7 @@ def get_positions(clientID):
     rows = {}
 
     for h in range(int(os.getenv('NUM_ROWS'))):
-        if h == 0:
+        if h == 0 and os.getenv('HUSKY') == '1':
             row_name = f'h{h}'
             rows[row_name] = {}
             object_name = 'Husky'

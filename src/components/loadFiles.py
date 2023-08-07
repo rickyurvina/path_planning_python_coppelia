@@ -1,4 +1,8 @@
 import pickle
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 def load_data_occupancy_grid():
@@ -8,7 +12,8 @@ def load_data_occupancy_grid():
 
 
 def load_solution_data():
-    with open('../solutions/solution_195_10072023/app_variables1.pickle', 'rb') as f:
+    solution = os.getenv('SOLUTION')
+    with open(f'../solutions/{solution}' + '/app_variables1.pickle', 'rb') as f:
         data = pickle.load(f)
     return data
 

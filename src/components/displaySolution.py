@@ -37,7 +37,7 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
         circle = plt.Circle((position[0], position[1]), 0.3, color=color)
         ax.add_artist(circle)
         ax.text(position[0], position[1], str(weight), color='black', ha='center', va='center')
-    plt.colorbar(scalar_map, label='Escala de Peso (Kg)')
+    plt.colorbar(scalar_map, label='Weight scale (Kg)')
     total_distance = 0
     for i in range(len(ordered_positions) - 1):
         ax.arrow(ordered_positions[i][0], ordered_positions[i][1],
@@ -62,15 +62,15 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
         ax.annotate(f'{custom_cost:.2f}(c)', (x_pos, y_pos), ha='center', va='center')
 
     # Crear la leyenda con la distancia total
-    legend_text = f"Costo total: {total_distance:.2f}(c)"
-    capacity = f"Capacidad máxima: {data['vehicle_capacities'][0]}(kg)"
+    legend_text = f"Total cost: {total_distance:.2f}(c)"
+    capacity = f"Maximum capacity: {data['vehicle_capacities'][0]}(kg)"
     ax.text(0.005, 0.95, legend_text, transform=ax.transAxes, fontsize=10)
     ax.text(0.5, 0.95, capacity, transform=ax.transAxes, fontsize=10)
     ax.grid(True)
     filename = saveFiles.get_name_to_save_plot(name_folder, 'tsp_solution_weighted')
-    plt.title("Ruta Priorizada de Recolección de Cosecha")
-    plt.xlabel('x-coordenadas (m)')
-    plt.ylabel('y-coordenadas (m)')
+    plt.title("Visit prioritization (TSP)")
+    plt.xlabel('x-coorde (m)')
+    plt.ylabel('y-coord (m)')
     plt.savefig(filename, dpi=500)
-    print("Guardado como", filename)
+    print("Saved as", filename)
     plt.show()

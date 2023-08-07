@@ -6,10 +6,13 @@ from saveOnDatabase import save_data_base
 import time
 from src.components import loadFiles
 import mainRrt
+from dotenv import load_dotenv
+import os
 from colorama import init, Fore
-import config
 
 init()
+
+load_dotenv()
 
 
 def main():
@@ -18,7 +21,7 @@ def main():
         # GET DATA
         start_time_data = time.time()
         name_folder = createFolder.create_folder()
-        if config.ON_LINE:
+        if os.getenv('ON_LINE') == '1':
             data = getDataCoppelia.get_data(name_folder)
         end_time_data = time.time()
         execution_time_data = end_time_data - start_time_data
@@ -29,7 +32,7 @@ def main():
         total_loaded_tsp = 0
         total_length_tsp = 0
         route = ""
-        if config.ON_LINE:
+        if os.getenv('ON_LINE') == '1':
             data['ordered_positions'], route, total_loaded_tsp, total_length_tsp = tsp.main(data['positions'],
                                                                                             data['weights'],
                                                                                             data['rows'], name_folder)
@@ -37,7 +40,7 @@ def main():
         execution_time_tsp = end_time_tsp - start_time_tsp
         print("execution_time_tsp", execution_time_tsp)
 
-        if config.ON_LINE == 0:
+        if os.getenv('ON_LINE') == '0':
             data = loadFiles.load_solution_data()
         paths = []
         # RRT
@@ -65,7 +68,7 @@ def main():
             'total_loaded_tsp': total_loaded_tsp,
             'total_length_tsp': total_length_tsp,
             'folder': name_folder,
-            'on_line': config.ON_LINE
+            'on_line': os.getenv('ON_LINE')
         }
 
         data = {

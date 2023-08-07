@@ -1,9 +1,18 @@
-class SkidSteerRobot:
-    def __init__(self, wheel_distance):
-        self.wheel_distance = wheel_distance
+class UnicycleRobot:
+    def __init__(self, wheel_radius, distance_to_body):
+        self.wheel_radius = wheel_radius
+        self.distance_to_body = distance_to_body
 
-    def calculate_wheel_velocities(self, linear_velocity, angular_velocity):
-        # Calcula las velocidades de las ruedas izquierda y derecha
-        wheel_left_velocity = (2 * linear_velocity - angular_velocity * self.wheel_distance) / (2 * self.wheel_distance)
-        wheel_right_velocity = (2 * linear_velocity + angular_velocity * self.wheel_distance) / (2 * self.wheel_distance)
-        return wheel_left_velocity, wheel_right_velocity
+    def kinematics(self, w_r, w_l):
+        v = self.wheel_radius * (w_r + w_l) / 2
+        omega = self.wheel_radius * (w_r - w_l) / self.distance_to_body
+        return v, omega
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    robot = UnicycleRobot(wheel_radius=0.1, distance_to_body=0.5)
+    w_r = 2.0  # Velocidad angular de la rueda derecha
+    w_l = 1.5  # Velocidad angular de la rueda izquierda
+    v, omega = robot.kinematics(w_r, w_l)
+    print("Velocidad lineal:", v)
+    print("Velocidad angular:", omega)

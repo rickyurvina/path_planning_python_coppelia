@@ -30,7 +30,6 @@ dist/
 
 # Archivos de configuración
 *.conf
-*.env
 
 # Carpeta de migraciones de Django
 **/migrations/
@@ -39,3 +38,4 @@ dist/
 instance/config.py
 
 src/solutions/
+src/images/
