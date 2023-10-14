@@ -1,8 +1,7 @@
 import math
 from src.components import getRowOfPosition
-from dotenv import load_dotenv
-import os
-load_dotenv('/src/steps/.env')  # Ruta absoluta
+import config
+
 
 def compute_euclidean_distance_matrix(positions, weights, rows):
     """Creates callback to return distance between points."""
@@ -46,7 +45,7 @@ def compute_custom_cost_matrix(positions, weights, rows):
                 next_row = getRowOfPosition.find_row_for_position(rows, to_node)
                 factor = 1
                 if actual_row != next_row:
-                    factor = int(int(os.getenv('FACTOR_WEIGHT')))
+                    factor = int(config.FACTOR_WEIGHT)
                 if actual_row == 'h0' or next_row == 'h0':
                     factor = 1
 

@@ -7,10 +7,7 @@ from src.components import saveFiles, orderedPositions
 from src.components.orderedPositions import get_ordered_positions
 from src.components.orderedWeigths import get_ordered_weights
 from src.components import getRowOfPosition
-from dotenv import load_dotenv
-import os
-
-load_dotenv('/src/steps/.env')  # Ruta absoluta
+import config
 
 
 def plots_positions(route=none, data=none, rows=none, name_folder=none):
@@ -50,7 +47,7 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
         next_row = getRowOfPosition.find_row_for_position(rows, end_pos)
         factor = 1
         if (actual_row != next_row):
-            factor = int(int(os.getenv('FACTOR_WEIGHT')))
+            factor = int(config.FACTOR_WEIGHT)
         if actual_row == 'h0' or next_row == 'h0':
             factor = 1
         weight_to_node = 1 if ordered_weights[i + 1] == 0 else ordered_weights[i + 1]

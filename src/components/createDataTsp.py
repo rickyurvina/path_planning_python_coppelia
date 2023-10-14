@@ -1,9 +1,6 @@
 from src.components import euclidianDistance
 from src.components import forbiddenConnections
-from dotenv import load_dotenv
-import os
-load_dotenv('/src/steps/.env')  # Ruta absoluta
-
+import config
 
 # Costo computacional O(1)
 def create_data_model(positions, weights, rows):
@@ -14,7 +11,7 @@ def create_data_model(positions, weights, rows):
         'positions': positions,
         'distance_matrix': distance_matrix,
         'demands': weights,
-        'vehicle_capacities': [int(os.getenv('VEHICLE_CAPACITIES'))],
+        'vehicle_capacities': [int(config.VEHICLE_CAPACITIES)],
         'num_vehicles': 1,
         'depot': 0,
         'forbidden_connections': forbidden_connections,

@@ -1,11 +1,8 @@
 import mysql.connector
-from dotenv import load_dotenv
-import os
 import traceback
 from colorama import init, Fore
-
+import config
 init()
-load_dotenv()
 
 
 def save_data_base(data):
@@ -24,18 +21,18 @@ def save_data_base(data):
         tsp_time = data['tsp_time']
         rrt_time = data['rrt_time']
         folder = data['folder']
-        vehicle_capacities = int(os.getenv('VEHICLE_CAPACITIES'))
-        num_rows = int(os.getenv('NUM_ROWS'))
+        vehicle_capacities = int(config.VEHICLE_CAPACITIES)
+        num_rows = int(config.NUM_ROWS)
         expand_distance = 0
-        goal_sample_rate = float(os.getenv('GOAL_SAMPLE_RATE'))
-        min_inter = int(os.getenv('MIN_ITER'))
-        max_iter = int(os.getenv('MAX_ITER'))
-        radius = float(os.getenv('RADIUS'))
-        method = os.getenv('METHOD')
-        path_length = float(data['path_length_rrt']) / (int(os.getenv("RESOLUTION_X")) / int(os.getenv("MAP_WIDTH")))
+        goal_sample_rate = float(config.GOAL_SAMPLE_RATE)
+        min_inter = int(config.MIN_ITER)
+        max_iter = int(config.MAX_ITER)
+        radius = float(config.RADIUS)
+        method = config.METHOD
+        path_length = float(data['path_length_rrt']) / (int(config.RESOLUTION_X) / int(config.MAP_WIDTH))
         total_loaded_tsp = data['total_loaded_tsp']
         total_length_tsp = float(data['total_length_tsp']) / 100
-        on_line = os.getenv('ON_LINE')
+        on_line = config.ON_LINE
 
         query = "INSERT INTO results (total_time, load_data_time, tsp_time, rrt_time, folder, vehicle_capacities, num_rows, expand_distance,goal_sample_rate, max_iter, radius, method,path_length,min_inter,total_loaded_tsp,total_length_tsp,on_line) VALUES (%s, %s, %s, %s,%s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         values = (
