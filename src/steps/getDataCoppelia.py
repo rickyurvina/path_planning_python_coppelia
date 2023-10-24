@@ -21,7 +21,7 @@ def startSimulation():
 
 
 def closeSimulation(clientID):
-    sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
+    sim.simxStopSimulation(clientID, sim.simx_opmode_blocking)
     sim.simxFinish(clientID)
 
 

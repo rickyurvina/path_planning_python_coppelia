@@ -34,7 +34,7 @@ class RRTStarReedsShepp(RRTStar):
 
     def __init__(self, start, goal, obstacle_list, rand_area,
                  max_iter=200, step_size=0.2,
-                 connect_circle_dist=50.0,
+                 connect_circle_dist=150.0,
                  robot_radius=0.0
                  ):
         """
@@ -127,9 +127,9 @@ class RRTStarReedsShepp(RRTStar):
         if rnd is not None:
             plt.plot(rnd.x, rnd.y, "^k")
 
-        for node in self.node_list:
-            if node.parent:
-                plt.plot(node.path_x, node.path_y, "-g")
+        # for node in self.node_list:
+        #     if node.parent:
+        #         plt.plot(node.path_x, node.path_y, "-g")
 
         plt.plot(self.start.x, self.start.y, "xr")
         plt.plot(self.end.x, self.end.y, "xr")
@@ -225,18 +225,18 @@ def load_solution_data():
     with open(f'../solutions/solution_427_30072023' + '/app_variables1.pickle', 'rb') as f:
         data = pickle.load(f)
     return data
-def main(max_iter=400):
+def main(max_iter=800):
     print("Start " + __file__)
     data = load_solution_data()
     occupancy_grid = data['occupancy_grid']
     # ====Search Path with RRT===
     # Set Initial parameters
     start = [116.0, 123.0, np.deg2rad(0.0)]
-    goal = [200.0, 200.0, np.deg2rad(0)]
+    goal = [125.0, 380.0, np.deg2rad(0)]
 
     rrt_star_reeds_shepp = RRTStarReedsShepp(start, goal,
                                              occupancy_grid,
-                                             [-2.0, 300.0], max_iter=max_iter)
+                                             [100.0, 400.0], max_iter=max_iter)
     path = rrt_star_reeds_shepp.planning(animation=show_animation)
 
     # Draw final path

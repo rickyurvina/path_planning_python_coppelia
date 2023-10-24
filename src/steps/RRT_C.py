@@ -23,8 +23,9 @@ class Node:
         self.connect_circle_dist = 50.0
 
 class RRT:
-    def __init__(self, map_array, goals, rows, ordered_positions, name_folder):
+    def __init__(self, map_array, map_array_rgb,goals, rows, ordered_positions, name_folder):
         self.map_array = map_array  # map array, 1->free, 0->obstacle
+        self.map_array_rgb = map_array_rgb  # map array, 1->free, 0->obstacle
         self.rows = rows  # map array, 1->free, 0->obstacle
         self.ordered_positions = ordered_positions  # map array, 1->free, 0->obstacle
         self.size_row = map_array.shape[0]  # map size
@@ -162,7 +163,44 @@ class RRT:
     def draw_map(self, path, name='RRT'):
         try:
             fig, ax = plt.subplots(1)
+            # fig, ax = plt.subplots(2)
             ax.imshow(self.map_array, cmap='gray', origin='lower')
+
+            if self.found:
+                for index, (goal) in enumerate(path):
+                    cur = goal
+                    if cur.parent is not None:
+                        start = self.goals[index]
+                        # Draw Trees or Sample points
+                        # for node in self.vertices[1:-1]:
+                        #     plt.plot(node.col, node.row, markersize=3, marker='o', color='y')
+                        #     plt.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
+                        lines = []
+                        while cur.col != start.col or cur.row != start.row:
+                            lines.append([cur.col, cur.row, cur.parent.col, cur.parent.row])
+                            cur = cur.parent
+                        lines = np.array(lines)
+                        plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
+
+            plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
+            if goal:
+                plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
+            plt.title(name)
+            plt.legend()
+            plt.xlabel('X')
+            plt.ylabel('Y')
+            filename = saveFiles.get_name_to_save_plot(self.name_folder, 'rrt')
+            plt.savefig(filename, dpi=500)
+
+            plt.show()
+        except Exception as e:
+            print(Fore.RED + e)
+            traceback.print_exc()
+
+    def draw_mapRGB(self, path, name='RRT'):
+        try:
+            fig, ax = plt.subplots(1)
+            ax.imshow(self.map_array_rgb, cmap='gray', origin='lower')
 
             if self.found:
                 for index, (goal) in enumerate(path):
@@ -237,6 +275,7 @@ class RRT:
                     search_vertices.append(self.vertices)
             print(config.MESSAGE_DONE)
             self.draw_map(path, config.METHOD)
+            self.draw_mapRGB(path, config.METHOD)
             print(config.MESSAGE_PLOTTED)
             return path, sum_path_length
         except Exception as e:

@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 from src.coppelia import sim
 import numpy as np
 import cv2
@@ -68,8 +70,10 @@ else:
         cv2.rectangle(img_contours, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Mostrar la imagen con los contornos dibujados en una ventana de OpenCV
-    cv2.imshow('Objetos detectados', img_contours)
-    cv2.waitKey(0)
+    plt.imshow(img_contours)
+    plt.show()
+    # cv2.imshow('Objetosdetectados', img_contours)
+    # cv2.waitKey(0)
 # Cerrar la conexión con Coppelia
 sim.simxStopSimulation(clientID,sim.simx_opmode_blocking);
 sim.simxFinish(clientID)

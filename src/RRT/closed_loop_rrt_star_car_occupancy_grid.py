@@ -19,8 +19,8 @@ class ClosedLoopRRTStar(RRTStarReedsShepp):
 
     def __init__(self, start, goal, occupancy_grid, rand_area,
                  max_iter=500,
-                 connect_circle_dist=150.0,
-                 robot_radius=0.2
+                 connect_circle_dist=600.0,
+                 robot_radius=0.4
                  ):
         super().__init__(start, goal, occupancy_grid, rand_area,
                          max_iter=max_iter,
@@ -206,9 +206,9 @@ class ClosedLoopRRTStar(RRTStarReedsShepp):
         if rnd is not None:
             plt.plot(rnd.x, rnd.y, "^k")
 
-        for node in self.node_list:
-            if node.parent:
-                plt.plot(node.path_x, node.path_y, "-g")
+        # for node in self.node_list:
+        #     if node.parent:
+        #         plt.plot(node.path_x, node.path_y, "-g")
 
         plt.plot(self.start.x, self.start.y, "xr")
         plt.plot(self.end.x, self.end.y, "xr")
@@ -217,20 +217,21 @@ class ClosedLoopRRTStar(RRTStarReedsShepp):
         plt.pause(0.01)
 
 
-def main(max_iter=1000):
+def main():
     print("Start" + __file__)
     # ====Search Path with RRT====
     data = loadFiles.load_solution_data()
     occupancy_grid = data['occupancy_grid']
 
     # Set Initial parameters
-    start = [10.0, 10.0, np.deg2rad(0.0)]
-    goal = [200, 200, 0]
+    start = [200.0,200.0, np.deg2rad(0.0)]
+    goal = [250, 250, 0]
 
     closed_loop_rrt_star = ClosedLoopRRTStar(start, goal,
                                              occupancy_grid,
-                                             [-2.0, 280.0],
-                                             max_iter=max_iter)
+                                             [0.0, 220.0],
+                                             max_iter=300,
+                                             connect_circle_dist=50.0)
     flag, x, y, yaw, v, t, a, d = closed_loop_rrt_star.planning(
         animation=show_animation)
 

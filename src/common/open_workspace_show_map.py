@@ -9,8 +9,8 @@ with open('../files/workspaces/variables_map4.pickle', 'rb') as f:
 # Mostrar el mapa generado
 plt.imshow(mapa_local, cmap='gray', origin='lower')
 plt.plot(0, 0, 'rx')
-plt.xlabel('Eje X (cm)')
-plt.ylabel('Eje Y (cm)')
+plt.xlabel('Coordinates-X (cm)')
+plt.ylabel('Coordinates-Y (cm)')
 plt.plot(100, 120, 'ro')
 plt.plot(1000, 630, 'bo')
 plt.axis('equal')

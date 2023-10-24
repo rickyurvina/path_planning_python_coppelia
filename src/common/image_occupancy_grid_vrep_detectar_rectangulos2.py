@@ -1,3 +1,5 @@
+from matplotlib import pyplot as plt
+
 from src.coppelia import sim
 import numpy as np
 import cv2
@@ -62,8 +64,12 @@ else:
             cv2.rectangle(occupancy_grid, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Mostrar el occupancy grid con los bordes de los rectángulos y cuadrados en una ventana de OpenCV
-    cv2.imshow('Occupancy grid', occupancy_grid * 255)
-    cv2.waitKey(0)
+    plt.imshow(occupancy_grid*255)
+    plt.show()
+    # cv2.imshow('Occupancy grid', occupancy_grid * 255)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+
 
 # Cerrar la conexión con Coppelia
 sim.simxStopSimulation(clientID,sim.simx_opmode_blocking);

@@ -91,7 +91,7 @@ def calc_target_index(state, cx, cy):
 
 def closed_loop_prediction(cx, cy, cyaw, speed_profile, goal):
 
-    state = unicycle_model.State(x=10.0, y=10.0, yaw=0.0, v=0.0)
+    state = unicycle_model.State(x=200.0, y=200.0, yaw=0.0, v=0.0)
 
     #  lastIndex = len(cx) - 1
     time = 0.0

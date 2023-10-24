@@ -10,10 +10,10 @@ load_dotenv()
 init()
 
 
-def main_informed_rrt(map_array, ordered_positions, rows, name_folder):
+def main_informed_rrt(data,  name_folder):
     try:
-        ordered_transformed = shift_positions(ordered_positions)
-        RRT_planner = RRT(map_array, ordered_transformed, rows, ordered_positions, name_folder)
+        ordered_transformed = shift_positions(data['ordered_positions'])
+        RRT_planner = RRT(data['occupancy_grid'], data['rgb'],ordered_transformed, data['rows'], data['ordered_positions'], name_folder)
         return RRT_planner.informed_RRT_star()
     except Exception as e:
         print(Fore.RED + e)
