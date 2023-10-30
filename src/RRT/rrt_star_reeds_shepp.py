@@ -1,10 +1,4 @@
-"""
 
-Path planning Sample Code with RRT with Reeds-Shepp path
-
-author: AtsushiSakai(@Atsushi_twi)
-
-"""
 import copy
 import math
 import pickle
@@ -13,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import reeds_shepp_path_planning
 from rrt_star import RRTStar
+from src.components import loadFiles
 
 show_animation = True
 
@@ -219,24 +214,23 @@ class RRTStarReedsShepp(RRTStar):
                 path.append([ix, iy, iyaw])
             node = node.parent
         path.append([self.start.x, self.start.y, self.start.yaw])
+
         return path
 
-def load_solution_data():
-    with open(f'../solutions/solution_427_30072023' + '/app_variables1.pickle', 'rb') as f:
-        data = pickle.load(f)
-    return data
-def main(max_iter=800):
+
+def main(max_iter=400):
     print("Start " + __file__)
-    data = load_solution_data()
+    data = loadFiles.load_solution_data()
     occupancy_grid = data['occupancy_grid']
     # ====Search Path with RRT===
     # Set Initial parameters
-    start = [116.0, 123.0, np.deg2rad(0.0)]
-    goal = [125.0, 380.0, np.deg2rad(0)]
+    start = [200.0, 200.0, np.deg2rad(0.0)]
+    goal = [200.0, 400.0, np.deg2rad(0)]
 
     rrt_star_reeds_shepp = RRTStarReedsShepp(start, goal,
                                              occupancy_grid,
-                                             [100.0, 400.0], max_iter=max_iter)
+                                             [190.0, 410.0], max_iter=max_iter,
+                                             connect_circle_dist=100.0)
     path = rrt_star_reeds_shepp.planning(animation=show_animation)
 
     # Draw final path

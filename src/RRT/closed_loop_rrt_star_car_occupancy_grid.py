@@ -196,7 +196,7 @@ class ClosedLoopRRTStar(RRTStarReedsShepp):
 
         return fgoalinds
 
-    def draw_graph(self, rnd=None):
+    def draw_graph_unicycle(self, rnd=None):
 
 
         fig, ax = plt.subplots(1)
@@ -215,7 +215,24 @@ class ClosedLoopRRTStar(RRTStarReedsShepp):
         plt.grid(True)
         self.plot_start_goal_arrow()
         plt.pause(0.01)
+    def draw_graph_rrt(self, rnd=None):
 
+        fig, ax = plt.subplots(1)
+        ax.imshow(self.obstacle_list, cmap='gray', origin='lower')
+        # for stopping simulation with the esc key.
+
+        if rnd is not None:
+            plt.plot(rnd.x, rnd.y, "^k")
+
+        # for node in self.node_list:
+        #     if node.parent:
+        #         plt.plot(node.path_x, node.path_y, "-g")
+
+        plt.plot(self.start.x, self.start.y, "xr")
+        plt.plot(self.end.x, self.end.y, "xr")
+        plt.grid(True)
+        self.plot_start_goal_arrow()
+        plt.pause(0.01)
 
 def main():
     print("Start" + __file__)
@@ -225,13 +242,15 @@ def main():
 
     # Set Initial parameters
     start = [200.0,200.0, np.deg2rad(0.0)]
-    goal = [250, 250, 0]
+    goal = [200, 400, np.deg2rad(-90.0)]
 
     closed_loop_rrt_star = ClosedLoopRRTStar(start, goal,
                                              occupancy_grid,
-                                             [0.0, 220.0],
-                                             max_iter=300,
-                                             connect_circle_dist=50.0)
+                                             [190.0, 410.0],
+                                             max_iter=400,
+                                             connect_circle_dist=100.0)
+    # closed_loop_rrt_star.draw_graph_rrt()
+
     flag, x, y, yaw, v, t, a, d = closed_loop_rrt_star.planning(
         animation=show_animation)
 
@@ -241,7 +260,7 @@ def main():
     # Draw final path
 
     if show_animation and flag:
-        closed_loop_rrt_star.draw_graph()
+        closed_loop_rrt_star.draw_graph_unicycle()
         plt.plot(x, y, '-r')
         plt.grid(True)
         plt.pause(0.001)

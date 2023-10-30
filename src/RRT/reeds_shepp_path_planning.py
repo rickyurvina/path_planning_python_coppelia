@@ -1,10 +1,4 @@
-"""
 
-Reeds Shepp path planner sample code
-
-author Atsushi Sakai(@Atsushi_twi)
-
-"""
 import math
 
 import matplotlib.pyplot as plt

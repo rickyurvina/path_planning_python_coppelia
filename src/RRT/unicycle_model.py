@@ -1,10 +1,3 @@
-"""
-
-Unicycle model class
-
-author Atsushi Sakai
-
-"""
 
 import math
 import numpy as np

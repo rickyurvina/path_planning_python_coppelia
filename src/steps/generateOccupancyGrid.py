@@ -79,7 +79,7 @@ def generate_occupancy(clientID, object_handles, name_folder):
                 x, y, w, h = cv2.boundingRect(contours[i])
                 occupancy_grid[y:y + h, x:x + w] = 0
                 # Dibujar el rectángulo en la imagen
-                cv2.rectangle(img_contours, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                # cv2.rectangle(img_contours, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
             # plt.imshow(img_contours)
             # plt.show()

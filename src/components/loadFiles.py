@@ -10,7 +10,7 @@ def load_data_occupancy_grid():
 
 
 def load_solution_data():
-    with open(f'../solutions/solution_427_30072023' + '/app_variables1.pickle', 'rb') as f:
+    with open(f'../solutions/solution_667_23102023' + '/app_variables1.pickle', 'rb') as f:
         data = pickle.load(f)
     return data
 
