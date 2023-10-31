@@ -10,7 +10,7 @@ load_dotenv()
 init()
 
 
-def main_informed_rrt(data,  name_folder):
+def informed_rrt(data,  name_folder):
     try:
         ordered_transformed = shift_positions(data['ordered_positions'])
         RRT_planner = RRT(data['occupancy_grid'], data['rgb'],ordered_transformed, data['rows'], data['ordered_positions'], name_folder)
@@ -19,8 +19,17 @@ def main_informed_rrt(data,  name_folder):
         print(Fore.RED + e)
         traceback.print_exc()
 
+def informed_rrt_unicycle(data,  name_folder):
+    try:
+        ordered_transformed = shift_positions(data['ordered_positions'])
+        RRT_planner = RRT(data['occupancy_grid'], data['rgb'],ordered_transformed, data['rows'], data['ordered_positions'], name_folder)
+        return RRT_planner.informed_RRT_star_unicycle()
+    except Exception as e:
+        print(Fore.RED + e)
+        traceback.print_exc()
 
-def main_rrt(map_array, ordered_positions, rows, name_folder):
+
+def rrt(map_array, ordered_positions, rows, name_folder):
     try:
         ordered_transformed = shift_positions(ordered_positions)
         RRT_planner = RRT(map_array, ordered_transformed, rows, ordered_positions, name_folder)
@@ -30,7 +39,7 @@ def main_rrt(map_array, ordered_positions, rows, name_folder):
         traceback.print_exc()
 
 
-def main_rrt_star(map_array, ordered_positions, rows, name_folder):
+def rrt_star(map_array, ordered_positions, rows, name_folder):
     try:
         ordered_transformed = shift_positions(ordered_positions)
         RRT_planner = RRT(map_array, ordered_transformed, rows, ordered_positions, name_folder)
@@ -43,10 +52,12 @@ def main_rrt_star(map_array, ordered_positions, rows, name_folder):
 def select_method(map_array, ordered_positions, rows, name_folder):
     method = os.getenv('METHOD')
     if method == 'RRT':
-        return main_rrt(map_array, ordered_positions, rows, name_folder)
+        return rrt(map_array, ordered_positions, rows, name_folder)
     elif method == 'INFORMED_RRT':
-        return main_informed_rrt(map_array, ordered_positions, rows, name_folder)
+        return informed_rrt(map_array, ordered_positions, rows, name_folder)
     elif method == 'RRT_STAR':
-        return main_rrt_star(map_array, ordered_positions, rows, name_folder)
+        return rrt_star(map_array, ordered_positions, rows, name_folder)
+    elif method == 'INFORMED_RRT_UNICYCLE':
+        return informed_rrt_unicycle(map_array, ordered_positions, rows, name_folder)
     else:
         raise Exception('Method not found')

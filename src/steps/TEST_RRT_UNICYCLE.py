@@ -112,18 +112,17 @@ if __name__ == '__main__':
     curvature_max = 1.0 / curvature_max + 1.0
     accel_max = 5.0
 
-    grid_size = (100, 100)
+    grid_size = (15, 15)
 
-    # Crea un occupancy grid lleno de ceros (espacio libre)
     occupancy_grid = np.zeros(grid_size)
 
     # Agrega un obstáculo en la mitad del mapa
-    obstacle_size = (50, 50)  # Tamaño del obstáculo
-    obstacle_position = (25, 25)  # Posición del obstáculo en el mapa
+    obstacle_size = (2, 2)  # Tamaño del obstáculo
+    obstacle_position = (8, 8)  # Posición del obstáculo en el mapa
     occupancy_grid[
     obstacle_position[0]: obstacle_position[0] + obstacle_size[0],
     obstacle_position[1]: obstacle_position[1] + obstacle_size[1],
-    ] = 1  # Marca las celdas del obstáculo con 1 (espacio ocupado)
+    ] = 1
 
     start = [0.0, 0.0, 0.0, 0.0]
     goal = [10.0, 10.0, 0.0, 0.0]

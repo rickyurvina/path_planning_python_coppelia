@@ -1,16 +1,11 @@
-import traceback
-
-from colorama import Fore
-from matplotlib import pyplot as plt
-from src.coppelia import sim
+from src.components.closeSimulationCoppelia import closeSimulation
+from src.components.drawOccupancyGrid import draw_map
+from src.components.startSimulationCoppelia import startSimulation
 from src.coppelia import sim
 import numpy as np
 import cv2
-from src.components.plotsEnvironment import plot_occupancy
 from src.components import createFolder
 from src.components import getPositionsObjects
-import generateRGB
-import generateOccupancyGrid
 
 
 # Conectar con Coppelia
@@ -72,7 +67,7 @@ def generate_occupancy(clientID, object_handles, name_folder):
                 area = cv2.contourArea(contours[i])
 
                 # Ignorar los contornos pequeños
-                if area < 100 or area>40000:
+                if area < 100 or area > 40000:
                     continue
 
                 # Obtener las coordenadas del rectángulo que encierra el contorno
@@ -89,44 +84,11 @@ def generate_occupancy(clientID, object_handles, name_folder):
     except Exception as e:
         print(e)
 
-def startSimulation():
-    sim.simxFinish(-1)
-    clientID = sim.simxStart('127.0.0.1', 19997, True, True, 5000, 5)
-    try:
-        if clientID == -1:
-            print('No se pudo conectar con CoppeliaSim')
-            exit()
-        sim.simxStartSimulation(clientID, sim.simx_opmode_oneshot_wait)
-        return clientID
-    except Exception as e:
-        print(e)
-        if clientID != -1:
-            sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
-            sim.simxFinish(clientID)
-def closeSimulation(clientID):
-    sim.simxStopSimulation(clientID, sim.simx_opmode_blocking)
-    sim.simxFinish(clientID)
-
-
-def draw_map(occupancy_grid,  name='Occupancy Grid'):
-    try:
-        fig, ax = plt.subplots(1)
-        ax.imshow(occupancy_grid, cmap='gray', origin='lower')
-        plt.title(name)
-        plt.legend()
-        plt.xlabel('X')
-        plt.ylabel('Y')
-
-        plt.show()
-    except Exception as e:
-        print(Fore.RED + e)
-        traceback.print_exc()
 
 if __name__ == '__main__':
-
     clientId = startSimulation()
     positions, weights, rows, object_handles = getPositionsObjects.get_positions(clientId)
     name_folder = createFolder.create_folder()
-    occupancy_grid=generate_occupancy(clientId, object_handles, name_folder)
+    occupancy_grid = generate_occupancy(clientId, object_handles, name_folder)
     draw_map(occupancy_grid)
     closeSimulation(clientId)

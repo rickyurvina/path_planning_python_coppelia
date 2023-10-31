@@ -1,28 +1,9 @@
+from src.components.closeSimulationCoppelia import closeSimulation
+from src.components.startSimulationCoppelia import startSimulation
 from src.coppelia import sim
 import generateOccupancyGrid
-from src.components import getPositionsObjects
+from src.components import getPositionsObjects, createFolder
 import generateRGB
-
-
-def startSimulation():
-    sim.simxFinish(-1)
-    clientID = sim.simxStart('127.0.0.1', 19997, True, True, 5000, 5)
-    try:
-        if clientID == -1:
-            print('No se pudo conectar con CoppeliaSim')
-            exit()
-        sim.simxStartSimulation(clientID, sim.simx_opmode_oneshot_wait)
-        return clientID
-    except Exception as e:
-        print(e)
-        if clientID != -1:
-            sim.simxStopSimulation(clientID, sim.simx_opmode_blocking);
-            sim.simxFinish(clientID)
-
-
-def closeSimulation(clientID):
-    sim.simxStopSimulation(clientID, sim.simx_opmode_blocking)
-    sim.simxFinish(clientID)
 
 
 def get_data(name_folder):
@@ -42,3 +23,12 @@ def get_data(name_folder):
         }
     except Exception as e:
         print(e)
+
+def main():
+    name_folder = createFolder.create_folder()
+    data = get_data(name_folder)
+    print(data)
+    return data
+
+if __name__ == '__main__':
+    main()

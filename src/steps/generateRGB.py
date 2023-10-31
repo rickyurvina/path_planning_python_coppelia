@@ -1,7 +1,9 @@
+from src.components.closeSimulationCoppelia import closeSimulation
+from src.components.startSimulationCoppelia import startSimulation
 from src.coppelia import sim
 import numpy as np
 import time
-from src.components import saveFiles
+from src.components import saveFiles, createFolder
 from src.components.plotsEnvironment import plot_rgb
 
 
@@ -29,3 +31,14 @@ def generate_rgb(clientID, name_folder):
         print(e)
 
     return img
+
+
+def main():
+    name_folder = createFolder.create_folder()
+    clientID = startSimulation()
+    rgb = generate_rgb(clientID, name_folder)
+    closeSimulation(clientID)
+
+
+if __name__ == '__main__':
+    main()

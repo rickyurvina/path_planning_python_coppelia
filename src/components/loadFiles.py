@@ -1,6 +1,4 @@
 import pickle
-import config
-
 
 
 def load_data_occupancy_grid():

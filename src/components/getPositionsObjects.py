@@ -1,7 +1,9 @@
 import numpy as np
+
+from src.components.closeSimulationCoppelia import closeSimulation
+from src.components.startSimulationCoppelia import startSimulation
 from src.coppelia import sim
-import random
-import config
+from src.steps import config
 
 
 # Costo computacional O(n^2)-> n= len positions
@@ -56,3 +58,10 @@ def get_positions(clientID):
     positions = np.array(positions)
 
     return positions, weights, rows, object_handles
+
+
+if __name__ == '__main__':
+    clientId = startSimulation()
+    positions, weights, rows, object_handles = get_positions(clientId)
+    closeSimulation(clientId)
+    print(positions, weights, rows, object_handles)

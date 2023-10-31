@@ -42,7 +42,7 @@ def main():
         paths = []
         # RRT
         start_time_rrt = time.time()
-        path_rrt, path_length_rrt = mainRrt.main_informed_rrt(data,name_folder)
+        path_rrt, path_length_rrt = mainRrt.informed_rrt(data, name_folder)
         paths.append(path_rrt)
         end_time_rrt = time.time()
         execution_time_rrt = end_time_rrt - start_time_rrt

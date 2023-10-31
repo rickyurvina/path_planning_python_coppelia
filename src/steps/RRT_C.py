@@ -5,10 +5,15 @@ from colorama import init, Fore
 from src.components import getRowOfPosition
 import config
 import matplotlib.pyplot as plt
-from src.components import  saveFiles
-
+from src.components import saveFiles
+from src.components.shiftPositions import shift_positions
+from src.components import loadFiles
+from src.components import createFolder
+from src.steps.UnicycleRobot import UnicycleRobot
 
 init()
+
+
 class Node:
     def __init__(self, row, col):
         self.row = row  # coordinate
@@ -22,8 +27,9 @@ class Node:
         self.robot_radius = 0.0
         self.connect_circle_dist = 50.0
 
+
 class RRT:
-    def __init__(self, map_array, map_array_rgb,goals, rows, ordered_positions, name_folder):
+    def __init__(self, map_array, map_array_rgb, goals, rows, ordered_positions, name_folder):
         self.map_array = map_array  # map array, 1->free, 0->obstacle
         self.map_array_rgb = map_array_rgb  # map array, 1->free, 0->obstacle
         self.rows = rows  # map array, 1->free, 0->obstacle
@@ -34,12 +40,16 @@ class RRT:
         self.vertices = []  # list of nodes
         self.found = False  # found flag
         self.name_folder = name_folder
+        self.model = UnicycleRobot(0.1, 0.5, 0.1, 1.0, 0.5)
+
     def init_map(self):
         self.found = False
         self.vertices = []
         self.vertices.append(self.goals[0])
+
     def dis(self, node1, node2):
         return np.sqrt((node1.row - node2.row) ** 2 + (node1.col - node2.col) ** 2)
+
     def check_collision(self, node1, node2):
         if node2 is None:
             return False
@@ -49,6 +59,7 @@ class RRT:
             if self.map_array[point[0]][point[1]] == 0:
                 return True
         return False
+
     def get_new_point(self, goal_bias, goal):
         if np.random.random() < goal_bias:
             point = [goal.row, goal.col]
@@ -105,6 +116,29 @@ class RRT:
             if not self.found:
                 d = self.dis(new_node, goal)
                 if d < extend_dis:
+                    goal.cost = d
+                    goal.parent = new_node
+                    self.vertices.append(goal)
+                    self.found = True
+            return new_node
+        else:
+            return None
+
+    def extend_for_unicycle(self, goal, new_point, extend_dis=10):
+        nearest_node = self.get_nearest_node(new_point)
+        new_node = self.model.steer(nearest_node, goal, new_point)
+        slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
+        new_row = nearest_node.row + extend_dis * np.cos(slope)
+        new_col = nearest_node.col + extend_dis * np.sin(slope)
+        new_node = Node(int(new_row), int(new_col))
+        if (0 <= new_node.row < self.size_row) and (0 <= new_node.col < self.size_col) and \
+                not self.check_collision(nearest_node, new_node):
+            new_node.parent = nearest_node
+            new_node.cost = self.dis(nearest_node, new_node)
+            self.vertices.append(new_node)
+            if not self.found:
+                d = self.dis(new_node, goal)
+                if d < new_node.cost:
                     goal.cost = d
                     goal.parent = new_node
                     self.vertices.append(goal)
@@ -281,3 +315,67 @@ class RRT:
         except Exception as e:
             print(Fore.RED + e)
             traceback.print_exc()
+
+    def informed_RRT_star_unicycle(self, n_pts=config.MIN_ITER):
+        try:
+            path = []
+            search_vertices = []
+            sum_path_length = 0
+            self.init_map()
+            for index, (position) in enumerate(self.goals):
+                if index == config.BREAK_AT:
+                    break
+                print(config.POSITION_INDEX, index)
+                if index != len(self.goals) - 1:
+                    start = position
+                    goal = self.goals[index + 1]
+                    if index > 0:
+                        self.found = False
+                        self.vertices = []
+                        self.vertices.append(start)
+                        actual_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index])
+                        next_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index + 1])
+                        if actual_row != next_row:
+                            n_pts = config.MAX_ITER
+                        else:
+                            n_pts = config.MIN_ITER
+
+                    for i in range(n_pts):
+                        c_best = 0
+                        if self.found:
+                            c_best = self.path_cost(start, goal, c_best)
+                        new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE, c_best)
+                        new_node = self.extend(goal, new_point, config.RADIUS)
+                        if new_node is not None:
+                            neighbors = self.get_neighbors(new_node, config.NEIGHBOR_SIZE)
+                            self.rewire(new_node, neighbors, start)
+                    if self.found:
+                        steps = len(self.vertices) - 2
+                        print(config.MESSAGE_PATH % steps)
+                    else:
+                        print(Fore.RED + config.PATH_NO_FOUND)
+                    path.append(goal)
+                    search_vertices.append(self.vertices)
+            print(config.MESSAGE_DONE)
+            self.draw_map(path, config.METHOD)
+            self.draw_mapRGB(path, config.METHOD)
+            print(config.MESSAGE_PLOTTED)
+            return path, sum_path_length
+        except Exception as e:
+            print(Fore.RED + e)
+            traceback.print_exc()
+
+
+def main():
+    print("Start informed RRT Unicycle star planning")
+    data = loadFiles.load_solution_data()
+    ordered_transformed = shift_positions(data['ordered_positions'])
+    name_folder = createFolder.create_folder()
+    method = config.METHOD
+    RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
+                      name_folder)
+    RRT_PLANNER.informed_RRT_star()
+
+
+if __name__ == '__main__':
+    main()

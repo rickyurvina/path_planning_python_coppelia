@@ -5,7 +5,8 @@ from src.components.createDataTsp import create_data_model
 from src.components.displaySolution import plots_positions
 from src.components.routesOfSolution import get_routes
 from src.components.orderedPositions import get_ordered_positions
-from src.components import getTotalLoaded
+from src.components import getTotalLoaded, createFolder
+from src.steps import getDataCoppelia
 
 
 def main(positions, weights, rows, name_folder):
@@ -77,7 +78,13 @@ def main(positions, weights, rows, name_folder):
         ordered_positions = get_ordered_positions(get_routes(solution, routing, manager)[0], data['positions'])
         routes = get_routes(solution, routing, manager)[0]
         total_loaded = getTotalLoaded.get_total_loaded(data, manager, routing, solution)
-        total_length = getTotalLoaded.get_total_length(data,  routing, solution)
+        total_length = getTotalLoaded.get_total_length(data, routing, solution)
         return ordered_positions, routes, total_loaded, total_length
     else:
         print("Solver status: Error al resolver el problema")
+
+
+if __name__ == '__main__':
+    name_folder = createFolder.create_folder()
+    data = getDataCoppelia.get_data(name_folder)
+    main(data['positions'], data['weights'], data['rows'], name_folder)
