@@ -1,6 +1,7 @@
-from src.components import euclidianDistance, loadFiles
+from src.components import euclidianDistance
 from src.components import forbiddenConnections
 from src.steps import config
+from src.components import loadFiles
 
 
 # Costo computacional O(1)

@@ -1,6 +1,6 @@
 import math
 from src.components import getRowOfPosition
-import config
+from src.steps import config
 
 
 def compute_euclidean_distance_matrix(positions, weights, rows):

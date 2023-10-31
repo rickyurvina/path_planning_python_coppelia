@@ -30,9 +30,10 @@ def main():
         total_length_tsp = 0
         route = ""
         if config.ON_LINE:
-            data['ordered_positions'], route, total_loaded_tsp, total_length_tsp = tsp.main(data['positions'],
-                                                                                            data['weights'],
-                                                                                            data['rows'], name_folder)
+            data['ordered_positions'], route, total_loaded_tsp, total_length_tsp = tsp.main(
+                data['positions'],
+                data['weights'],
+                data['rows'], name_folder)
         end_time_tsp = time.time()
         execution_time_tsp = end_time_tsp - start_time_tsp
         print("execution_time_tsp", execution_time_tsp)
@@ -62,8 +63,8 @@ def main():
             'time': execution_time_data + execution_time_tsp + execution_time_rrt,
             'total_loaded_tsp': total_loaded_tsp,
             'total_length_tsp': total_length_tsp,
-            'folder': name_folder,
-            'on_line': config.ON_LINE
+            'name_folder': name_folder,
+            'on_line': config.ON_LINE,
         }
 
         data = {

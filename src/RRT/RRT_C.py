@@ -3,12 +3,13 @@ from scipy import spatial
 import traceback
 from colorama import init, Fore
 from src.components import getRowOfPosition
-import config
 import matplotlib.pyplot as plt
-from src.components import  saveFiles
-
+from src.components import saveFiles
+from src.steps import config
 
 init()
+
+
 class Node:
     def __init__(self, row, col):
         self.row = row  # coordinate
@@ -22,6 +23,7 @@ class Node:
         self.robot_radius = 0.0
         self.connect_circle_dist = 50.0
 
+
 class RRT:
     def __init__(self, map_array, goals, rows, ordered_positions, name_folder):
         self.map_array = map_array  # map array, 1->free, 0->obstacle
@@ -33,12 +35,15 @@ class RRT:
         self.vertices = []  # list of nodes
         self.found = False  # found flag
         self.name_folder = name_folder
+
     def init_map(self):
         self.found = False
         self.vertices = []
         self.vertices.append(self.goals[0])
+
     def dis(self, node1, node2):
         return np.sqrt((node1.row - node2.row) ** 2 + (node1.col - node2.col) ** 2)
+
     def check_collision(self, node1, node2):
         if node2 is None:
             return False
@@ -48,6 +53,7 @@ class RRT:
             if self.map_array[point[0]][point[1]] == 0:
                 return True
         return False
+
     def get_new_point(self, goal_bias, goal):
         if np.random.random() < goal_bias:
             point = [goal.row, goal.col]

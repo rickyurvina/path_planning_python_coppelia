@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import networkx as nx
-from src.components import saveFiles
+from src.components import saveFiles, loadFiles
+from src.components.createDataTsp import create_data_model
 
 
 def print_solution_tsp(data, manager, routing, solution, name_folder):
@@ -43,3 +44,11 @@ def print_solution_tsp(data, manager, routing, solution, name_folder):
         plan_output += 'Distance of the route: {}m\n'.format(route_distance)
         plan_output += 'Load of the route: {}\n'.format(route_load)
         print(plan_output)
+
+
+if __name__ == '__main__':
+    data = loadFiles.load_solution_data()
+    data_model = loadFiles.load_solution_data()
+    data_model = create_data_model(data['positions'], data['weights'], data['rows'])
+    print_solution_tsp(data_model, data['manager'], data['routing'], data['solution'], data['name_folder'])
+    print('This script is not meant to be run directly. Run main.py instead.')

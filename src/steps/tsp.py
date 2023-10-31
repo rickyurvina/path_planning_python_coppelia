@@ -75,11 +75,11 @@ def main(positions, weights, rows, name_folder):
     if solution:
         print_solution_tsp(data, manager, routing, solution, name_folder)
         plots_positions(get_routes(solution, routing, manager)[0], data, rows, name_folder)
-        ordered_positions = get_ordered_positions(get_routes(solution, routing, manager)[0], data['positions'])
-        routes = get_routes(solution, routing, manager)[0]
+        route = get_routes(solution, routing, manager)[0]
+        ordered_positions = get_ordered_positions(route, data['positions'])
         total_loaded = getTotalLoaded.get_total_loaded(data, manager, routing, solution)
         total_length = getTotalLoaded.get_total_length(data, routing, solution)
-        return ordered_positions, routes, total_loaded, total_length
+        return ordered_positions, route, total_loaded, total_length
     else:
         print("Solver status: Error al resolver el problema")
 
