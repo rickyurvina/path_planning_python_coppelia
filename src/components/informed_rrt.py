@@ -36,6 +36,10 @@ class RRT:
         self.ordered_positions = ordered_positions  # map array, 1->free, 0->obstacle
         self.size_row = map_array.shape[0]  # map size
         self.size_col = map_array.shape[1]  # map size
+        self.size_x_min = 0
+        self.size_x_max = self.size_row
+        self.size_y_min = 0
+        self.size_y_max = self.size_col
         self.goals = [Node(goal[1], goal[0]) for goal in goals]  # goal node
         self.vertices = []  # list of nodes
         self.found = False  # found flag
@@ -61,19 +65,28 @@ class RRT:
         return False
 
     def get_new_point(self, goal_bias, start, goal):
-        # min_x = min(start.col, goal.col) - config.LIMIT_AOI
-        # max_x = max(start.col, goal.col) + config.LIMIT_AOI
-        # min_x = max(min_x, 0)
-        # max_x = min(max_x, self.size_row - 1)
-        # min_y = int(0)
-        # max_y = int(self.size_row / 2)
-        # random_x = np.random.randint(min_x, max_x)
-        # random_y = np.random.randint(min_y, max_y)
+        min_x = min(start.col, goal.col) - config.LIMIT_AOI
+        max_x = max(start.col, goal.col) + config.LIMIT_AOI
+        min_y = min(start.row, goal.row) - config.LIMIT_AOI
+        max_y = max(start.row, goal.row) + config.LIMIT_AOI
+        middle_y = 500
+        min_x = max(min_x, 0)
+        max_x = min(max_x, 999)
+        if min_y <= middle_y and max_y <= middle_y:
+            min_y = int(0)
+            max_y = 1000
+        else:
+            min_y = 0
+            max_y = 1000
+
+        self.size_x_min = min_x
+        self.size_x_max = max_x
+        self.size_y_min = min_y
+        self.size_y_max = max_y
         if np.random.random() < goal_bias:
             point = [goal.row, goal.col]
         else:
-            point = [np.random.randint(0, self.size_row - 1), np.random.randint(0, self.size_col - 1)]
-            # point = [random_x, random_y]
+            point = [np.random.randint(min_x, self.size_x_max - 1), np.random.randint(min_y, 1000 - 1)]
         return point
 
     def get_new_point_in_ellipsoid(self, goal_bias, c_best, start, goal):
@@ -111,13 +124,13 @@ class RRT:
             new_point = self.get_new_point_in_ellipsoid(goal_bias, c_best, start, goal)
         return new_point
 
-    def extend(self, goal, new_point, extend_dis=10):
+    def extend(self, goal, new_point, extend_dis=300):
         nearest_node = self.get_nearest_node(new_point)
         slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
         new_row = nearest_node.row + extend_dis * np.cos(slope)
         new_col = nearest_node.col + extend_dis * np.sin(slope)
         new_node = Node(int(new_row), int(new_col))
-        if (0 <= new_row < self.size_row) and (0 <= new_col < self.size_col) and \
+        if (self.size_y_min <= new_row < self.size_y_max) and (self.size_x_min <= new_col < self.size_x_max) and \
                 not self.check_collision(nearest_node, new_node):
             new_node.parent = nearest_node
             new_node.cost = extend_dis
@@ -125,29 +138,6 @@ class RRT:
             if not self.found:
                 d = self.dis(new_node, goal)
                 if d < extend_dis:
-                    goal.cost = d
-                    goal.parent = new_node
-                    self.vertices.append(goal)
-                    self.found = True
-            return new_node
-        else:
-            return None
-
-    def extend_for_unicycle(self, goal, new_point, extend_dis=10):
-        nearest_node = self.get_nearest_node(new_point)
-        new_node = self.model.steer(nearest_node, goal, new_point)
-        slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
-        new_row = nearest_node.row + extend_dis * np.cos(slope)
-        new_col = nearest_node.col + extend_dis * np.sin(slope)
-        new_node = Node(int(new_row), int(new_col))
-        if (0 <= new_node.row < self.size_row) and (0 <= new_node.col < self.size_col) and \
-                not self.check_collision(nearest_node, new_node):
-            new_node.parent = nearest_node
-            new_node.cost = self.dis(nearest_node, new_node)
-            self.vertices.append(new_node)
-            if not self.found:
-                d = self.dis(new_node, goal)
-                if d < new_node.cost:
                     goal.cost = d
                     goal.parent = new_node
                     self.vertices.append(goal)
@@ -300,6 +290,7 @@ class RRT:
                             n_pts = config.MAX_ITER
                         else:
                             n_pts = config.MIN_ITER
+                    i = 0
 
                     for i in range(n_pts):
                         c_best = 0
@@ -322,72 +313,6 @@ class RRT:
                 self.draw_map(path, config.METHOD)
                 self.draw_mapRGB(path, config.METHOD)
                 print(config.MESSAGE_PLOTTED)
-            return path, sum_path_length
-        except Exception as e:
-            print(Fore.RED + str(e))
-            traceback.print_exc()
-
-    def informed_RRT_star_unicycle(self, n_pts=config.MIN_ITER):
-        try:
-            path = []
-            search_vertices = []
-            sum_path_length = 0
-            self.init_map()
-            for index, (position) in enumerate(self.goals):
-                if index == config.BREAK_AT:
-                    break
-                print(config.POSITION_INDEX, index)
-                if index != len(self.goals) - 1:
-                    start = position
-                    goal = self.goals[index + 1]
-                    min_x = min(start.col, goal.col) - config.LIMIT_AOI
-                    max_x = max(start.col, goal.col) + config.LIMIT_AOI
-                    min_y = min(start.row, goal.row) - config.LIMIT_AOI
-                    middle_y = self.size_row / 2
-                    min_x = max(min_x, 0)
-                    max_x = min(max_x, self.size_row - 1)
-                    if min_y <= middle_y:
-                        min_y = int(0)
-                        max_y = int(middle_y / 2)
-                    else:
-                        min_y = int(middle_y / 2)
-                        max_y = middle_y * 2
-                    random_x = np.random.randint(min_x, max_x)
-                    random_y = np.random.randint(min_y, max_y)
-                    self.size_row = random_x
-                    self.size_col = random_y
-                    if index > 0:
-                        self.found = False
-                        self.vertices = []
-                        self.vertices.append(start)
-                        actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
-                        next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                             self.ordered_positions[index + 1])
-                        if actual_row != next_row:
-                            n_pts = config.MAX_ITER
-                        else:
-                            n_pts = config.MIN_ITER
-
-                    for i in range(n_pts):
-                        c_best = 0
-                        if self.found:
-                            c_best = self.path_cost(start, goal, c_best)
-                        new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE, c_best)
-                        new_node = self.extend(goal, new_point, config.RADIUS)
-                        if new_node is not None:
-                            neighbors = self.get_neighbors(new_node, config.NEIGHBOR_SIZE)
-                            self.rewire(new_node, neighbors, start)
-                    if self.found:
-                        steps = len(self.vertices) - 2
-                        print(config.MESSAGE_PATH % steps)
-                    else:
-                        print(Fore.RED + config.PATH_NO_FOUND)
-                    path.append(goal)
-                    search_vertices.append(self.vertices)
-            print(config.MESSAGE_DONE)
-            self.draw_map(path, config.METHOD)
-            self.draw_mapRGB(path, config.METHOD)
-            print(config.MESSAGE_PLOTTED)
             return path, sum_path_length
         except Exception as e:
             print(Fore.RED + str(e))

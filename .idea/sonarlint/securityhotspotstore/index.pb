@@ -48,3 +48,9 @@ G
 src/steps/step_3_rrt.py,2\2\22b32a2731c39a35fd8d73c46e411252b64d470b
 N
 src/components/informed_rrt.py,d\e\de7c0d247295fcac7029b3601d88ce14a552ce4e
+K
+src/components/draw_maps.py,e\7\e7e7ee4006dc7865dbd7b689159488429318ef73
+U
+%src/components/draw_cccupancy_grid.py,a\0\a0508a0d93218a4e639e979bfb2c44a1d4d6178f
+V
+&src/components/delete_empty_folders.py,c\1\c1a99bba6016413caf11b9d100b090d4da62b781
