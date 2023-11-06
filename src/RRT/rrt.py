@@ -4,7 +4,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.components import loadFiles
+from src.components import load_files
 
 show_animation = True
 
@@ -33,7 +33,6 @@ class RRT:
             self.xmax = float(area[1])
             self.ymin = float(area[2])
             self.ymax = float(area[3])
-
 
     def __init__(self,
                  start,
@@ -90,8 +89,8 @@ class RRT:
             new_node = self.steer(nearest_node, rnd_node, self.expand_dis)
 
             if self.check_if_outside_play_area(new_node, self.play_area) and \
-               self.check_collision(
-                   new_node, self.obstacle_list, self.robot_radius):
+                    self.check_collision(
+                        new_node, self.obstacle_list, self.robot_radius):
                 self.node_list.append(new_node)
 
             # if animation and i % 5 == 0:
@@ -191,7 +190,7 @@ class RRT:
 
     @staticmethod
     def get_nearest_node_index(node_list, rnd_node):
-        dlist = [(node.x - rnd_node.x)**2 + (node.y - rnd_node.y)**2
+        dlist = [(node.x - rnd_node.x) ** 2 + (node.y - rnd_node.y) ** 2
                  for node in node_list]
         minind = dlist.index(min(dlist))
 
@@ -204,7 +203,7 @@ class RRT:
             return True  # no play_area was defined, every pos should be ok
 
         if node.x < play_area.xmin or node.x > play_area.xmax or \
-           node.y < play_area.ymin or node.y > play_area.ymax:
+                node.y < play_area.ymin or node.y > play_area.ymax:
             return False  # outside - bad
         else:
             return True  # inside - ok
@@ -241,7 +240,7 @@ class RRT:
 
 def main(gx=200.0, gy=200.0):
     print("start " + __file__)
-    data = loadFiles.load_solution_data()
+    data = load_files.load_solution_data()
     occupancy_grid = data['occupancy_grid']
     # ====Search Path with RRT====
     # Set Initial parameters
@@ -252,7 +251,7 @@ def main(gx=200.0, gy=200.0):
         obstacle_list=occupancy_grid,
         # play_area=[0, 10, 0, 14]
         robot_radius=0.8
-        )
+    )
     path = rrt.planning(animation=show_animation)
 
     if path is None:

@@ -1,4 +1,3 @@
-
 import copy
 import math
 import pickle
@@ -7,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import reeds_shepp_path_planning
 from rrt_star import RRTStar
-from src.components import loadFiles
+from src.components import load_files
 
 show_animation = True
 
@@ -220,7 +219,7 @@ class RRTStarReedsShepp(RRTStar):
 
 def main(max_iter=400):
     print("Start " + __file__)
-    data = loadFiles.load_solution_data()
+    data = load_files.load_solution_data()
     occupancy_grid = data['occupancy_grid']
     # ====Search Path with RRT===
     # Set Initial parameters

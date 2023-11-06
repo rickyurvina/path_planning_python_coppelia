@@ -1,11 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial.distance import euclidean
-from src.components.loadFiles import return_ocuppancy_grid
+from src.components.load_files import return_ocuppancy_grid
+
 mapa_local = return_ocuppancy_grid()['occupancy_grid']
 # mapa_local = return_ocuppancy_grid()['mapa_local']
 start = (200, 180)
 goal = (400, 180)
+
 
 # Definir la clase Node para representar un nodo en el árbol del RRT*
 class Node:
@@ -77,9 +79,9 @@ def rrt_star(start, goal, mapa_local, max_iters=10000, step_size=20):
 path = rrt_star(start, goal, mapa_local)
 
 # Graficar el mapa y el camino generado por RRT*
-fig, ax = plt.subplots(figsize=(10,10))
+fig, ax = plt.subplots(figsize=(10, 10))
 ax.imshow(mapa_local, cmap='gray', origin='lower')
 ax.plot(start[1], start[0], 'ro', markersize=10)
 ax.plot(goal[1], goal[0], 'bo', markersize=10)
-ax.plot(path[:,1], path[:,0], 'r', linewidth=2)
+ax.plot(path[:, 1], path[:, 0], 'r', linewidth=2)
 plt.show()

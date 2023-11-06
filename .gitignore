@@ -39,3 +39,5 @@ instance/config.py
 
 src/solutions/
 src/images/
+scr/files/
+AmbienteCoppelia/

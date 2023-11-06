@@ -1,9 +1,7 @@
-
-
 import math
 import matplotlib.pyplot as plt
 from rrt import RRT
-from src.components import loadFiles
+from src.components import load_files
 
 show_animation = True
 
@@ -63,8 +61,8 @@ class RRTStar(RRT):
                                   self.expand_dis)
             near_node = self.node_list[nearest_ind]
             new_node.cost = near_node.cost + \
-                math.hypot(new_node.x-near_node.x,
-                           new_node.y-near_node.y)
+                            math.hypot(new_node.x - near_node.x,
+                                       new_node.y - near_node.y)
 
             if self.check_collision(
                     new_node, self.obstacle_list, self.robot_radius):
@@ -186,9 +184,9 @@ class RRTStar(RRT):
         # expand_dist
         if hasattr(self, 'expand_dis'):
             r = min(r, self.expand_dis)
-        dist_list = [(node.x - new_node.x)**2 + (node.y - new_node.y)**2
+        dist_list = [(node.x - new_node.x) ** 2 + (node.y - new_node.y) ** 2
                      for node in self.node_list]
-        near_inds = [dist_list.index(i) for i in dist_list if i <= r**2]
+        near_inds = [dist_list.index(i) for i in dist_list if i <= r ** 2]
         return near_inds
 
     def rewire(self, new_node, near_inds):
@@ -240,7 +238,7 @@ class RRTStar(RRT):
 
 def main():
     print("Start " + __file__)
-    data = loadFiles.load_solution_data()
+    data = load_files.load_solution_data()
     occupancy_grid = data['occupancy_grid']
     # ====Search Path with RRT====
     # Set Initial parameters

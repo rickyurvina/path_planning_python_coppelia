@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.distutils.fcompiler import none
-from src.components import loadFiles, saveFiles
+from src.components import load_files, save_files
 from dotenv import load_dotenv
 import os
 
@@ -191,7 +191,7 @@ def main_rrt(occupancy_grid=none, ordered_positions=none, img=none, name_folder=
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.title('RRT* Planificación local')
-    filename = saveFiles.get_name_to_save_plot(name_folder, 'rrt')
+    filename = save_files.get_name_to_save_plot(name_folder, 'rrt')
     plt.savefig(filename, dpi=500)
     plt.show()
     return path
@@ -201,7 +201,7 @@ def main_rrt(occupancy_grid=none, ordered_positions=none, img=none, name_folder=
 
 
 if __name__ == '__main__':
-    occupancy_grid = loadFiles.load_data_occupancy_grid()['occupancy_grid']
-    ordered_positions = loadFiles.load_solution_data()['ordered_positions']
-    img = loadFiles.load_rgb(10)['img']
+    occupancy_grid = load_files.load_data_occupancy_grid()['occupancy_grid']
+    ordered_positions = load_files.load_solution_data()['ordered_positions']
+    img = load_files.load_rgb(10)['img']
     main_rrt(occupancy_grid, ordered_positions, img)

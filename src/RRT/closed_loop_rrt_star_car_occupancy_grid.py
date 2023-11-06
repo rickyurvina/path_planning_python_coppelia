@@ -5,7 +5,7 @@ import pure_pursuit
 import unicycle_model
 from rrt_star_reeds_shepp import RRTStarReedsShepp
 import math
-from src.components import loadFiles
+from src.components import load_files
 
 show_animation = True
 
@@ -198,7 +198,6 @@ class ClosedLoopRRTStar(RRTStarReedsShepp):
 
     def draw_graph_unicycle(self, rnd=None):
 
-
         fig, ax = plt.subplots(1)
         ax.imshow(self.obstacle_list, cmap='gray', origin='lower')
         # for stopping simulation with the esc key.
@@ -215,6 +214,7 @@ class ClosedLoopRRTStar(RRTStarReedsShepp):
         plt.grid(True)
         self.plot_start_goal_arrow()
         plt.pause(0.01)
+
     def draw_graph_rrt(self, rnd=None):
 
         fig, ax = plt.subplots(1)
@@ -234,14 +234,15 @@ class ClosedLoopRRTStar(RRTStarReedsShepp):
         self.plot_start_goal_arrow()
         plt.pause(0.01)
 
+
 def main():
     print("Start" + __file__)
     # ====Search Path with RRT====
-    data = loadFiles.load_solution_data()
+    data = load_files.load_solution_data()
     occupancy_grid = data['occupancy_grid']
 
     # Set Initial parameters
-    start = [200.0,200.0, np.deg2rad(0.0)]
+    start = [200.0, 200.0, np.deg2rad(0.0)]
     goal = [200, 400, np.deg2rad(-90.0)]
 
     closed_loop_rrt_star = ClosedLoopRRTStar(start, goal,
@@ -266,7 +267,6 @@ def main():
         plt.pause(0.001)
         plt.show()
         plt.title("RRT")
-
 
 
 if __name__ == '__main__':

@@ -1,11 +1,11 @@
-import tsp
-import getDataCoppelia
-from src.components import saveFiles
-from src.components import createFolder
-from saveOnDatabase import save_data_base
+import step_2_tsp
+import step_1_get_data
+from src.components import save_files
+from src.components import create_folder
+from src.components.save_on_database import save_data_base
 import time
-from src.components import loadFiles
-import mainRrt
+from src.components import load_files
+import step_3_rrt
 from colorama import init, Fore
 import config
 
@@ -17,9 +17,9 @@ def main():
         data = []
         # GET DATA
         start_time_data = time.time()
-        name_folder = createFolder.create_folder()
+        name_folder = create_folder.create_folder()
         if config.ON_LINE:
-            data = getDataCoppelia.get_data(name_folder)
+            data = step_1_get_data.get_data(name_folder)
         end_time_data = time.time()
         execution_time_data = end_time_data - start_time_data
         print("execution_time_data", execution_time_data)
@@ -30,7 +30,7 @@ def main():
         total_length_tsp = 0
         route = ""
         if config.ON_LINE:
-            data['ordered_positions'], route, total_loaded_tsp, total_length_tsp = tsp.main(
+            data['ordered_positions'], route, total_loaded_tsp, total_length_tsp = step_2_tsp.main(
                 data['positions'],
                 data['weights'],
                 data['rows'], name_folder)
@@ -39,11 +39,11 @@ def main():
         print("execution_time_tsp", execution_time_tsp)
 
         if config.ON_LINE == 0:
-            data = loadFiles.load_solution_data()
+            data = load_files.load_solution_data()
         paths = []
         # RRT
         start_time_rrt = time.time()
-        path_rrt, path_length_rrt = mainRrt.informed_rrt(data, name_folder)
+        path_rrt, path_length_rrt = step_3_rrt.informed_rrt(data, name_folder)
         paths.append(path_rrt)
         end_time_rrt = time.time()
         execution_time_rrt = end_time_rrt - start_time_rrt
@@ -55,6 +55,7 @@ def main():
             'occupancy_grid': data['occupancy_grid'],
             'positions': data['positions'],
             'weights': data['weights'],
+            'demands': data['weights'],
             'rows': data['rows'],
             'ordered_positions': data['ordered_positions'],
             'route': route,
@@ -78,7 +79,7 @@ def main():
             'total_length_tsp': total_length_tsp,
         }
         save_data_base(data)
-        saveFiles.save_workspace(variables, name_folder)
+        save_files.save_workspace(variables, name_folder)
         print(Fore.LIGHTGREEN_EX + "!!Path founded!!")
 
     except Exception as e:

@@ -2,9 +2,9 @@ import numpy as np
 from scipy import spatial
 import traceback
 from colorama import init, Fore
-from src.components import getRowOfPosition
+from src.components import get_row_of_position
 import matplotlib.pyplot as plt
-from src.components import saveFiles
+from src.components import save_files
 from src.steps import config
 
 init()
@@ -193,7 +193,7 @@ class RRT:
             plt.legend()
             plt.xlabel('X')
             plt.ylabel('Y')
-            filename = saveFiles.get_name_to_save_plot(self.name_folder, 'rrt')
+            filename = save_files.get_name_to_save_plot(self.name_folder, 'rrt')
             plt.savefig(filename, dpi=500)
 
             plt.show()
@@ -218,8 +218,9 @@ class RRT:
                         self.found = False
                         self.vertices = []
                         self.vertices.append(start)
-                        actual_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index])
-                        next_row = getRowOfPosition.find_row_for_position(self.rows, self.ordered_positions[index + 1])
+                        actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
+                        next_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                             self.ordered_positions[index + 1])
                         if actual_row != next_row:
                             n_pts = config.MAX_ITER
                         else:
