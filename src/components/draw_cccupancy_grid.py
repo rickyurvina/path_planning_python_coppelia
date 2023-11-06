@@ -15,5 +15,5 @@ def draw_map(occupancy_grid, name='Occupancy Grid'):
 
         plt.show()
     except Exception as e:
-        print(Fore.RED + e)
+        print(Fore.RED + str(e))
         traceback.print_exc()

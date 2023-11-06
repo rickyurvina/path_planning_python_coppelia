@@ -38,3 +38,13 @@ m
 =src/common/image_occupancy_grid_vrep_detectar_rectangulos2.py,9\1\91b12b87a6f7d62f31c731dcd5645e2796fd5242
 l
 <src/common/image_occupancy_grid_vrep_detectar_rectangulos.py,b\7\b74e13ea04ad7263a52f7ce24184a4a73c91ec9c
+L
+src/steps/step_1_get_data.py,d\8\d8793c8dfe50bc7b6d50a28577a31214a091f04a
+G
+src/steps/step_2_tsp.py,0\7\0742908af42b2d2d07de748ae08180af16b9ffd1
+L
+src/components/load_files.py,9\e\9e3acac91ce38093534b90f755151aea60c6cc9f
+G
+src/steps/step_3_rrt.py,2\2\22b32a2731c39a35fd8d73c46e411252b64d470b
+N
+src/components/informed_rrt.py,d\e\de7c0d247295fcac7029b3601d88ce14a552ce4e

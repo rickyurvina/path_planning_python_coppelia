@@ -1,4 +1,4 @@
-from src.components.RRT_C import RRT
+from src.components.informed_rrt import RRT
 from src.components.shift_positions import shift_positions
 from src.components import load_files, create_folder
 import os
@@ -15,7 +15,7 @@ def informed_rrt(data, name_folder):
                           data['ordered_positions'], name_folder)
         return RRT_planner.informed_RRT_star()
     except Exception as e:
-        print(Fore.RED + e)
+        print(Fore.RED + str(e))
         traceback.print_exc()
 
 
@@ -26,7 +26,7 @@ def informed_rrt_unicycle(data, name_folder):
                           data['ordered_positions'], name_folder)
         return RRT_planner.informed_RRT_star_unicycle()
     except Exception as e:
-        print(Fore.RED + e)
+        print(Fore.RED + str(e))
         traceback.print_exc()
 
 
@@ -36,7 +36,7 @@ def rrt(map_array, ordered_positions, rows, name_folder):
         RRT_planner = RRT(map_array, ordered_transformed, rows, ordered_positions, name_folder)
         return RRT_planner.RRT()
     except Exception as e:
-        print(Fore.RED + e)
+        print(Fore.RED + str(e))
         traceback.print_exc()
 
 
@@ -46,7 +46,7 @@ def rrt_star(map_array, ordered_positions, rows, name_folder):
         RRT_planner = RRT(map_array, ordered_transformed, rows, ordered_positions, name_folder)
         return RRT_planner.RRT_star()
     except Exception as e:
-        print(Fore.RED + e)
+        print(Fore.RED + str(e))
         traceback.print_exc()
 
 

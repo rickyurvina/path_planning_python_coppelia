@@ -198,7 +198,7 @@ class RRT:
 
             plt.show()
         except Exception as e:
-            print(Fore.RED + e)
+            print(Fore.RED + str(e))
             traceback.print_exc()
 
     def informed_RRT_star(self, n_pts=config.MIN_ITER):
@@ -247,5 +247,5 @@ class RRT:
             print(config.MESSAGE_PLOTTED)
             return path, sum_path_length
         except Exception as e:
-            print(Fore.RED + e)
+            print(Fore.RED + str(e))
             traceback.print_exc()

@@ -30,5 +30,5 @@ def draw_maps(map_data, name_folder):
 
 
     except Exception as e:
-        print(Fore.RED + e)
+        print(Fore.RED + str(e))
         traceback.print_exc()

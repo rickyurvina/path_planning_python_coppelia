@@ -60,11 +60,20 @@ class RRT:
                 return True
         return False
 
-    def get_new_point(self, goal_bias, goal):
+    def get_new_point(self, goal_bias, start, goal):
+        # min_x = min(start.col, goal.col) - config.LIMIT_AOI
+        # max_x = max(start.col, goal.col) + config.LIMIT_AOI
+        # min_x = max(min_x, 0)
+        # max_x = min(max_x, self.size_row - 1)
+        # min_y = int(0)
+        # max_y = int(self.size_row / 2)
+        # random_x = np.random.randint(min_x, max_x)
+        # random_y = np.random.randint(min_y, max_y)
         if np.random.random() < goal_bias:
             point = [goal.row, goal.col]
         else:
             point = [np.random.randint(0, self.size_row - 1), np.random.randint(0, self.size_col - 1)]
+            # point = [random_x, random_y]
         return point
 
     def get_new_point_in_ellipsoid(self, goal_bias, c_best, start, goal):
@@ -97,7 +106,7 @@ class RRT:
 
     def sample(self, start, goal, goal_bias=0.05, c_best=0):
         if c_best <= 0:
-            new_point = self.get_new_point(goal_bias, goal)
+            new_point = self.get_new_point(goal_bias, start, goal)
         else:
             new_point = self.get_new_point_in_ellipsoid(goal_bias, c_best, start, goal)
         return new_point
@@ -217,8 +226,8 @@ class RRT:
                         plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
 
             plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
-            if goal:
-                plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
+            # if goal:
+            #     plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
             plt.title(name)
             plt.legend()
             plt.xlabel('X')
@@ -228,7 +237,7 @@ class RRT:
 
             plt.show()
         except Exception as e:
-            print(Fore.RED + e)
+            print(Fore.RED + str(e))
             traceback.print_exc()
 
     def draw_mapRGB(self, path, name='RRT'):
@@ -253,8 +262,8 @@ class RRT:
                         plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
 
             plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
-            if goal:
-                plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
+            # if goal:
+            #     plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
             plt.title(name)
             plt.legend()
             plt.xlabel('X')
@@ -264,7 +273,7 @@ class RRT:
 
             plt.show()
         except Exception as e:
-            print(Fore.RED + e)
+            print(Fore.RED + str(e))
             traceback.print_exc()
 
     def informed_RRT_star(self, n_pts=config.MIN_ITER):
@@ -308,13 +317,14 @@ class RRT:
                         print(Fore.RED + config.PATH_NO_FOUND)
                     path.append(goal)
                     search_vertices.append(self.vertices)
-            print(config.MESSAGE_DONE)
-            self.draw_map(path, config.METHOD)
-            self.draw_mapRGB(path, config.METHOD)
-            # print(config.MESSAGE_PLOTTED)
+            if self.found:
+                print(config.MESSAGE_DONE)
+                self.draw_map(path, config.METHOD)
+                self.draw_mapRGB(path, config.METHOD)
+                print(config.MESSAGE_PLOTTED)
             return path, sum_path_length
         except Exception as e:
-            print(Fore.RED + e)
+            print(Fore.RED + str(e))
             traceback.print_exc()
 
     def informed_RRT_star_unicycle(self, n_pts=config.MIN_ITER):
@@ -330,6 +340,22 @@ class RRT:
                 if index != len(self.goals) - 1:
                     start = position
                     goal = self.goals[index + 1]
+                    min_x = min(start.col, goal.col) - config.LIMIT_AOI
+                    max_x = max(start.col, goal.col) + config.LIMIT_AOI
+                    min_y = min(start.row, goal.row) - config.LIMIT_AOI
+                    middle_y = self.size_row / 2
+                    min_x = max(min_x, 0)
+                    max_x = min(max_x, self.size_row - 1)
+                    if min_y <= middle_y:
+                        min_y = int(0)
+                        max_y = int(middle_y / 2)
+                    else:
+                        min_y = int(middle_y / 2)
+                        max_y = middle_y * 2
+                    random_x = np.random.randint(min_x, max_x)
+                    random_y = np.random.randint(min_y, max_y)
+                    self.size_row = random_x
+                    self.size_col = random_y
                     if index > 0:
                         self.found = False
                         self.vertices = []
@@ -364,7 +390,7 @@ class RRT:
             print(config.MESSAGE_PLOTTED)
             return path, sum_path_length
         except Exception as e:
-            print(Fore.RED + e)
+            print(Fore.RED + str(e))
             traceback.print_exc()
 
 
