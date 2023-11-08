@@ -1,11 +1,10 @@
-import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import pure_pursuit
 import unicycle_model
 from rrt_star_reeds_shepp import RRTStarReedsShepp
 import math
-from src.components import load_files
+from src.components.common import load_files
 
 show_animation = True
 

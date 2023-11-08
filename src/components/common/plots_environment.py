@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from src.components import save_files
+from src.components.common import save_files
 
 
 def plot_occupancy(occupancy_grid, name_folder):

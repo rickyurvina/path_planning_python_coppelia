@@ -11,5 +11,5 @@ def remove_empty_folders(root_folder):
 
 
 if __name__ == '__main__':
-    main_folder = "../solutions"
+    main_folder = "../../solutions"
     remove_empty_folders(main_folder)

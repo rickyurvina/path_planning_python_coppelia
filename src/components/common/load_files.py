@@ -3,12 +3,12 @@ import sys
 
 from src.steps import config
 
-sys.path.append('../RRT')
+sys.path.append('../../RRT')
 data = {}
 
 
 def load_data_occupancy_grid():
-    with open('../solutions/solution_193_10072023/app_variables1.pickle', 'rb') as f:
+    with open(config.PATH_FOLDER + '/solution_193_10072023/app_variables1.pickle', 'rb') as f:
         unpickler = pickle.Unpickler(f)
         # if file is not empty scores will be equal
         # to the value unpickled
@@ -16,8 +16,8 @@ def load_data_occupancy_grid():
     return data
 
 
-def load_solution_data():
-    with open(f'../solutions/' + config.SOLUTION + '/app_variables1.pickle', 'rb') as f:
+def load_solution_data(solution_folder=config.PATH_FOLDER):
+    with open(f'../' + solution_folder + "/" + config.SOLUTION + '/app_variables1.pickle', 'rb') as f:
         unpickler = pickle.Unpickler(f)
         # if file is not empty scores will be equal
         # to the value unpickled

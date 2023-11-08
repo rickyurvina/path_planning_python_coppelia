@@ -1,7 +1,6 @@
-from src.components import euclidian_distance
+from src.components.step_2_tsp import euclidian_distance, generate_forbidden_connections
 from src.steps import config
-from src.components import load_files
-from src.components import generate_forbidden_connections
+from src.components.common import load_files
 
 
 # Costo computacional O(1)

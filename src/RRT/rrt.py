@@ -4,7 +4,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.components import load_files
+from src.components.common import load_files
 
 show_animation = True
 

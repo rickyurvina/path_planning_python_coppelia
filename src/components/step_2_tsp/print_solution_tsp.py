@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import networkx as nx
-from src.components import save_files, load_files
-from src.components.create_data_tsp import create_data_model
+from src.components.common import load_files, save_files
+from src.components.step_2_tsp.create_data_tsp import create_data_model
 
 
 def print_solution_tsp(data, manager, routing, solution, name_folder):
@@ -37,7 +37,7 @@ def print_solution_tsp(data, manager, routing, solution, name_folder):
         nx.draw_networkx_labels(G, pos, labels=node_labels)
         plt.xlabel('x-coordenadas (m)')
         plt.ylabel('y-coordenadas (m)')
-        plt.title('Ruta Priorizada de Recolección de Cosecha')
+        plt.title('Prioritized route for harvesting')
         plt.savefig(save_files.get_name_to_save_plot(name_folder, 'solution_tps'), dpi=500)
         plt.show()
         plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index), route_load)

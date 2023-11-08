@@ -1,7 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 from rrt import RRT
-from src.components import load_files
+from src.components.common import load_files
 
 show_animation = True
 

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.distutils.fcompiler import none
-from src.components import load_files, save_files
+from src.components.common import load_files, save_files
 from dotenv import load_dotenv
 import os
 

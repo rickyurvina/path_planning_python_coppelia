@@ -1,10 +1,10 @@
-from src.components.close_simulation_coppelia import close_simulation
-from src.components.start_simulation_coppelia import startSimulation
+from src.components.common.plots_environment import plot_rgb
+from src.components.step1_get_data.close_simulation_coppelia import close_simulation
+from src.components.step1_get_data.start_simulation_coppelia import startSimulation
 from src.coppelia import sim
 import numpy as np
 import time
-from src.components import save_files, create_folder
-from src.components.plots_environment import plot_rgb
+from src.components import create_folder
 
 
 def generate_rgb(clientID, name_folder):
@@ -26,7 +26,7 @@ def generate_rgb(clientID, name_folder):
             # Convertir la imagen en un array numpy
             img = np.array(image, dtype=np.uint8)
             img.resize([resolution[1], resolution[0], 3])
-            # plot_rgb(img, name_folder)
+            plot_rgb(img, name_folder)
     except Exception as e:
         print(e)
 
@@ -34,7 +34,7 @@ def generate_rgb(clientID, name_folder):
 
 
 def main():
-    name_folder = create_folder.create_folder()
+    name_folder = create_folder.create_folder("../../solutions")
     clientID = startSimulation()
     rgb = generate_rgb(clientID, name_folder)
     close_simulation(clientID)

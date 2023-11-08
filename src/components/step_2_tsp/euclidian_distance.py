@@ -1,5 +1,6 @@
 import math
-from src.components import get_row_of_position, load_files
+from src.components.common import load_files
+from src.components.step_2_tsp import get_row_of_position
 from src.steps import config
 
 

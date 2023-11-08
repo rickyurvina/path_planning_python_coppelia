@@ -1,6 +1,7 @@
-from src.components.informed_rrt import RRT
-from src.components.shift_positions import shift_positions
-from src.components import load_files, create_folder
+from src.components.step_3_rrt.informed_rrt import RRT
+from src.components.step_3_rrt.shift_positions import shift_positions
+from src.components.common import load_files
+from src.components import create_folder
 import os
 import traceback
 from colorama import init, Fore
@@ -65,7 +66,7 @@ def select_method(map_array, ordered_positions, rows, name_folder):
 
 
 if __name__ == '__main__':
-    data = load_files.load_solution_data()
+    data = load_files.load_solution_data("solutions")
     name_folder = create_folder.create_folder()
     print(data)
     informed_rrt(data, name_folder)

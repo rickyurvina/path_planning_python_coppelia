@@ -1,12 +1,11 @@
 import copy
 import math
-import pickle
 import random
 import matplotlib.pyplot as plt
 import numpy as np
 import reeds_shepp_path_planning
 from rrt_star import RRTStar
-from src.components import load_files
+from src.components.common import load_files
 
 show_animation = True
 

@@ -2,7 +2,7 @@ import traceback
 from colorama import Fore
 from matplotlib import pyplot as plt
 
-from src.components import save_files
+from src.components.common import save_files
 
 
 def draw_maps(map_data, name_folder):
@@ -25,7 +25,8 @@ def draw_maps(map_data, name_folder):
 
         # Ajusta los márgenes entre las subtramas
         plt.tight_layout()
-        plt.savefig(save_files.get_name_to_save_plot(name_folder, 'image_process'))
+        # TODO fix name folder
+        # plt.savefig(save_files.get_name_to_save_plot(name_folder, 'image_process'))
         plt.show()
 
 

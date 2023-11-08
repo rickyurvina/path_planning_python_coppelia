@@ -1,6 +1,7 @@
-from src.components.close_simulation_coppelia import close_simulation
-from src.components.start_simulation_coppelia import startSimulation
-from src.components import get_positions_objects, create_folder, generate_rgb, generate_cccupancy_grid
+from src.components.step1_get_data.close_simulation_coppelia import close_simulation
+from src.components.step1_get_data.start_simulation_coppelia import startSimulation
+from src.components.step1_get_data import generate_cccupancy_grid, generate_rgb, get_positions_objects
+from src.components import create_folder
 
 
 def get_data(name_folder):

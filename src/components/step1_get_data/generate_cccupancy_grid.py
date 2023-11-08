@@ -1,12 +1,12 @@
-from src.components.close_simulation_coppelia import close_simulation
-from src.components.draw_maps import draw_maps
-from src.components.start_simulation_coppelia import startSimulation
+from src.components.step1_get_data.close_simulation_coppelia import close_simulation
+from src.components.common.draw_maps import draw_maps
+from src.components.step1_get_data.start_simulation_coppelia import startSimulation
 from src.coppelia import sim
 import numpy as np
 import cv2
 from src.components import create_folder
-from src.components import get_positions_objects
-from src.components.generate_rgb import generate_rgb
+from src.components.step1_get_data import get_positions_objects
+from src.components.step1_get_data.generate_rgb import generate_rgb
 
 
 def generate_occupangy_grid(clientID, object_handles, name_folder):
@@ -111,7 +111,7 @@ def main(clientId, object_handles, name_folder):
 if __name__ == '__main__':
     clientId = startSimulation()
     _, _, _, object_handles = get_positions_objects.get_positions(clientId)
-    name_folder = create_folder.create_folder()
+    name_folder = create_folder.create_folder("../../solutions")
     occupancy_grid, gray, img = generate_occupangy_grid(clientId, object_handles, name_folder)
     rbg = generate_rgb(clientId, name_folder)
     occupancy_grid_processed = generate_occupancy_processed(gray)

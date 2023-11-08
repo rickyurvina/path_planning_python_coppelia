@@ -2,13 +2,12 @@ import numpy as np
 from scipy import spatial
 import traceback
 from colorama import init, Fore
-from src.components import get_row_of_position
+from src.components.step_2_tsp import get_row_of_position
 import matplotlib.pyplot as plt
-from src.components import save_files
-from src.components.shift_positions import shift_positions
-from src.components import load_files
+from src.components.step_3_rrt.shift_positions import shift_positions
+from src.components.common import load_files, save_files
 from src.components import create_folder
-from src.components.unicycle_robot import UnicycleRobot
+from src.components.step_3_rrt.unicycle_robot import UnicycleRobot
 from src.steps import config
 
 init()
@@ -26,6 +25,7 @@ class Node:
         self.invalid_travel_ratio = 5.0
         self.robot_radius = 0.0
         self.connect_circle_dist = 50.0
+        self.model = UnicycleRobot(0.1, 0.5, 0.1, 1.0, 0.5)
 
 
 class RRT:
@@ -216,15 +216,14 @@ class RRT:
                         plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
 
             plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
-            # if goal:
-            #     plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
+            if goal:
+                plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
             plt.title(name)
             plt.legend()
             plt.xlabel('X')
             plt.ylabel('Y')
-            filename = save_files.get_name_to_save_plot(self.name_folder, 'rrt')
+            filename = save_files.get_name_to_save_plot(self.name_folder, 'rrt', '../../solutions')
             plt.savefig(filename, dpi=500)
-
             plt.show()
         except Exception as e:
             print(Fore.RED + str(e))
@@ -252,13 +251,13 @@ class RRT:
                         plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
 
             plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
-            # if goal:
-            #     plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
+            if goal:
+                plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
             plt.title(name)
             plt.legend()
             plt.xlabel('X')
             plt.ylabel('Y')
-            filename = save_files.get_name_to_save_plot(self.name_folder, 'rrt')
+            filename = save_files.get_name_to_save_plot(self.name_folder, 'rrt', '../../solutions')
             plt.savefig(filename, dpi=500)
 
             plt.show()
@@ -298,6 +297,7 @@ class RRT:
                             c_best = self.path_cost(start, goal, c_best)
                         new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE, c_best)
                         new_node = self.extend(goal, new_point, config.RADIUS)
+                        # new_node = self.extend_unicycle(goal, new_point, config.RADIUS)
                         if new_node is not None:
                             neighbors = self.get_neighbors(new_node, config.NEIGHBOR_SIZE)
                             self.rewire(new_node, neighbors, start)
@@ -318,12 +318,36 @@ class RRT:
             print(Fore.RED + str(e))
             traceback.print_exc()
 
+    def extend_unicycle(self, goal, new_point, extend_dis=300):
+        nearest_node = self.get_nearest_node(new_point)
+        slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
+        v, omega = self.model.kinematics(1, 1)  # Calcula velocidad y velocidad angular
+        new_state = self.model.steer([nearest_node.row, nearest_node.col, nearest_node.theta, nearest_node.v], v, omega)
+        new_row = new_state[0]
+        new_col = new_state[1]
+        new_node = Node(int(new_row), int(new_col))
+        if (self.size_y_min <= new_row < self.size_y_max) and (self.size_x_min <= new_col < self.size_x_max) and \
+                not self.check_collision(nearest_node, new_node):
+            new_node.parent = nearest_node
+            new_node.cost = extend_dis
+            self.vertices.append(new_node)
+            if not self.found:
+                d = self.dis(new_node, goal)
+                if d < extend_dis:
+                    goal.cost = d
+                    goal.parent = new_node
+                    self.vertices.append(goal)
+                    self.found = True
+            return new_node
+        else:
+            return None
+
 
 def main():
     print("Start informed RRT Unicycle star planning")
     data = load_files.load_solution_data()
     ordered_transformed = shift_positions(data['ordered_positions'])
-    name_folder = create_folder.create_folder()
+    name_folder = create_folder.create_folder("../../solutions")
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder)
     RRT_PLANNER.informed_RRT_star()

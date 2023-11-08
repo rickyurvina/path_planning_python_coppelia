@@ -1,12 +1,14 @@
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
-from src.components.print_solution_tsp import print_solution_tsp
-from src.components.create_data_tsp import create_data_model
-from src.components.display_solution import plots_positions
-from src.components.routes_of_solution import get_routes
-from src.components.ordered_positions import get_ordered_positions
-from src.components import get_total_loaded, create_folder, load_files
-from src.steps import step_1_get_data, config
+from src.components.step_2_tsp.print_solution_tsp import print_solution_tsp
+from src.components.step_2_tsp.create_data_tsp import create_data_model
+from src.components.step_2_tsp.display_solution import plots_positions
+from src.components.step_2_tsp.routes_of_solution import get_routes
+from src.components.common.ordered_positions import get_ordered_positions
+from src.components.step_2_tsp import get_total_loaded
+from src.components.common import load_files
+from src.components import create_folder
+from src.steps import config
 from src.steps.step_1_get_data import get_data
 
 
@@ -74,7 +76,7 @@ def main(positions, weights, rows, name_folder):
 
     # Print solution on console.
     if solution:
-        print_solution_tsp(data, manager, routing, solution, name_folder)
+        # print_solution_tsp(data, manager, routing, solution, name_folder)
         plots_positions(get_routes(solution, routing, manager)[0], data, rows, name_folder)
         route = get_routes(solution, routing, manager)[0]
         ordered_positions = get_ordered_positions(route, data['positions'])
@@ -90,5 +92,5 @@ if __name__ == '__main__':
     if config.ON_LINE:
         data = get_data(name_folder)
     else:
-        data = load_files.load_solution_data()
+        data = load_files.load_solution_data("solutions")
     main(data['positions'], data['weights'], data['rows'], name_folder)

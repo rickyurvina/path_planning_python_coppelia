@@ -1,12 +1,14 @@
 import datetime
 import os
 
+from src.steps import config
 
-def create_folder():
+
+def create_folder(path_folder=config.PATH_FOLDER):
     fecha_actual = datetime.datetime.now().strftime("%d%m%Y")
 
     # Ruta de la carpeta donde se guardarán las soluciones
-    ruta_solutions = '../solutions'
+    ruta_solutions = path_folder
 
     # Obtener el número de la última solución en el directorio
     num_soluciones = sum(1 for _ in os.listdir(ruta_solutions) if os.path.isdir(os.path.join(ruta_solutions, _)))
@@ -21,7 +23,7 @@ def create_folder():
         nombre_carpeta = f"{nombre_base}_{contador}"
         contador += 1
 
-    parent_folder = "../solutions"  # Reemplaza con la ruta específica deseada
+    parent_folder = path_folder
 
     new_folder_path = os.path.join(parent_folder, nombre_carpeta)
     os.mkdir(new_folder_path)

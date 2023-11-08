@@ -1,5 +1,5 @@
-from src.components import load_files
-from src.components.create_data_tsp import create_data_model
+from src.components.common import load_files
+from src.components.step_2_tsp.create_data_tsp import create_data_model
 
 
 def get_routes(solution, routing, manager):

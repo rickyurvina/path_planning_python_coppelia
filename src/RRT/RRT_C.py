@@ -2,9 +2,9 @@ import numpy as np
 from scipy import spatial
 import traceback
 from colorama import init, Fore
-from src.components import get_row_of_position
+from src.components.step_2_tsp import get_row_of_position
 import matplotlib.pyplot as plt
-from src.components import save_files
+from src.components.common import save_files
 from src.steps import config
 
 init()

@@ -1,7 +1,7 @@
 import numpy as np
 
-from src.components.close_simulation_coppelia import close_simulation
-from src.components.start_simulation_coppelia import startSimulation
+from src.components.step1_get_data.close_simulation_coppelia import close_simulation
+from src.components.step1_get_data.start_simulation_coppelia import startSimulation
 from src.coppelia import sim
 from src.steps import config
 
@@ -14,7 +14,7 @@ def get_positions(clientID):
     rows = {}
 
     for h in range(int(config.NUM_ROWS)):
-        if h == 0 and config.HUSKY == '1':
+        if h == 0 and config.HUSKY == 1:
             row_name = f'h{h}'
             rows[row_name] = {}
             object_name = 'Husky'
@@ -32,11 +32,8 @@ def get_positions(clientID):
             object_name = f'hi{h + 1}b{o + 1}'
             _, cuboid_handle = sim.simxGetObjectHandle(clientID, object_name, sim.simx_opmode_blocking)
             _, mass = sim.simxGetObjectFloatParameter(clientID, cuboid_handle, 3005, sim.simx_opmode_blocking)
-            # if (mass > 0):
             weights.append(int(mass))
             object_handles.append(cuboid_handle)
-            # weights.append(random.randint(3, 9))
-            # weights.append(5)
             _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)
             pos = [position[0], position[1]]
             positions.append(pos)
@@ -45,9 +42,7 @@ def get_positions(clientID):
             object_name = f'hi{h + 1}c{o + 1}'
             _, cuboid_handle = sim.simxGetObjectHandle(clientID, object_name, sim.simx_opmode_blocking)
             _, mass = sim.simxGetObjectFloatParameter(clientID, cuboid_handle, 3005, sim.simx_opmode_blocking)
-            # if (mass > 0):
-            # weights.append(5)
-            # weights.append(random.randint(3, 9))
+
             weights.append(int(mass))
             object_handles.append(cuboid_handle)
             _, position = sim.simxGetObjectPosition(clientID, cuboid_handle, -1, sim.simx_opmode_blocking)

@@ -1,4 +1,4 @@
-from src.components import load_files
+from src.components.common import load_files
 
 
 def get_ordered_positions(route, positions):

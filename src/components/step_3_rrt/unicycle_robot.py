@@ -1,11 +1,13 @@
 import numpy as np
 
+
 class UnicycleRobot:
-    def __init__(self, wheel_radius, L, dt,accel_max,steer_max):
+    def __init__(self, wheel_radius, L, dt, accel_max, steer_max):
         self.wheel_radius = wheel_radius
         self.L = L
         self.dt = dt
-        self.accel_max=accel_max
+        self.accel_max = accel_max
+        # TODO MAX ANGLE CURVATURE
         self.steer_max = steer_max
 
     def kinematics(self, w_r, w_l):
@@ -27,7 +29,7 @@ class UnicycleRobot:
 
         return np.array([x, y, theta, v])
 
-# Ejemplo de uso
+
 if __name__ == '__main__':
     # Parámetros del robot
     wheel_radius = 0.1  # Radio de las ruedas
@@ -42,8 +44,7 @@ if __name__ == '__main__':
     # Estado inicial del robot [x, y, theta, v]
     initial_state = np.array([0.0, 0.0, 0.0, 0.0])
 
-    # Simular el movimiento del robot
-    for _ in range(10):  # Realiza 10 pasos de simulación
+    for _ in range(10):
         # Genera valores aleatorios para la velocidad y el ángulo de giro
         velocity = np.random.uniform(0, accel_max)  # Velocidad aleatoria
         steering_angle = np.random.uniform(-steer_max, steer_max)  # Ángulo de giro aleatorio

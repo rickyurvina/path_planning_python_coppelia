@@ -1,10 +1,9 @@
 import step_2_tsp
 import step_1_get_data
-from src.components import save_files
+from src.components.common import load_files, save_files
 from src.components import create_folder
-from src.components.save_on_database import save_data_base
+from src.components.common.save_on_database import save_data_base
 import time
-from src.components import load_files
 import step_3_rrt
 from colorama import init, Fore
 import config
@@ -39,7 +38,7 @@ def main():
         print("execution_time_tsp", execution_time_tsp)
 
         if config.ON_LINE == 0:
-            data = load_files.load_solution_data()
+            data = load_files.load_solution_data("solutions")
         paths = []
         # RRT
         start_time_rrt = time.time()

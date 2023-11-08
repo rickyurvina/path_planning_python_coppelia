@@ -1,6 +1,3 @@
-from src.components import load_files
-
-
 def get_total_loaded(data, manager, routing, solution):
     for vehicle_id in range(data['num_vehicles']):
         index = routing.Start(vehicle_id)
