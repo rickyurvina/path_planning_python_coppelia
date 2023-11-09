@@ -26,8 +26,8 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
     rightmost_x = max(positions, key=lambda pos: pos[0])[0]
     lowest_y = min(positions, key=lambda pos: pos[1])[1]
     highest_y = max(positions, key=lambda pos: pos[1])[1]
-    ax.set_xlim([leftmost_x - 3, rightmost_x + 3])
-    ax.set_ylim([lowest_y - 3, highest_y + 3])
+    ax.set_xlim([leftmost_x - 1.5, rightmost_x + 2])
+    ax.set_ylim([lowest_y - 2, highest_y + 1.5])
     i = 0
     for position, weight in zip(positions, weights):
 
@@ -47,16 +47,18 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
             if actual_row == 'h0' or next_row == 'h0':
                 weightText = 'Depot'
 
-        ax.text(position[0], position[1], weightText, color=colorText, ha='center', va='center', label='Node')
+        ax.text(position[0], position[1], weightText, color=colorText, ha='center', va='center',
+                label='Node', fontsize=14, fontweight='bold')
         i = i + 1
-    plt.colorbar(scalar_map, label='Weight scale (Kg)', orientation='vertical', pad=0.01, shrink=0.8)
+    # plt.colorbar(scalar_map, label='Weight scale (Kg)', orientation='vertical', pad=0.01, shrink=0.8)
     total_distance = 0
+    total_loaded = 0
     for i in range(len(ordered_positions) - 1):
         start_pos = ordered_positions[i]
         end_pos = ordered_positions[i + 1]
         angle_rot = np.arctan2(end_pos[1] - start_pos[1], end_pos[0] - start_pos[0])
-        radius = 0.9
-        radius_start = 0.8
+        radius = 1.2
+        radius_start = 0.7
         start_x = start_pos[0] + radius_start * np.cos(angle_rot)
         start_y = start_pos[1] + radius_start * np.sin(angle_rot)
         end_x = end_pos[0] - radius * np.cos(angle_rot)
@@ -76,6 +78,7 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
         dist = cdist([start_pos], [end_pos])[0][0]
         custom_cost = dist * factor / weight_to_node
         total_distance += custom_cost
+        total_loaded += ordered_weights[i + 1]
 
         angle = np.arctan2(end_pos[1] - start_pos[1], end_pos[0] - start_pos[0]) * 180 / np.pi
 
@@ -98,18 +101,24 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
 
     # Crear la leyenda con la distancia total
     legend_text = f"Total cost: {total_distance:.2f}(c)"
+    total_loaded_text = f"Total loaded: {total_loaded:.2f}(Kg)"
     capacity = f"DDR capacity: {config.VEHICLE_CAPACITIES}(kg)"
     distance_text = mpatches.Patch(color='white', label=legend_text)
     capacity_text = mpatches.Patch(color='white', label=capacity)
-    plt.legend(handles=[distance_text, capacity_text, arrow])
-    ax.grid(True)
+    loaded_text = mpatches.Patch(color='white', label=total_loaded_text)
+
+    plt.legend(handles=[capacity_text, distance_text, loaded_text, arrow], fontsize="11.5", shadow=True, borderpad=1,
+               loc='lower right')
+    # ax.grid(True)
     filename = save_files.get_name_to_save_plot(name_folder, 'tsp_solution_weighted')
-    plt.title("Prioritized route for harvesting")
-    plt.xlabel('x-coord (m)')
-    plt.ylabel('y-coord (m)')
-    # plt.savefig(filename, dpi=500)
-    print("Saved as", filename)
+    # plt.title("Prioritized route for harvesting")
+    plt.xlabel('x-coordinates (m)')
+    plt.ylabel('y-coordinates (m)')
+    plt.savefig(filename, dpi=500)
     plt.show()
+
+    print("Saved as", filename)
+    return plt
 
 
 if __name__ == '__main__':

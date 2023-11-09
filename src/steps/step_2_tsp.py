@@ -10,6 +10,8 @@ from src.components.common import load_files
 from src.components import create_folder
 from src.steps import config
 from src.steps.step_1_get_data import get_data
+import random
+from matplotlib import pyplot as plt
 
 
 def main(positions, weights, rows, name_folder):
@@ -77,14 +79,24 @@ def main(positions, weights, rows, name_folder):
     # Print solution on console.
     if solution:
         # print_solution_tsp(data, manager, routing, solution, name_folder)
-        plots_positions(get_routes(solution, routing, manager)[0], data, rows, name_folder)
+        plt = plots_positions(get_routes(solution, routing, manager)[0], data, rows, name_folder)
         route = get_routes(solution, routing, manager)[0]
         ordered_positions = get_ordered_positions(route, data['positions'])
         total_loaded = get_total_loaded.get_total_loaded(data, manager, routing, solution)
         total_length = get_total_loaded.get_total_length(data, routing, solution)
-        return ordered_positions, route, total_loaded, total_length
+        return ordered_positions, route, total_loaded, total_length, plt
     else:
         print("Solver status: Error al resolver el problema")
+
+
+def run_tsp_with_varied_capacity(data, name_folder, num_tests=6):
+    for i in range(num_tests):
+        # Genera una capacidad aleatoria para la prueba actual
+        random_capacity = random.randint(8, 45)
+        # Modifica temporalmente la capacidad en config
+        config.VEHICLE_CAPACITIES = random_capacity
+        # Ejecuta el TSP con la capacidad modificada
+        main(data['positions'], data['weights'], data['rows'], name_folder)
 
 
 if __name__ == '__main__':
@@ -93,4 +105,5 @@ if __name__ == '__main__':
         data = get_data(name_folder)
     else:
         data = load_files.load_solution_data("solutions")
-    main(data['positions'], data['weights'], data['rows'], name_folder)
+    # main(data['positions'], data['weights'], data['rows'], name_folder)
+    run_tsp_with_varied_capacity(data, name_folder)

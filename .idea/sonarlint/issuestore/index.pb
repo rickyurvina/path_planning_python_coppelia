@@ -94,5 +94,9 @@ k
 -src/components/common/delete_empty_folders.py,f\7\f758a3f6cf32f4c09e760d0d89d146982744170a
 h
 8src/components/step1_get_data/generate_cccupancy_grid.py,f\4\f41e0557677161dc61a36f379e16f977e89073c7
-`
-0src/components/step1_get_data/create_data_tsp.py,e\a\ea78866458e99ad66b3caaa0fefcdc27157114be
+F
+src/common/test_rrt.py,a\1\a1793d71ead304a16a5a24963aefca01e1349d36
+j
+:src/components/step1_get_data/close_simulation_coppelia.py,1\8\18799bb25fd4e8b2b78b25aee5562191f91e46ed
+\
+,src/components/step_2_tsp/create_data_tsp.py,a\2\a23b56aa0df012f0d5196fceaaaa30274485df9d

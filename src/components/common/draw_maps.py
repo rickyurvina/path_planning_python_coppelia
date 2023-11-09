@@ -20,13 +20,13 @@ def draw_maps(map_data, name_folder):
             else:
                 ax.imshow(occupancy_grid, cmap='gray', origin='lower')
             ax.set_title(name)
-            ax.set_xlabel('X-Coordinates (px)')
-            ax.set_ylabel('Y-Coordinates (px)')
+            ax.set_xlabel('X-Coordinates (px)', fontsize=14)
+            ax.set_ylabel('Y-Coordinates (px)', fontsize=14)
 
         # Ajusta los márgenes entre las subtramas
         plt.tight_layout()
         # TODO fix name folder
-        # plt.savefig(save_files.get_name_to_save_plot(name_folder, 'image_process'))
+        plt.savefig(save_files.get_name_to_save_plot(name_folder, 'image_process', '../../solutions'))
         plt.show()
 
 
