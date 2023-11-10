@@ -100,3 +100,5 @@ j
 :src/components/step1_get_data/close_simulation_coppelia.py,1\8\18799bb25fd4e8b2b78b25aee5562191f91e46ed
 \
 ,src/components/step_2_tsp/create_data_tsp.py,a\2\a23b56aa0df012f0d5196fceaaaa30274485df9d
+X
+(src/components/common/create_img_grid.py,7\f\7fe2387b57c1bfd766c582e4863f53effcd4a539
