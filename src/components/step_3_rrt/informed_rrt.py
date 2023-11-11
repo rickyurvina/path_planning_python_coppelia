@@ -216,8 +216,8 @@ class RRT:
                         plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
 
             plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
-            if goal:
-                plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
+            # if goal:
+            #     plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
             plt.title(name)
             plt.legend()
             plt.xlabel('X')
@@ -265,66 +265,49 @@ class RRT:
             print(Fore.RED + str(e))
             traceback.print_exc()
 
-    def RRT(self, n_pts=1000):
-        '''RRT main search function
-        arguments:
-            n_pts - number of points try to sample,
-                    not the number of final sampled points
+    def RRT_NORMAL(self, n_pts=10000):
+        path = []
+        search_vertices = []
+        sum_path_length = 0
+        self.init_map()
 
-        In each step, extend a new node if possible, and check if reached the goal
-        '''
-        # Remove previous result
+        for index, (position) in enumerate(self.goals):
+            if index == config.BREAK_AT:
+                break
+            print(config.POSITION_INDEX, index)
+            if index != len(self.goals) - 1:
+                start = position
+                goal = self.goals[index + 1]
+                if index > 0:
+                    self.found = False
+                    self.vertices = []
+                    self.vertices.append(start)
+                    actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
+                    next_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                         self.ordered_positions[index + 1])
+                    if actual_row != next_row:
+                        n_pts = config.MAX_ITER
+                    else:
+                        n_pts = config.MIN_ITER
+                i = 0
 
-        try:
-            path = []
-            search_vertices = []
-            sum_path_length = 0
-            self.init_map()
-
-            for index, (position) in enumerate(self.goals):
-                if index == config.BREAK_AT:
-                    break
-                print(config.POSITION_INDEX, index)
-                if index != len(self.goals) - 1:
-                    start = position
-                    goal = self.goals[index + 1]
-                    if index > 0:
-                        self.found = False
-                        self.vertices = []
-                        self.vertices.append(start)
-                        actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
-                        next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                             self.ordered_positions[index + 1])
-                        if actual_row != next_row:
-                            n_pts = config.MAX_ITER
-                        else:
-                            n_pts = config.MIN_ITER
-                    i = 0
-                    # Start searching
-                    for i in range(n_pts):
-                        # Extend a new node until all the points are sampled
-                        # or find the path
-                        new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE)
-                        # new_node = self.extend(new_point, 10)
+                for i in range(n_pts):
+                    new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE)
+                    new_node = self.extend(goal, new_point, config.RADIUS)
                     if self.found:
                         break
 
-                    # Output
-                    if self.found:
-                        steps = len(self.vertices) - 2
-                        length = self.path_cost(self.start, self.goal)
-                        print("It took %d nodes to find the current paths" % steps)
-                        print("The path length is %.2f" % length)
-                        self.draw_map(path, config.METHOD)
-                        self.draw_mapRGB(path, config.METHOD)
+                # Output
+                if self.found:
+                    print(config.MESSAGE_DONE)
+                    self.draw_map(path, config.METHOD)
+                    # self.draw_mapRGB(path, config.METHOD)
+                    print(config.MESSAGE_PLOTTED)
+                if not self.found:
+                    print("No path found")
 
-            if not self.found:
-                print("No path found")
-
-            # Draw result
-        except Exception as e:
-            print(Fore.RED + str(e))
-            traceback.print_exc()
+        # Draw result
+        # self.draw_map()
 
     def RRT_star(self, n_pts=1000, neighbor_size=20):
         '''RRT* search function
@@ -444,7 +427,7 @@ def main():
     name_folder = create_folder.create_folder("../../solutions")
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder)
-    RRT_PLANNER.RRT()
+    RRT_PLANNER.RRT_NORMAL()
 
 
 if __name__ == '__main__':
