@@ -1,3 +1,5 @@
+from random import random
+
 import numpy as np
 from scipy import spatial
 import traceback
@@ -9,6 +11,8 @@ from src.components.common import load_files, save_files
 from src.components import create_folder
 from src.components.step_3_rrt.unicycle_robot import UnicycleRobot
 from src.steps import config
+import matplotlib.patches as mpatches
+import matplotlib.lines as mlines
 
 init()
 
@@ -196,8 +200,18 @@ class RRT:
     def draw_map(self, path, name='RRT'):
         try:
             fig, ax = plt.subplots(1)
-            # fig, ax = plt.subplots(2)
             ax.imshow(self.map_array, cmap='gray', origin='lower')
+            goals_legends = []
+            goal_colours = {
+                0: 'r',
+                1: 'b',
+                2: 'g',
+                3: 'c',
+                4: 'm',
+                5: 'y',
+                6: 'k',
+                7: 'w',
+            }
 
             if self.found:
                 for index, (goal) in enumerate(path):
@@ -213,16 +227,28 @@ class RRT:
                             lines.append([cur.col, cur.row, cur.parent.col, cur.parent.row])
                             cur = cur.parent
                         lines = np.array(lines)
-                        plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
+                        color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255), np.random.randint(0, 255),
+                                                              np.random.randint(0, 255))
+                        plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color=color_)
+                        if goal:
+                            legend_goal = plt.plot(goal.col, goal.row, markersize=5, marker='o', color=color_,
+                                                   label='Goal')
+                            goals_legends.append(legend_goal)
 
             plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
-            # if goal:
-            #     plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
+
+            custom_texts = [
+                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"Total cost: "),
+                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"Total loaded: "),
+                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"DDR capacity:")
+            ]
             plt.title(name)
-            plt.legend()
-            plt.xlabel('X')
-            plt.ylabel('Y')
-            filename = save_files.get_name_to_save_plot(self.name_folder, 'rrt', '../../solutions')
+            fig.legend(handles=custom_texts, fontsize="11.5", shadow=True, borderpad=1, loc='outside lower right',
+                       bbox_to_anchor=(1.01, 0.1))
+            plt.legend(bbox_to_anchor=(1.01, 1), fontsize="11.5", shadow=True, borderpad=1, loc='upper left')
+            plt.xlabel('x-coordinates (px)', labelpad=8, fontsize=14)
+            plt.ylabel('y-coordinates (px)', labelpad=8, fontsize=14)
+            filename = save_files.get_name_to_save_plot(self.name_folder, name, '../../solutions')
             plt.savefig(filename, dpi=500)
             plt.show()
         except Exception as e:
@@ -234,6 +260,18 @@ class RRT:
             fig, ax = plt.subplots(1)
             ax.imshow(self.map_array_rgb, cmap='gray', origin='lower')
 
+            goals_legends = []
+            goal_colours = {
+                0: 'r',
+                1: 'b',
+                2: 'g',
+                3: 'c',
+                4: 'm',
+                5: 'y',
+                6: 'k',
+                7: 'w',
+            }
+
             if self.found:
                 for index, (goal) in enumerate(path):
                     cur = goal
@@ -248,18 +286,29 @@ class RRT:
                             lines.append([cur.col, cur.row, cur.parent.col, cur.parent.row])
                             cur = cur.parent
                         lines = np.array(lines)
-                        plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color='b')
+                        color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255), np.random.randint(0, 255),
+                                                              np.random.randint(0, 255))
+                        plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color=color_)
+                        if goal:
+                            legend_goal = plt.plot(goal.col, goal.row, markersize=5, marker='o', color=color_,
+                                                   label='Goal')
+                            goals_legends.append(legend_goal)
 
             plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
-            if goal:
-                plt.plot(goal.col, goal.row, markersize=5, marker='o', color='r', label='Goal')
-            plt.title(name)
-            plt.legend()
-            plt.xlabel('X')
-            plt.ylabel('Y')
-            filename = save_files.get_name_to_save_plot(self.name_folder, 'rrt', '../../solutions')
-            plt.savefig(filename, dpi=500)
 
+            custom_texts = [
+                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"Total cost: "),
+                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"Total loaded: "),
+                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"DDR capacity:")
+            ]
+            plt.title(name)
+            fig.legend(handles=custom_texts, fontsize="11.5", shadow=True, borderpad=1, loc='outside lower right',
+                       bbox_to_anchor=(1.01, 0.1))
+            plt.legend(bbox_to_anchor=(1.01, 1), fontsize="11.5", shadow=True, borderpad=1, loc='upper left')
+            plt.xlabel('x-coordinates (px)', labelpad=8, fontsize=14)
+            plt.ylabel('y-coordinates (px)', labelpad=8, fontsize=14)
+            filename = save_files.get_name_to_save_plot(self.name_folder, name, '../../solutions')
+            plt.savefig(filename, dpi=500)
             plt.show()
         except Exception as e:
             print(Fore.RED + str(e))
@@ -268,7 +317,6 @@ class RRT:
     def RRT_NORMAL(self, n_pts=10000):
         path = []
         search_vertices = []
-        sum_path_length = 0
         self.init_map()
 
         for index, (position) in enumerate(self.goals):
@@ -296,51 +344,74 @@ class RRT:
                     new_node = self.extend(goal, new_point, config.RADIUS)
                     if self.found:
                         break
+                if self.found:
+                    steps = len(self.vertices) - 2
+                    print(config.MESSAGE_PATH % steps)
+                else:
+                    print(Fore.RED + config.PATH_NO_FOUND)
+                path.append(goal)
+                search_vertices.append(self.vertices)
 
                 # Output
-                if self.found:
-                    print(config.MESSAGE_DONE)
-                    self.draw_map(path, config.METHOD)
-                    # self.draw_mapRGB(path, config.METHOD)
-                    print(config.MESSAGE_PLOTTED)
-                if not self.found:
-                    print("No path found")
-
-        # Draw result
-        # self.draw_map()
-
-    def RRT_star(self, n_pts=1000, neighbor_size=20):
-        '''RRT* search function
-        arguments:
-            n_pts - number of points try to sample,
-                    not the number of final sampled points
-            neighbor_size - the neighbor distance
-
-        In each step, extend a new node if possible, and rewire the node and its neighbors
-        '''
-        # Remove previous result
-        self.init_map()
-        # Start searching
-        for i in range(n_pts):
-            # Extend a new node
-            new_point = self.sample(0.05, 0)
-            new_node = self.extend(new_point, 10)
-            # Rewire
-            if new_node is not None:
-                neighbors = self.get_neighbors(new_node, neighbor_size)
-                self.rewire(new_node, neighbors)
-
-        # Output
         if self.found:
-            steps = len(self.vertices) - 2
-            length = self.path_cost(self.start, self.goal)
-            print("It took %d nodes to find the current path" % steps)
-            print("The path length is %.2f" % length)
-        else:
-            print("No path found")
+            print(config.MESSAGE_DONE)
+            self.draw_map(path, "RRT")
+            self.draw_mapRGB(path, "RRT")
+            print(config.MESSAGE_PLOTTED)
 
-        # Draw result
-        self.draw_map()
+    def RRT_star(self, n_pts=1000):
+        try:
+            path = []
+            search_vertices = []
+            self.init_map()
+
+            for index, (position) in enumerate(self.goals):
+                if index == config.BREAK_AT:
+                    break
+                print(config.POSITION_INDEX, index)
+                if index != len(self.goals) - 1:
+                    start = position
+                    goal = self.goals[index + 1]
+                    if index > 0:
+                        self.found = False
+                        self.vertices = []
+                        self.vertices.append(start)
+                        actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
+                        next_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                             self.ordered_positions[index + 1])
+                        if actual_row != next_row:
+                            n_pts = config.MAX_ITER
+                        else:
+                            n_pts = config.MIN_ITER
+                    i = 0
+                    for i in range(n_pts):
+                        # Extend a new node
+                        new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE)
+
+                        new_node = self.extend(goal, new_point, config.RADIUS)
+                        # Rewire
+                        if new_node is not None:
+                            neighbors = self.get_neighbors(new_node, config.NEIGHBOR_SIZE)
+                            self.rewire(new_node, neighbors, start)
+                    if self.found:
+                        steps = len(self.vertices) - 2
+                        print(config.MESSAGE_PATH % steps)
+                    else:
+                        print(Fore.RED + config.PATH_NO_FOUND)
+                    path.append(goal)
+                    search_vertices.append(self.vertices)
+
+            # Output
+            if self.found:
+                print(config.MESSAGE_DONE)
+                self.draw_map(path, "RRT*")
+                # self.draw_mapRGB(path, "RRT*")
+                print(config.MESSAGE_PLOTTED)
+            else:
+                print("No path found")
+        except Exception as e:
+            print(Fore.RED + str(e))
+            traceback.print_exc()
 
     def informed_RRT_star(self, n_pts=config.MIN_ITER):
         try:
@@ -428,6 +499,8 @@ def main():
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder)
     RRT_PLANNER.RRT_NORMAL()
+    # RRT_PLANNER.RRT_star()
+    # RRT_PLANNER.informed_RRT_star()
 
 
 if __name__ == '__main__':
