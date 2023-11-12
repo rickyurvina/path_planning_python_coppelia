@@ -42,7 +42,7 @@ def main():
         paths = []
         # RRT
         start_time_rrt = time.time()
-        method, total_nodes, total_cost, total_samples_in_object, total_planning_time, search_vertices = step_3_rrt.informed_rrt(
+        method, total_nodes, total_cost, total_samples_in_object, total_planning_time, search_vertices, total_samples, success = step_3_rrt.informed_rrt(
             data,
             name_folder)
         paths.append(search_vertices)
@@ -75,9 +75,9 @@ def main():
             'tsp_time': execution_time_tsp,
             'rrt_time': execution_time_rrt,
             'folder': name_folder,
-            'path_length_rrt': total_cost,
-            'total_loaded_tsp': total_loaded_tsp,
-            'total_length_tsp': total_length_tsp,
+            'path_length_rrt': total_cost if success else 0,
+            'total_loaded_tsp': total_loaded_tsp if success else 0,
+            'total_length_tsp': total_length_tsp if success else 0,
         }
         save_data_base(data)
         save_files.save_workspace(variables, name_folder)
