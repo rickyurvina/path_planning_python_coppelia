@@ -1,7 +1,11 @@
+from datetime import datetime
+
 import mysql.connector
 import traceback
 from colorama import init, Fore
-import config
+
+from src.steps import config
+
 init()
 
 
@@ -45,6 +49,40 @@ def save_data_base(data):
         cnx.close()
         print(Fore.LIGHTGREEN_EX + "Data saved successfully")
 
+    except Exception as e:
+        print(e)
+        traceback.print_exc()
+
+
+def save_data_rrt_test(data):
+    try:
+        cnx = mysql.connector.connect(
+            user='root',
+            password='12345',
+            host='localhost',
+            database='tesis'
+        )
+
+        cursor = cnx.cursor()
+        method = data['method']
+        test_number = data['test_number']
+        total_cost = data['total_cost']
+        total_samples_in_object = data['total_samples_in_object']
+        total_planning_time = data['total_planning_time']
+        waypoints_number = data['waypoints_number']
+        min_iter = config.MIN_ITER
+        max_iter = config.MAX_ITER
+        date = datetime.now()
+        name_folder = data['name_folder']
+
+        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_samples_in_object, total_planning_time, waypoints_number, min_iter, max_iter, date, name_folder) VALUES (%s, %s, %s, %s,%s, %s, %s, %s,%s,%s)"
+        values = (
+            method, test_number, total_cost, total_samples_in_object, total_planning_time, waypoints_number,
+            min_iter, max_iter, date, name_folder)
+        cursor.execute(query, values)
+        cnx.commit()
+        cursor.close()
+        cnx.close()
     except Exception as e:
         print(e)
         traceback.print_exc()

@@ -1,9 +1,12 @@
+from datetime import datetime
 from random import random
 
 import numpy as np
 from scipy import spatial
 import traceback
 from colorama import init, Fore
+
+from src.components.common.save_on_database import save_data_rrt_test
 from src.components.step_2_tsp import get_row_of_position
 import matplotlib.pyplot as plt
 from src.components.step_3_rrt.shift_positions import shift_positions
@@ -11,8 +14,8 @@ from src.components.common import load_files, save_files
 from src.components import create_folder
 from src.components.step_3_rrt.unicycle_robot import UnicycleRobot
 from src.steps import config
-import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
+import time
 
 init()
 
@@ -30,10 +33,13 @@ class Node:
         self.robot_radius = 0.0
         self.connect_circle_dist = 50.0
         self.model = UnicycleRobot(0.1, 0.5, 0.1, 1.0, 0.5)
+        self.total_nodes = 0
+        self.execution_time_rrt = 0
 
 
 class RRT:
-    def __init__(self, map_array, map_array_rgb, goals, rows, ordered_positions, name_folder):
+    def __init__(self, map_array, map_array_rgb, goals, rows, ordered_positions, name_folder,
+                 path_solutions=config.PATH_FOLDER):
         self.map_array = map_array  # map array, 1->free, 0->obstacle
         self.map_array_rgb = map_array_rgb  # map array, 1->free, 0->obstacle
         self.rows = rows  # map array, 1->free, 0->obstacle
@@ -48,12 +54,21 @@ class RRT:
         self.vertices = []  # list of nodes
         self.found = False  # found flag
         self.name_folder = name_folder
+        self.path_solutions = path_solutions
         self.model = UnicycleRobot(0.1, 0.5, 0.1, 1.0, 0.5)
+        self.total_samples_in_object = 0
+        self.total_planning_time = 0
+        self.total_cost = 0
+        self.font_size = 18
 
     def init_map(self):
         self.found = False
         self.vertices = []
         self.vertices.append(self.goals[0])
+        self.total_nodes = 0
+        self.total_cost = 0
+        self.total_samples_in_object = 0
+        self.total_planning_time = 0
 
     def dis(self, node1, node2):
         return np.sqrt((node1.row - node2.row) ** 2 + (node1.col - node2.col) ** 2)
@@ -65,8 +80,56 @@ class RRT:
                              np.linspace(node1.col, node2.col, dtype=int))
         for point in points_between:
             if self.map_array[point[0]][point[1]] == 0:
+                self.total_samples_in_object += 1
                 return True
         return False
+
+    def extend_unicycle(self, goal, new_point, extend_dis=300):
+        nearest_node = self.get_nearest_node(new_point)
+        slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
+        v, omega = self.model.kinematics(1, 1)  # Calcula velocidad y velocidad angular
+        new_state = self.model.steer([nearest_node.row, nearest_node.col, nearest_node.theta, nearest_node.v], v, omega)
+        new_row = new_state[0]
+        new_col = new_state[1]
+        new_node = Node(int(new_row), int(new_col))
+        if (self.size_y_min <= new_row < self.size_y_max) and (self.size_x_min <= new_col < self.size_x_max) and \
+                not self.check_collision(nearest_node, new_node):
+            new_node.parent = nearest_node
+            new_node.cost = extend_dis
+            self.vertices.append(new_node)
+            if not self.found:
+                d = self.dis(new_node, goal)
+                if d < extend_dis:
+                    goal.cost = d
+                    goal.parent = new_node
+                    self.vertices.append(goal)
+                    self.found = True
+            return new_node
+        else:
+            return None
+
+    def path_cost_final(self, start_node, end_node):
+        '''Compute path cost starting from start node to end node
+        arguments:
+            start_node - path start node
+            end_node - path end node
+
+        return:
+            cost - path cost
+        '''
+        cost = 0
+        curr_node = end_node
+        while start_node.row != curr_node.row or start_node.col != curr_node.col:
+            # Keep tracing back until finding the start_node
+            # or no path exists
+            parent = curr_node.parent
+            if parent is None:
+                print("Invalid Path")
+                return 0
+            cost += curr_node.cost
+            curr_node = parent
+
+        return cost
 
     def get_new_point(self, goal_bias, start, goal):
         min_x = min(start.col, goal.col) - config.LIMIT_AOI
@@ -199,78 +262,10 @@ class RRT:
 
     def draw_map(self, path, name='RRT'):
         try:
-            fig, ax = plt.subplots(1)
-            ax.imshow(self.map_array, cmap='gray', origin='lower')
-            goals_legends = []
-            goal_colours = {
-                0: 'r',
-                1: 'b',
-                2: 'g',
-                3: 'c',
-                4: 'm',
-                5: 'y',
-                6: 'k',
-                7: 'w',
-            }
-
-            if self.found:
-                for index, (goal) in enumerate(path):
-                    cur = goal
-                    if cur.parent is not None:
-                        start = self.goals[index]
-                        # Draw Trees or Sample points
-                        # for node in self.vertices[1:-1]:
-                        #     plt.plot(node.col, node.row, markersize=3, marker='o', color='y')
-                        #     plt.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
-                        lines = []
-                        while cur.col != start.col or cur.row != start.row:
-                            lines.append([cur.col, cur.row, cur.parent.col, cur.parent.row])
-                            cur = cur.parent
-                        lines = np.array(lines)
-                        color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255), np.random.randint(0, 255),
-                                                              np.random.randint(0, 255))
-                        plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color=color_)
-                        if goal:
-                            legend_goal = plt.plot(goal.col, goal.row, markersize=5, marker='o', color=color_,
-                                                   label='Goal')
-                            goals_legends.append(legend_goal)
-
-            plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
-
-            custom_texts = [
-                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"Total cost: "),
-                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"Total loaded: "),
-                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"DDR capacity:")
-            ]
-            plt.title(name)
-            fig.legend(handles=custom_texts, fontsize="11.5", shadow=True, borderpad=1, loc='outside lower right',
-                       bbox_to_anchor=(1.01, 0.1))
-            plt.legend(bbox_to_anchor=(1.01, 1), fontsize="11.5", shadow=True, borderpad=1, loc='upper left')
-            plt.xlabel('x-coordinates (px)', labelpad=8, fontsize=14)
-            plt.ylabel('y-coordinates (px)', labelpad=8, fontsize=14)
-            filename = save_files.get_name_to_save_plot(self.name_folder, name, '../../solutions')
-            plt.savefig(filename, dpi=500)
-            plt.show()
-        except Exception as e:
-            print(Fore.RED + str(e))
-            traceback.print_exc()
-
-    def draw_mapRGB(self, path, name='RRT'):
-        try:
-            fig, ax = plt.subplots(1)
+            fig, ax = plt.subplots(1, figsize=(12, 6))
+            fig2, ax2 = plt.subplots(1, figsize=(12, 6))
             ax.imshow(self.map_array_rgb, cmap='gray', origin='lower')
-
-            goals_legends = []
-            goal_colours = {
-                0: 'r',
-                1: 'b',
-                2: 'g',
-                3: 'c',
-                4: 'm',
-                5: 'y',
-                6: 'k',
-                7: 'w',
-            }
+            ax2.imshow(self.map_array, cmap='gray', origin='lower')
 
             if self.found:
                 for index, (goal) in enumerate(path):
@@ -288,83 +283,186 @@ class RRT:
                         lines = np.array(lines)
                         color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255), np.random.randint(0, 255),
                                                               np.random.randint(0, 255))
-                        plt.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color=color_)
+                        ax.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color=color_)
+                        ax2.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color=color_)
                         if goal:
-                            legend_goal = plt.plot(goal.col, goal.row, markersize=5, marker='o', color=color_,
-                                                   label='Goal')
-                            goals_legends.append(legend_goal)
+                            ax.plot(goal.col, goal.row, markersize=5, marker='o', color=color_,
+                                    label='Goal')
+                            ax2.plot(goal.col, goal.row, markersize=5, marker='o', color=color_,
+                                     label='Goal')
 
-            plt.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
+            ax.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
+            ax2.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
 
             custom_texts = [
-                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"Total cost: "),
-                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"Total loaded: "),
-                mlines.Line2D([], [], color='black', marker='*', linestyle='', label=f"DDR capacity:")
+                mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                              label=f"Total nodes: " + str(self.total_nodes)),
+                mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                              label=f"Cost: " + "{:.2f}".format(self.total_cost) + "(px)"),
+                mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                              label=f"Samples in obstacles: " + "{:.0f}".format(
+                                  self.total_samples_in_object) + "(n)"),
+                mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                              label=f"Planning time: " + "{:.2f}".format(self.total_planning_time) + "(s)")
             ]
-            plt.title(name)
+            name_occupancy = name + '-Occupancy-Grid'
+            name_rgb = name + '-RGB-Map'
+            ax.set_title(name_rgb, fontsize=18)
+            ax2.set_title(name_occupancy, fontsize=18)
             fig.legend(handles=custom_texts, fontsize="11.5", shadow=True, borderpad=1, loc='outside lower right',
-                       bbox_to_anchor=(1.01, 0.1))
-            plt.legend(bbox_to_anchor=(1.01, 1), fontsize="11.5", shadow=True, borderpad=1, loc='upper left')
-            plt.xlabel('x-coordinates (px)', labelpad=8, fontsize=14)
-            plt.ylabel('y-coordinates (px)', labelpad=8, fontsize=14)
-            filename = save_files.get_name_to_save_plot(self.name_folder, name, '../../solutions')
-            plt.savefig(filename, dpi=500)
-            plt.show()
+                       bbox_to_anchor=(0.98, 0.3))
+            fig2.legend(handles=custom_texts, fontsize="11.5", shadow=True, borderpad=1, loc='outside lower right',
+                        bbox_to_anchor=(0.98, 0.3))
+            ax.legend(bbox_to_anchor=(1.01, 1), fontsize="11.5", shadow=True, borderpad=1, loc='upper left')
+            ax2.legend(bbox_to_anchor=(1.01, 1), fontsize="11.5", shadow=True, borderpad=1, loc='upper left')
+            ax.set_xlabel('x-coordinates (px)', labelpad=8, fontsize=self.font_size)
+            ax.set_ylabel('y-coordinates (px)', labelpad=8, fontsize=self.font_size)
+            ax2.set_xlabel('x-coordinates (px)', labelpad=8, fontsize=self.font_size)
+            ax2.set_ylabel('y-coordinates (px)', labelpad=8, fontsize=self.font_size)
+            filename_rgb = save_files.get_name_to_save_plot(self.name_folder, name_rgb, self.path_solutions)
+            filename_og = save_files.get_name_to_save_plot(self.name_folder, name_occupancy, self.path_solutions)
+            fig.savefig(filename_rgb, dpi=500)
+            fig2.savefig(filename_og, dpi=500)
+            fig.show()
+            fig2.show()
         except Exception as e:
             print(Fore.RED + str(e))
             traceback.print_exc()
 
-    def RRT_NORMAL(self, n_pts=10000):
-        path = []
-        search_vertices = []
-        self.init_map()
+    def draw_combined_maps(self, path, name='RRT'):
+        try:
+            fig, axs = plt.subplots(1, 2, figsize=(12, 6))  # Dos subplots en una fila
 
-        for index, (position) in enumerate(self.goals):
-            if index == config.BREAK_AT:
-                break
-            print(config.POSITION_INDEX, index)
-            if index != len(self.goals) - 1:
-                start = position
-                goal = self.goals[index + 1]
-                if index > 0:
-                    self.found = False
-                    self.vertices = []
-                    self.vertices.append(start)
-                    actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
-                    next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                         self.ordered_positions[index + 1])
-                    if actual_row != next_row:
-                        n_pts = config.MAX_ITER
-                    else:
-                        n_pts = config.MIN_ITER
-                i = 0
+            # Subplot 1: Mapa de cuadrícula de ocupación
+            axs[0].imshow(self.map_array, cmap='gray', origin='lower')
+            axs[1].imshow(self.map_array_rgb, cmap='gray', origin='lower')
 
-                for i in range(n_pts):
-                    new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE)
-                    new_node = self.extend(goal, new_point, config.RADIUS)
+            if self.found:
+                for index, (goal) in enumerate(path):
+                    cur = goal
+                    if cur.parent is not None:
+                        start = self.goals[index]
+                        lines = []
+                        while cur.col != start.col or cur.row != start.row:
+                            lines.append([cur.col, cur.row, cur.parent.col, cur.parent.row])
+                            cur = cur.parent
+                        lines = np.array(lines)
+                        color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255),
+                                                              np.random.randint(0, 255),
+                                                              np.random.randint(0, 255))
+                        axs[0].plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color=color_)
+                        axs[1].plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], color=color_)
+                        if goal:
+                            axs[0].plot(goal.col, goal.row, markersize=5, marker='o', color=color_,
+                                        label='Goal')
+                            axs[1].plot(goal.col, goal.row, markersize=5, marker='o', color=color_,
+                                        label='Goal')
+
+                axs[0].plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
+                axs[1].plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
+
+                custom_texts = [
+                    mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                                  label=f"Total nodes: " + str(self.total_nodes)),
+                    mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                                  label=f"Cost: " + "{:.2f}".format(self.total_cost) + "(px)"),
+                    mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                                  label=f"Samples in obstacles: " + "{:.0f}".format(
+                                      self.total_samples_in_object) + "(n)"),
+                    mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                                  label=f"Planning time: " + "{:.2f}".format(self.total_planning_time) + "(s)")
+                ]
+                axs[0].set_title(name + '-Occupancy-Grid', fontsize=18)
+                axs[0].set_xlabel('x-coordinates (px)', labelpad=8, fontsize=18)
+                axs[0].set_ylabel('y-coordinates (px)', labelpad=8, fontsize=18)
+
+                axs[1].set_title(name + '-RGB-Map', fontsize=18)
+                axs[1].set_xlabel('x-coordinates (px)', labelpad=8, fontsize=18)
+                axs[1].set_ylabel('y-coordinates (px)', labelpad=8, fontsize=18)
+
+            plt.tight_layout()
+
+            # Crear los dos legends
+            legend_colors = axs[0].legend(loc='upper center', bbox_to_anchor=(1.1, 1), fontsize="18", shadow=True,
+                                          borderpad=1)
+            legend_texts = axs[0].legend(handles=custom_texts, fontsize="14", shadow=True, borderpad=1,
+                                         loc='lower right', bbox_to_anchor=(2.17, 0))
+
+            # fig.add_artist(legend_colors)
+            fig.add_artist(legend_texts)
+            # plt.legend(handles=custom_texts, bbox_to_anchor=(1.01, 1), fontsize="18", shadow=True, borderpad=1,
+            #            loc='upper left')
+            filename = save_files.get_name_to_save_plot(self.name_folder, name, self.path_solutions)
+            plt.savefig(filename, dpi=500)
+            plt.show()
+
+        except Exception as e:
+            print(Fore.RED + str(e))
+            traceback.print_exc()
+
+    def rrt(self, n_pts=10000):
+        try:
+            path = []
+            search_vertices = []
+            self.init_map()
+            start_time = time.time()
+
+            for index, (position) in enumerate(self.goals):
+                if index == config.BREAK_AT:
+                    break
+                print(config.POSITION_INDEX, index)
+                if index != len(self.goals) - 1:
+                    start = position
+                    goal = self.goals[index + 1]
+                    if index > 0:
+                        self.found = False
+                        self.vertices = []
+                        self.vertices.append(start)
+                        actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
+                        next_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                             self.ordered_positions[index + 1])
+                        if actual_row != next_row:
+                            n_pts = config.MAX_ITER
+                        else:
+                            n_pts = config.MIN_ITER
+                    i = 0
+
+                    for i in range(n_pts):
+                        new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE)
+                        new_node = self.extend(goal, new_point, config.RADIUS)
+                        if self.found:
+                            break
                     if self.found:
-                        break
-                if self.found:
-                    steps = len(self.vertices) - 2
-                    print(config.MESSAGE_PATH % steps)
-                else:
-                    print(Fore.RED + config.PATH_NO_FOUND)
-                path.append(goal)
-                search_vertices.append(self.vertices)
+                        steps = len(self.vertices) - 2
+                        self.total_nodes += steps
+                        self.total_cost += self.path_cost_final(start, goal)
+                        print(config.MESSAGE_PATH % steps)
+                    else:
+                        print(Fore.RED + config.PATH_NO_FOUND)
+                    path.append(goal)
+                    search_vertices.append(self.vertices)
 
-                # Output
-        if self.found:
-            print(config.MESSAGE_DONE)
-            self.draw_map(path, "RRT")
-            self.draw_mapRGB(path, "RRT")
-            print(config.MESSAGE_PLOTTED)
+                    # Output
+            if self.found:
+                print(config.MESSAGE_DONE)
+                end_time = time.time()
+                self.total_planning_time = end_time - start_time
+                self.draw_map(path, "RRT")
+                self.draw_combined_maps(path, "RRT")
+                print(config.MESSAGE_PLOTTED)
+                return "rrt", self.total_nodes, self.total_cost, self.total_samples_in_object, self.total_planning_time, search_vertices
+            return None, None, None, None, None, None
+        except Exception as e:
+            print(Fore.RED + str(e))
+            traceback.print_exc()
 
-    def RRT_star(self, n_pts=1000):
+    def rrt_star(self, n_pts=1000):
         try:
             path = []
             search_vertices = []
             self.init_map()
 
+            start_time = time.time()
             for index, (position) in enumerate(self.goals):
                 if index == config.BREAK_AT:
                     break
@@ -387,7 +485,6 @@ class RRT:
                     for i in range(n_pts):
                         # Extend a new node
                         new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE)
-
                         new_node = self.extend(goal, new_point, config.RADIUS)
                         # Rewire
                         if new_node is not None:
@@ -395,6 +492,8 @@ class RRT:
                             self.rewire(new_node, neighbors, start)
                     if self.found:
                         steps = len(self.vertices) - 2
+                        self.total_nodes += steps
+                        self.total_cost += self.path_cost_final(start, goal)
                         print(config.MESSAGE_PATH % steps)
                     else:
                         print(Fore.RED + config.PATH_NO_FOUND)
@@ -404,21 +503,24 @@ class RRT:
             # Output
             if self.found:
                 print(config.MESSAGE_DONE)
-                self.draw_map(path, "RRT*")
-                # self.draw_mapRGB(path, "RRT*")
+                end_time = time.time()
+                self.total_planning_time = end_time - start_time
+                self.draw_map(path, "RRT_Star")
+                self.draw_combined_maps(path, "RRT_Star")
                 print(config.MESSAGE_PLOTTED)
-            else:
-                print("No path found")
+                return "rrt-star", self.total_nodes, self.total_cost, self.total_samples_in_object, self.total_planning_time, search_vertices
+            return None, None, None, None, None, None
+
         except Exception as e:
             print(Fore.RED + str(e))
             traceback.print_exc()
 
-    def informed_RRT_star(self, n_pts=config.MIN_ITER):
+    def rrt_informed(self, n_pts=config.MIN_ITER):
         try:
             path = []
             search_vertices = []
-            sum_path_length = 0
             self.init_map()
+            start_time = time.time()
             for index, (position) in enumerate(self.goals):
                 if index == config.BREAK_AT:
                     break
@@ -451,6 +553,8 @@ class RRT:
                             self.rewire(new_node, neighbors, start)
                     if self.found:
                         steps = len(self.vertices) - 2
+                        self.total_nodes += steps
+                        self.total_cost += self.path_cost_final(start, goal)
                         print(config.MESSAGE_PATH % steps)
                     else:
                         print(Fore.RED + config.PATH_NO_FOUND)
@@ -458,37 +562,16 @@ class RRT:
                     search_vertices.append(self.vertices)
             if self.found:
                 print(config.MESSAGE_DONE)
-                self.draw_map(path, config.METHOD)
-                self.draw_mapRGB(path, config.METHOD)
+                end_time = time.time()
+                self.total_planning_time = end_time - start_time
+                self.draw_map(path, "RRT_Informed")
+                self.draw_combined_maps(path, "RRT_Informed")
                 print(config.MESSAGE_PLOTTED)
-            return path, sum_path_length
+                return "rrt-informed", self.total_nodes, self.total_cost, self.total_samples_in_object, self.total_planning_time, search_vertices
+            return None, None, None, None, None, None
         except Exception as e:
             print(Fore.RED + str(e))
             traceback.print_exc()
-
-    def extend_unicycle(self, goal, new_point, extend_dis=300):
-        nearest_node = self.get_nearest_node(new_point)
-        slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
-        v, omega = self.model.kinematics(1, 1)  # Calcula velocidad y velocidad angular
-        new_state = self.model.steer([nearest_node.row, nearest_node.col, nearest_node.theta, nearest_node.v], v, omega)
-        new_row = new_state[0]
-        new_col = new_state[1]
-        new_node = Node(int(new_row), int(new_col))
-        if (self.size_y_min <= new_row < self.size_y_max) and (self.size_x_min <= new_col < self.size_x_max) and \
-                not self.check_collision(nearest_node, new_node):
-            new_node.parent = nearest_node
-            new_node.cost = extend_dis
-            self.vertices.append(new_node)
-            if not self.found:
-                d = self.dis(new_node, goal)
-                if d < extend_dis:
-                    goal.cost = d
-                    goal.parent = new_node
-                    self.vertices.append(goal)
-                    self.found = True
-            return new_node
-        else:
-            return None
 
 
 def main():
@@ -496,12 +579,83 @@ def main():
     data = load_files.load_solution_data()
     ordered_transformed = shift_positions(data['ordered_positions'])
     name_folder = create_folder.create_folder("../../solutions")
+    path_solutions = "../../solutions"
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
-                      name_folder)
-    RRT_PLANNER.RRT_NORMAL()
-    # RRT_PLANNER.RRT_star()
-    # RRT_PLANNER.informed_RRT_star()
+                      name_folder, path_solutions)
+
+    method, total_nodes, total_cost, total_samples_in_object, total_planning_time = RRT_PLANNER.rrt()
+    # RRT_PLANNER.rrt_star()
+    # RRT_PLANNER.rrt_informed()
+
+
+def run_multiple_test(num_tests=2):
+    # TODO INGRESAR VARIABLE PARA ESCRIBIR SI SE LOGRO LA PRUEBA EXITOSA ES DECIR SI FUE SUCCESS
+    try:
+        for i in range(num_tests):
+            print("Start informed RRT Unicycle star planning")
+            data_loaded = load_files.load_solution_data()
+            ordered_transformed = shift_positions(data_loaded['ordered_positions'])
+            name_folder = create_folder.create_folder("../../solutions")
+            path_solutions = "../../solutions"
+            RRT_PLANNER = RRT(data_loaded['occupancy_grid'], data_loaded['rgb'], ordered_transformed,
+                              data_loaded['rows'],
+                              data_loaded['ordered_positions'],
+                              name_folder, path_solutions)
+
+            method, total_nodes, total_cost, total_samples_in_object, total_planning_time, _ = RRT_PLANNER.rrt()
+            if method is not None:
+                data = {
+                    'prefix': 'tests_rrt',
+                    'method': method,
+                    'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
+                    'total_cost': total_cost,
+                    'total_samples_in_object': total_samples_in_object,
+                    'total_planning_time': total_planning_time,
+                    "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
+                        data_loaded['ordered_positions']) else len(
+                        data_loaded['ordered_positions']),
+                    "name_folder": name_folder,
+                }
+                save_data_rrt_test(data)
+                save_files.save_workspace(data, name_folder, path_solutions)
+            method, total_nodes, total_cost, total_samples_in_object, total_planning_time, _ = RRT_PLANNER.rrt_star()
+            if method is not None:
+                data = {
+                    'prefix': 'tests_rrt_star',
+                    'method': method,
+                    'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
+                    'total_cost': total_cost,
+                    'total_samples_in_object': total_samples_in_object,
+                    'total_planning_time': total_planning_time,
+                    "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
+                        data_loaded['ordered_positions']) else len(
+                        data_loaded['ordered_positions']),
+                    "name_folder": name_folder,
+                }
+                save_data_rrt_test(data)
+                save_files.save_workspace(data, name_folder, path_solutions)
+            method, total_nodes, total_cost, total_samples_in_object, total_planning_time, _ = RRT_PLANNER.rrt_informed()
+            if method is not None:
+                data = {
+                    'prefix': 'tests_rrt_star_informed',
+                    'method': method,
+                    'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
+                    'total_cost': total_cost,
+                    'total_samples_in_object': total_samples_in_object,
+                    'total_planning_time': total_planning_time,
+                    "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
+                        data_loaded['ordered_positions']) else len(
+                        data_loaded['ordered_positions']),
+                    "name_folder": name_folder,
+                }
+                save_data_rrt_test(data)
+                save_files.save_workspace(data, name_folder, path_solutions)
+                print(Fore.LIGHTGREEN_EX + "!!Path founded!!")
+
+    except Exception as e:
+        print(Fore.RED + str(e))
+        traceback.print_exc()
 
 
 if __name__ == '__main__':
-    main()
+    run_multiple_test()

@@ -84,7 +84,7 @@ def main(positions, weights, rows, name_folder):
         ordered_positions = get_ordered_positions(route, data['positions'])
         total_loaded = get_total_loaded.get_total_loaded(data, manager, routing, solution)
         total_length = get_total_loaded.get_total_length(data, routing, solution)
-        return ordered_positions, route, total_loaded, total_length, plt
+        return ordered_positions, route, total_loaded, total_length
     else:
         print("Solver status: Error al resolver el problema")
 

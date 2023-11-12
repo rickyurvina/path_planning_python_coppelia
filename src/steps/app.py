@@ -42,8 +42,10 @@ def main():
         paths = []
         # RRT
         start_time_rrt = time.time()
-        path_rrt, path_length_rrt = step_3_rrt.informed_rrt(data, name_folder)
-        paths.append(path_rrt)
+        method, total_nodes, total_cost, total_samples_in_object, total_planning_time, search_vertices = step_3_rrt.informed_rrt(
+            data,
+            name_folder)
+        paths.append(search_vertices)
         end_time_rrt = time.time()
         execution_time_rrt = end_time_rrt - start_time_rrt
         print("execution_time_rrt", execution_time_rrt)
@@ -59,7 +61,7 @@ def main():
             'ordered_positions': data['ordered_positions'],
             'route': route,
             'paths': paths,
-            'path_length_rrt': path_length_rrt,
+            'path_length_rrt': total_cost,
             'time': execution_time_data + execution_time_tsp + execution_time_rrt,
             'total_loaded_tsp': total_loaded_tsp,
             'total_length_tsp': total_length_tsp,
@@ -73,7 +75,7 @@ def main():
             'tsp_time': execution_time_tsp,
             'rrt_time': execution_time_rrt,
             'folder': name_folder,
-            'path_length_rrt': path_length_rrt,
+            'path_length_rrt': total_cost,
             'total_loaded_tsp': total_loaded_tsp,
             'total_length_tsp': total_length_tsp,
         }
