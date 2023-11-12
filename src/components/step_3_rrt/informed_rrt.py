@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime
 from random import random
 
@@ -16,6 +17,7 @@ from src.components.step_3_rrt.unicycle_robot import UnicycleRobot
 from src.steps import config
 import matplotlib.lines as mlines
 import time
+from tqdm import tqdm
 
 init()
 
@@ -56,10 +58,13 @@ class RRT:
         self.name_folder = name_folder
         self.path_solutions = path_solutions
         self.model = UnicycleRobot(0.1, 0.5, 0.1, 1.0, 0.5)
-        self.total_samples_in_object = 0
+        self.total_collisions = 0
         self.total_planning_time = 0
         self.total_cost = 0
         self.font_size = 18
+        self.total_samples = 0
+        self.start_time = 0
+        self.success = True
 
     def init_map(self):
         self.found = False
@@ -67,8 +72,11 @@ class RRT:
         self.vertices.append(self.goals[0])
         self.total_nodes = 0
         self.total_cost = 0
-        self.total_samples_in_object = 0
+        self.total_collisions = 0
         self.total_planning_time = 0
+        self.total_samples = 0
+        self.start_time = time.time()
+        self.success = True
 
     def dis(self, node1, node2):
         return np.sqrt((node1.row - node2.row) ** 2 + (node1.col - node2.col) ** 2)
@@ -80,7 +88,7 @@ class RRT:
                              np.linspace(node1.col, node2.col, dtype=int))
         for point in points_between:
             if self.map_array[point[0]][point[1]] == 0:
-                self.total_samples_in_object += 1
+                self.total_collisions += 1
                 return True
         return False
 
@@ -109,14 +117,6 @@ class RRT:
             return None
 
     def path_cost_final(self, start_node, end_node):
-        '''Compute path cost starting from start node to end node
-        arguments:
-            start_node - path start node
-            end_node - path end node
-
-        return:
-            cost - path cost
-        '''
         cost = 0
         curr_node = end_node
         while start_node.row != curr_node.row or start_node.col != curr_node.col:
@@ -185,6 +185,7 @@ class RRT:
         return self.vertices[ind]
 
     def sample(self, start, goal, goal_bias=0.05, c_best=0):
+        self.total_samples += 1
         if c_best <= 0:
             new_point = self.get_new_point(goal_bias, start, goal)
         else:
@@ -301,7 +302,9 @@ class RRT:
                               label=f"Cost: " + "{:.2f}".format(self.total_cost) + "(px)"),
                 mlines.Line2D([], [], color='black', marker='o', linestyle='',
                               label=f"Samples in obstacles: " + "{:.0f}".format(
-                                  self.total_samples_in_object) + "(n)"),
+                                  self.total_collisions) + "(n)"),
+                mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                              label=f"Samples: " + "{:.2f}".format(self.total_samples)),
                 mlines.Line2D([], [], color='black', marker='o', linestyle='',
                               label=f"Planning time: " + "{:.2f}".format(self.total_planning_time) + "(s)")
             ]
@@ -367,10 +370,13 @@ class RRT:
                     mlines.Line2D([], [], color='black', marker='o', linestyle='',
                                   label=f"Cost: " + "{:.2f}".format(self.total_cost) + "(px)"),
                     mlines.Line2D([], [], color='black', marker='o', linestyle='',
-                                  label=f"Samples in obstacles: " + "{:.0f}".format(
-                                      self.total_samples_in_object) + "(n)"),
+                                  label=f"Collisions: " + "{:.0f}".format(
+                                      self.total_collisions) + "(n)"),
+                    mlines.Line2D([], [], color='black', marker='o', linestyle='',
+                                  label=f"Samples: " + "{:.2f}".format(self.total_samples)),
                     mlines.Line2D([], [], color='black', marker='o', linestyle='',
                                   label=f"Planning time: " + "{:.2f}".format(self.total_planning_time) + "(s)")
+
                 ]
                 axs[0].set_title(name + '-Occupancy-Grid', fontsize=18)
                 axs[0].set_xlabel('x-coordinates (px)', labelpad=8, fontsize=18)
@@ -400,14 +406,14 @@ class RRT:
             print(Fore.RED + str(e))
             traceback.print_exc()
 
-    def rrt(self, n_pts=10000):
+    def rrt(self, n_pts=config.MIN_ITER):
         try:
             path = []
             search_vertices = []
             self.init_map()
-            start_time = time.time()
 
             for index, (position) in enumerate(self.goals):
+
                 if index == config.BREAK_AT:
                     break
                 print(config.POSITION_INDEX, index)
@@ -418,7 +424,8 @@ class RRT:
                         self.found = False
                         self.vertices = []
                         self.vertices.append(start)
-                        actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
+                        actual_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                               self.ordered_positions[index])
                         next_row = get_row_of_position.find_row_for_position(self.rows,
                                                                              self.ordered_positions[index + 1])
                         if actual_row != next_row:
@@ -428,6 +435,9 @@ class RRT:
                     i = 0
 
                     for i in range(n_pts):
+                        if (time.time() >= (self.start_time + config.TIME_LIMIT)):
+                            print(Fore.RED + "Time is up")
+                            return None, None, None, None, None, None, None, False
                         new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE)
                         new_node = self.extend(goal, new_point, config.RADIUS)
                         if self.found:
@@ -446,12 +456,12 @@ class RRT:
             if self.found:
                 print(config.MESSAGE_DONE)
                 end_time = time.time()
-                self.total_planning_time = end_time - start_time
+                self.total_planning_time = end_time - self.start_time
                 self.draw_map(path, "RRT")
                 self.draw_combined_maps(path, "RRT")
                 print(config.MESSAGE_PLOTTED)
-                return "rrt", self.total_nodes, self.total_cost, self.total_samples_in_object, self.total_planning_time, search_vertices
-            return None, None, None, None, None, None
+                return "rrt", self.total_nodes, self.total_cost, self.total_collisions, self.total_planning_time, search_vertices, self.total_samples, self.success
+            return None, None, None, None, None, None, None, False
         except Exception as e:
             print(Fore.RED + str(e))
             traceback.print_exc()
@@ -462,7 +472,6 @@ class RRT:
             search_vertices = []
             self.init_map()
 
-            start_time = time.time()
             for index, (position) in enumerate(self.goals):
                 if index == config.BREAK_AT:
                     break
@@ -474,7 +483,8 @@ class RRT:
                         self.found = False
                         self.vertices = []
                         self.vertices.append(start)
-                        actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
+                        actual_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                               self.ordered_positions[index])
                         next_row = get_row_of_position.find_row_for_position(self.rows,
                                                                              self.ordered_positions[index + 1])
                         if actual_row != next_row:
@@ -483,6 +493,9 @@ class RRT:
                             n_pts = config.MIN_ITER
                     i = 0
                     for i in range(n_pts):
+                        if (time.time() >= (self.start_time + config.TIME_LIMIT)):
+                            print(Fore.RED + "Time is up")
+                            return None, None, None, None, None, None, None, False
                         # Extend a new node
                         new_point = self.sample(start, goal, config.GOAL_SAMPLE_RATE)
                         new_node = self.extend(goal, new_point, config.RADIUS)
@@ -504,12 +517,13 @@ class RRT:
             if self.found:
                 print(config.MESSAGE_DONE)
                 end_time = time.time()
-                self.total_planning_time = end_time - start_time
+                self.total_planning_time = end_time - self.start_time
                 self.draw_map(path, "RRT_Star")
                 self.draw_combined_maps(path, "RRT_Star")
                 print(config.MESSAGE_PLOTTED)
-                return "rrt-star", self.total_nodes, self.total_cost, self.total_samples_in_object, self.total_planning_time, search_vertices
-            return None, None, None, None, None, None
+                return "rrt-star", self.total_nodes, self.total_cost, self.total_collisions, self.total_planning_time, search_vertices, self.total_samples, self.success
+
+            return None, None, None, None, None, None, None, False
 
         except Exception as e:
             print(Fore.RED + str(e))
@@ -520,7 +534,6 @@ class RRT:
             path = []
             search_vertices = []
             self.init_map()
-            start_time = time.time()
             for index, (position) in enumerate(self.goals):
                 if index == config.BREAK_AT:
                     break
@@ -542,6 +555,9 @@ class RRT:
                     i = 0
 
                     for i in range(n_pts):
+                        if (time.time() >= (self.start_time + config.TIME_LIMIT)):
+                            print(Fore.RED + "Time is up")
+                            return None, None, None, None, None, None, None, False
                         c_best = 0
                         if self.found:
                             c_best = self.path_cost(start, goal, c_best)
@@ -563,12 +579,12 @@ class RRT:
             if self.found:
                 print(config.MESSAGE_DONE)
                 end_time = time.time()
-                self.total_planning_time = end_time - start_time
+                self.total_planning_time = end_time - self.start_time
                 self.draw_map(path, "RRT_Informed")
                 self.draw_combined_maps(path, "RRT_Informed")
                 print(config.MESSAGE_PLOTTED)
-                return "rrt-informed", self.total_nodes, self.total_cost, self.total_samples_in_object, self.total_planning_time, search_vertices
-            return None, None, None, None, None, None
+                return "rrt-informed", self.total_nodes, self.total_cost, self.total_collisions, self.total_planning_time, search_vertices, self.total_samples, self.success
+            return None, None, None, None, None, None, None, False
         except Exception as e:
             print(Fore.RED + str(e))
             traceback.print_exc()
@@ -583,7 +599,9 @@ def main():
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder, path_solutions)
 
-    method, total_nodes, total_cost, total_samples_in_object, total_planning_time = RRT_PLANNER.rrt()
+    # method, total_nodes, total_cost, total_collisions, total_planning_time, _ = RRT_PLANNER.rrt()
+    method, total_nodes, total_cost, total_collisions, total_planning_time, _, _, success = RRT_PLANNER.rrt_star()
+    print(success)
     # RRT_PLANNER.rrt_star()
     # RRT_PLANNER.rrt_informed()
 
@@ -593,6 +611,7 @@ def run_multiple_test(num_tests=2):
     try:
         for i in range(num_tests):
             print("Start informed RRT Unicycle star planning")
+            unique_code = str(uuid.uuid4())
             data_loaded = load_files.load_solution_data()
             ordered_transformed = shift_positions(data_loaded['ordered_positions'])
             name_folder = create_folder.create_folder("../../solutions")
@@ -602,55 +621,65 @@ def run_multiple_test(num_tests=2):
                               data_loaded['ordered_positions'],
                               name_folder, path_solutions)
 
-            method, total_nodes, total_cost, total_samples_in_object, total_planning_time, _ = RRT_PLANNER.rrt()
-            if method is not None:
-                data = {
-                    'prefix': 'tests_rrt',
-                    'method': method,
-                    'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
-                    'total_cost': total_cost,
-                    'total_samples_in_object': total_samples_in_object,
-                    'total_planning_time': total_planning_time,
-                    "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
-                        data_loaded['ordered_positions']) else len(
-                        data_loaded['ordered_positions']),
-                    "name_folder": name_folder,
-                }
-                save_data_rrt_test(data)
-                save_files.save_workspace(data, name_folder, path_solutions)
-            method, total_nodes, total_cost, total_samples_in_object, total_planning_time, _ = RRT_PLANNER.rrt_star()
-            if method is not None:
-                data = {
-                    'prefix': 'tests_rrt_star',
-                    'method': method,
-                    'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
-                    'total_cost': total_cost,
-                    'total_samples_in_object': total_samples_in_object,
-                    'total_planning_time': total_planning_time,
-                    "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
-                        data_loaded['ordered_positions']) else len(
-                        data_loaded['ordered_positions']),
-                    "name_folder": name_folder,
-                }
-                save_data_rrt_test(data)
-                save_files.save_workspace(data, name_folder, path_solutions)
-            method, total_nodes, total_cost, total_samples_in_object, total_planning_time, _ = RRT_PLANNER.rrt_informed()
-            if method is not None:
-                data = {
-                    'prefix': 'tests_rrt_star_informed',
-                    'method': method,
-                    'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
-                    'total_cost': total_cost,
-                    'total_samples_in_object': total_samples_in_object,
-                    'total_planning_time': total_planning_time,
-                    "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
-                        data_loaded['ordered_positions']) else len(
-                        data_loaded['ordered_positions']),
-                    "name_folder": name_folder,
-                }
-                save_data_rrt_test(data)
-                save_files.save_workspace(data, name_folder, path_solutions)
-                print(Fore.LIGHTGREEN_EX + "!!Path founded!!")
+            method, total_nodes, total_cost, total_collisions, total_planning_time, _, total_samples, success = RRT_PLANNER.rrt()
+            data = {
+                'prefix': 'tests_rrt',
+                'method': method if method is not None else "tests_rrt",
+                'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
+                'total_cost': total_cost if total_cost is not None else 0,
+                'total_collisions': total_collisions if total_collisions is not None else 0,
+                'total_samples': total_samples if total_samples is not None else 0,
+                'total_planning_time': total_planning_time if total_planning_time is not None else 0,
+                "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
+                    data_loaded['ordered_positions']) else len(
+                    data_loaded['ordered_positions']),
+                "name_folder": name_folder,
+                "success": success,
+                "total_nodes": total_nodes if total_nodes is not None else 0,
+            }
+            save_data_rrt_test(data)
+            save_files.save_workspace(data, name_folder, path_solutions)
+            print(Fore.LIGHTGREEN_EX + "!!Saves on database rrt!!")
+
+            method, total_nodes, total_cost, total_collisions, total_planning_time, _, total_samples, success = RRT_PLANNER.rrt_star()
+            data = {
+                'prefix': 'tests_rrt_star',
+                'method': method if method is not None else "rrt_star",
+                'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(unique_code),
+                'total_cost': total_cost if total_cost is not None else 0,
+                'total_collisions': total_collisions if total_collisions is not None else 0,
+                'total_samples': total_samples if total_samples is not None else 0,
+                'total_planning_time': total_planning_time if total_planning_time is not None else 0,
+                "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
+                    data_loaded['ordered_positions']) else len(
+                    data_loaded['ordered_positions']),
+                "name_folder": name_folder,
+                "success": success,
+                "total_nodes": total_nodes if total_nodes is not None else 0,
+            }
+            save_data_rrt_test(data)
+            save_files.save_workspace(data, name_folder, path_solutions)
+            print(Fore.LIGHTGREEN_EX + "!!Saves on database rrt-star!!")
+
+            method, total_nodes, total_cost, total_collisions, total_planning_time, _, total_samples, success = RRT_PLANNER.rrt_informed()
+            data = {
+                'prefix': 'tests_rrt_star_informed',
+                'method': method if method is not None else "tests_rrt_star_informed",
+                'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
+                'total_cost': total_cost if total_cost is not None else 0,
+                'total_collisions': total_collisions if total_collisions is not None else 0,
+                'total_samples': total_samples if total_samples is not None else 0,
+                'total_planning_time': total_planning_time if total_planning_time is not None else 0,
+                "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
+                    data_loaded['ordered_positions']) else len(
+                    data_loaded['ordered_positions']),
+                "name_folder": name_folder,
+                "success": success,
+                "total_nodes": total_nodes if total_nodes is not None else 0,
+            }
+            save_data_rrt_test(data)
+            save_files.save_workspace(data, name_folder, path_solutions)
+            print(Fore.LIGHTGREEN_EX + "!!Saves on database rrt-informed!!")
 
     except Exception as e:
         print(Fore.RED + str(e))
@@ -658,4 +687,4 @@ def run_multiple_test(num_tests=2):
 
 
 if __name__ == '__main__':
-    run_multiple_test()
+    main()

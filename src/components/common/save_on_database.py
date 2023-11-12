@@ -62,23 +62,24 @@ def save_data_rrt_test(data):
             host='localhost',
             database='tesis'
         )
-
         cursor = cnx.cursor()
         method = data['method']
         test_number = data['test_number']
         total_cost = data['total_cost']
-        total_samples_in_object = data['total_samples_in_object']
+        total_collisions = data['total_collisions']
         total_planning_time = data['total_planning_time']
+        total_samples = data['total_samples']
         waypoints_number = data['waypoints_number']
         min_iter = config.MIN_ITER
         max_iter = config.MAX_ITER
         date = datetime.now()
         name_folder = data['name_folder']
-
-        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_samples_in_object, total_planning_time, waypoints_number, min_iter, max_iter, date, name_folder) VALUES (%s, %s, %s, %s,%s, %s, %s, %s,%s,%s)"
+        success = data['success']
+        total_nodes = data['total_nodes']
+        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples,waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes) VALUES (%s, %s, %s, %s,%s, %s,%s, %s, %s,%s,%s, %s, %s)"
         values = (
-            method, test_number, total_cost, total_samples_in_object, total_planning_time, waypoints_number,
-            min_iter, max_iter, date, name_folder)
+            method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number,
+            min_iter, max_iter, date, name_folder, success, total_nodes)
         cursor.execute(query, values)
         cnx.commit()
         cursor.close()
