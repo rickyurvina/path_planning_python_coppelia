@@ -14,6 +14,7 @@ from src.components.step_3_rrt.shift_positions import shift_positions
 from src.components.common import load_files, save_files
 from src.components import create_folder
 from src.components.step_3_rrt.unicycle_robot import UnicycleRobot
+from src.reports.reports import average_test
 from src.steps import config
 import matplotlib.lines as mlines
 import time
@@ -607,11 +608,11 @@ def main():
 
 
 def run_multiple_test(num_tests=2):
-    # TODO INGRESAR VARIABLE PARA ESCRIBIR SI SE LOGRO LA PRUEBA EXITOSA ES DECIR SI FUE SUCCESS
     try:
+        unique_code = str(uuid.uuid4())
+        test_number = datetime.now().strftime("%Y%m%d") + "-" + str(unique_code)
         for i in range(num_tests):
             print("Start informed RRT Unicycle star planning")
-            unique_code = str(uuid.uuid4())
             data_loaded = load_files.load_solution_data()
             ordered_transformed = shift_positions(data_loaded['ordered_positions'])
             name_folder = create_folder.create_folder("../../solutions")
@@ -625,7 +626,7 @@ def run_multiple_test(num_tests=2):
             data = {
                 'prefix': 'tests_rrt',
                 'method': method if method is not None else "tests_rrt",
-                'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
+                'test_number': test_number,
                 'total_cost': total_cost if total_cost is not None else 0,
                 'total_collisions': total_collisions if total_collisions is not None else 0,
                 'total_samples': total_samples if total_samples is not None else 0,
@@ -645,7 +646,7 @@ def run_multiple_test(num_tests=2):
             data = {
                 'prefix': 'tests_rrt_star',
                 'method': method if method is not None else "rrt_star",
-                'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(unique_code),
+                'test_number': test_number,
                 'total_cost': total_cost if total_cost is not None else 0,
                 'total_collisions': total_collisions if total_collisions is not None else 0,
                 'total_samples': total_samples if total_samples is not None else 0,
@@ -665,7 +666,7 @@ def run_multiple_test(num_tests=2):
             data = {
                 'prefix': 'tests_rrt_star_informed',
                 'method': method if method is not None else "tests_rrt_star_informed",
-                'test_number': datetime.now().strftime("%Y%m%d") + "-" + str(i),
+                'test_number': test_number,
                 'total_cost': total_cost if total_cost is not None else 0,
                 'total_collisions': total_collisions if total_collisions is not None else 0,
                 'total_samples': total_samples if total_samples is not None else 0,
@@ -679,12 +680,12 @@ def run_multiple_test(num_tests=2):
             }
             save_data_rrt_test(data)
             save_files.save_workspace(data, name_folder, path_solutions)
-            print(Fore.LIGHTGREEN_EX + "!!Saves on database rrt-informed!!")
-
+        print(Fore.LIGHTGREEN_EX + "!!Saves on database rrt-informed!!")
+        average_test(test_number, name_folder, path_solutions, num_tests)
     except Exception as e:
         print(Fore.RED + str(e))
         traceback.print_exc()
 
 
 if __name__ == '__main__':
-    main()
+    run_multiple_test()
