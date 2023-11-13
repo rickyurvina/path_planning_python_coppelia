@@ -102,3 +102,11 @@ j
 ,src/components/step_2_tsp/create_data_tsp.py,a\2\a23b56aa0df012f0d5196fceaaaa30274485df9d
 X
 (src/components/common/create_img_grid.py,7\f\7fe2387b57c1bfd766c582e4863f53effcd4a539
+E
+src/database/dump.sql,8\b\8bc44975ed35d2bc7ba64e238369fcc9c0319a37
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+V
+&src/coppelia_map/app_variables1.pickle,2\3\239f959c619b2497536a46098cf5ec9572790516
+F
+src/reports/reports.py,0\0\00ce444f5b2b20db63274e4ad0347a581b2fb984

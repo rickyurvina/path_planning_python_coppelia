@@ -3,7 +3,6 @@ from datetime import datetime
 import mysql.connector
 import traceback
 from colorama import init, Fore
-
 from src.steps import config
 
 init()
