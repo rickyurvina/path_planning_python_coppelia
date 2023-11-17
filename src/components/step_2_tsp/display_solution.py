@@ -26,26 +26,28 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
     rightmost_x = max(positions, key=lambda pos: pos[0])[0]
     lowest_y = min(positions, key=lambda pos: pos[1])[1]
     highest_y = max(positions, key=lambda pos: pos[1])[1]
-    ax.set_xlim([leftmost_x - 1.5, rightmost_x + 2])
-    ax.set_ylim([lowest_y - 2, highest_y + 1.5])
+    ax.set_xlim([leftmost_x - 1.5, rightmost_x + 3])
+    ax.set_ylim([lowest_y - 3, highest_y + 1.5])
     i = 0
-    for position, weight in zip(positions, weights):
+    for iteration, (position, weight) in enumerate(zip(positions, weights), start=1):
 
         color = cmap(norm(weight))
-        circle = plt.Circle((position[0], position[1]), 0.9, color=color)
-        ax.add_artist(circle)
-        colorText = 'white'
-        if weight > 3 and weight < 7:
-            colorText = 'black'
-        weightText = str(weight) + '(Kg)'
+        # circle = plt.Circle((position[0], position[1]), 0.9, color=color)
+        if i == 0:
+            circle = plt.Circle((position[0], position[1]), 0.9, color='#FE1E50')
+            weightText = 'Depot'
+        elif i == config.START_POINT_TSP and i != 0:
+            circle = plt.Circle((position[0], position[1]), 0.9, color='#96c8a2')
+            weightText = str(weight) + '(Kg)'
+        else:
+            circle = plt.Circle((position[0], position[1]), 0.9, color='#ECDFDB')
+            weightText = str(weight) + '(Kg)'
+        colorText = 'black'
 
-        if i < len(positions) - 1:
-            start_pos = positions[i]
-            end_pos = positions[i + 1]
-            actual_row = get_row_of_position.find_row_for_position(rows, start_pos)
-            next_row = get_row_of_position.find_row_for_position(rows, end_pos)
-            if actual_row == 'h0' or next_row == 'h0':
-                weightText = 'Depot'
+        if i == 0 and i == config.START_POINT_TSP:
+            circle = plt.Circle((position[0], position[1]), 0.9, color='#D5D670')
+            weightText = 'Depot'
+        ax.add_artist(circle)
 
         ax.text(position[0], position[1], weightText, color=colorText, ha='center', va='center',
                 label='Node', fontsize=14, fontweight='bold')
@@ -107,13 +109,14 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
     capacity_text = mpatches.Patch(color='white', label=capacity)
     loaded_text = mpatches.Patch(color='white', label=total_loaded_text)
 
-    plt.legend(handles=[capacity_text, distance_text, loaded_text, arrow], fontsize="11.5", shadow=True, borderpad=1,
+    plt.legend(handles=[arrow, capacity_text, distance_text, loaded_text], fontsize="11.5", shadow=True,
+               borderpad=1,
                loc='lower right')
     # ax.grid(True)
     filename = save_files.get_name_to_save_plot(name_folder, 'tsp_solution_weighted')
     # plt.title("Prioritized route for harvesting")
-    plt.xlabel('x-coordinates (m)')
-    plt.ylabel('y-coordinates (m)')
+    plt.xlabel('x-coordinates (m)', fontsize=16)
+    plt.ylabel('y-coordinates (m)', fontsize=16)
     plt.savefig(filename, dpi=500)
     plt.show()
 

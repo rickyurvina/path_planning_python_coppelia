@@ -16,6 +16,8 @@ def create_data_model(positions, weights, rows):
         'num_vehicles': 1,
         'depot': 0,
         'forbidden_connections': forbidden_connections,
+        'starts': [config.START_POINT_TSP],
+        'ends': [0],
     }
     return data
 

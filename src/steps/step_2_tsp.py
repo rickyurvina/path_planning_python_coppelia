@@ -21,7 +21,7 @@ def main(positions, weights, rows, name_folder):
 
     # Create the routing index manager.
     manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
-                                           data['num_vehicles'], data['depot'])
+                                           data['num_vehicles'], data['starts'], data["ends"])
 
     # Create Routing Model.
     routing = pywrapcp.RoutingModel(manager)
@@ -89,13 +89,12 @@ def main(positions, weights, rows, name_folder):
         print("Solver status: Error al resolver el problema")
 
 
-def run_tsp_with_varied_capacity(data, name_folder, num_tests=6):
+def run_tsp_with_varied_capacity(data, name_folder, num_tests=1):
     for i in range(num_tests):
-        # Genera una capacidad aleatoria para la prueba actual
         random_capacity = random.randint(8, 45)
-        # Modifica temporalmente la capacidad en config
-        config.VEHICLE_CAPACITIES = random_capacity
-        # Ejecuta el TSP con la capacidad modificada
+        start_point_tsp = random.randint(0, len(data['positions']) - 1)
+        config.VEHICLE_CAPACITIES = 39
+        config.START_POINT_TSP = 4
         main(data['positions'], data['weights'], data['rows'], name_folder)
 
 
