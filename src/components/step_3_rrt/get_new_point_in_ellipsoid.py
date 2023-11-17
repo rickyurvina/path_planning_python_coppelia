@@ -1,13 +1,13 @@
 import numpy as np
 
-from src.components.step_3_rrt.dis import dis
+from src.components.step_3_rrt.distance import distance
 
 
 def get_new_point_in_ellipsoid(self, goal_bias, c_best, start, goal):
     if np.random.random() < goal_bias:
         point = [goal.row, goal.col]
     else:
-        c_min = dis(self, start, goal)
+        c_min = distance(self, start, goal)
         x_start = np.array([start.row, start.col]).reshape((2, 1))
         x_goal = np.array([goal.row, goal.col]).reshape((2, 1))
         x_center = (x_start + x_goal) / 2

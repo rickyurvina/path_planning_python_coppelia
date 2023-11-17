@@ -3,7 +3,7 @@ import traceback
 from colorama import init, Fore
 from src.components.step_2_tsp import get_row_of_position
 from src.components.step_3_rrt.check_collision import check_collision
-from src.components.step_3_rrt.dis import dis
+from src.components.step_3_rrt.distance import distance
 from src.components.step_3_rrt.draw_map_rrt import draw_map, draw_combined_maps
 from src.components.step_3_rrt.get_nearest_node import get_nearest_node
 from src.components.step_3_rrt.get_neighbors import get_neighbors
@@ -64,6 +64,9 @@ class RRT:
         self.total_samples = 0
         self.start_time = 0
         self.success = True
+        self.path = []
+        self.search_vertices = []
+        self.name_method = "RRT-INFORMED"
 
     def init_map(self):
         self.found = False
@@ -76,6 +79,9 @@ class RRT:
         self.total_samples = 0
         self.start_time = time.time()
         self.success = True
+        self.path = []
+        self.search_vertices = []
+        self.name_method = ""
 
     def extend(self, goal, new_point, extend_dis=10):
         nearest_node = get_nearest_node(self, new_point)
@@ -89,7 +95,7 @@ class RRT:
             new_node.cost = extend_dis
             self.vertices.append(new_node)
             if not self.found:
-                d = dis(self, new_node, goal)
+                d = distance(self, new_node, goal)
                 if d < extend_dis:
                     goal.cost = d
                     goal.parent = new_node
@@ -150,11 +156,14 @@ class RRT:
                 print(config.MESSAGE_DONE)
                 end_time = time.time()
                 self.total_planning_time = end_time - self.start_time
-                draw_map(self, path, "RRT")
+                self.path = path
+                self.name_method = "RRT"
+                self.search_vertices = search_vertices
+                draw_map(self)
                 # draw_combined_maps(self, path, "RRT")
                 print(config.MESSAGE_PLOTTED)
-                return "RRT", self.total_nodes, self.total_cost, self.total_collisions, self.total_planning_time, search_vertices, self.total_samples, self.success
-            return None, None, None, None, None, None, None, False
+                return self
+            return None
         except Exception as e:
             print(Fore.RED + str(e))
             traceback.print_exc()
@@ -211,13 +220,14 @@ class RRT:
                 print(config.MESSAGE_DONE)
                 end_time = time.time()
                 self.total_planning_time = end_time - self.start_time
-                draw_map(self, path, "RRT_Star")
+                self.path = path
+                self.name_method = "RRT-Star"
+                self.search_vertices = search_vertices
+                draw_map(self)
                 # draw_combined_maps(self, path, "RRT_Star")
                 print(config.MESSAGE_PLOTTED)
-                return "RRT-Star", self.total_nodes, self.total_cost, self.total_collisions, self.total_planning_time, search_vertices, self.total_samples, self.success
-
-            return None, None, None, None, None, None, None, False
-
+                return self
+            return None
         except Exception as e:
             print(Fore.RED + str(e))
             traceback.print_exc()
@@ -272,11 +282,14 @@ class RRT:
                 print(config.MESSAGE_DONE)
                 end_time = time.time()
                 self.total_planning_time = end_time - self.start_time
-                draw_map(self, path, "RRT_Informed")
+                self.path = path
+                self.name_method = "RRT-Informed"
+                self.search_vertices = search_vertices
+                draw_map(self)
                 # draw_combined_maps(self, path, "RRT_Informed")
                 print(config.MESSAGE_PLOTTED)
-                return "RRT-Informed", self.total_nodes, self.total_cost, self.total_collisions, self.total_planning_time, search_vertices, self.total_samples, self.success
-            return None, None, None, None, None, None, None, False
+                return self
+            return None
         except Exception as e:
             print(Fore.RED + str(e))
             traceback.print_exc()
@@ -291,9 +304,9 @@ def main():
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder, path_solutions)
 
-    RRT_PLANNER.rrt()
+    # RRT_PLANNER.rrt()
     # RRT_PLANNER.rrt_star()
-    # RRT_PLANNER.rrt_informed()
+    RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':

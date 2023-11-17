@@ -8,7 +8,7 @@ import matplotlib.lines as mlines
 from src.steps import config
 
 
-def draw_map(self, path, name='RRT'):
+def draw_map(self):
     try:
         fig, ax = plt.subplots(1, figsize=(12, 6))
         fig2, ax2 = plt.subplots(1, figsize=(12, 6))
@@ -16,12 +16,12 @@ def draw_map(self, path, name='RRT'):
         ax2.imshow(self.map_array, cmap='gray', origin='lower')
 
         if self.found:
-            for index, (goal) in enumerate(path):
+            for index, (goal) in enumerate(self.path):
                 cur = goal
                 if cur.parent is not None:
                     start = self.goals[index]
                     # Draw Trees or Sample points
-                    if config.DRAW_TREE_RRT:
+                    if config.DRAW_TREE_RRT and config.BREAK_AT == 1:
                         for node in self.vertices[1:-1]:
                             ax.plot(node.col, node.row, markersize=3, marker='o', color='y')
                             ax.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
@@ -58,8 +58,8 @@ def draw_map(self, path, name='RRT'):
             mlines.Line2D([], [], color='black', marker='o', linestyle='',
                           label=f"Planning time: " + "{:.2f}".format(self.total_planning_time) + "(s)")
         ]
-        name_occupancy = name + '-Occupancy-Grid'
-        name_rgb = name + '-RGB-Map'
+        name_occupancy = self.name_method + '-Occupancy-Grid'
+        name_rgb = self.name_method + '-RGB-Map'
         ax.set_title(name_rgb, fontsize=18)
         ax2.set_title(name_occupancy, fontsize=18)
         fig.legend(handles=custom_texts, fontsize="11.5", shadow=True, borderpad=1, loc='outside lower right',
@@ -83,7 +83,7 @@ def draw_map(self, path, name='RRT'):
         traceback.print_exc()
 
 
-def draw_combined_maps(self, path, name='RRT'):
+def draw_combined_maps(self):
     try:
         fig, axs = plt.subplots(1, 2, figsize=(12, 6))  # Dos subplots en una fila
 
@@ -92,7 +92,7 @@ def draw_combined_maps(self, path, name='RRT'):
         axs[1].imshow(self.map_array_rgb, cmap='gray', origin='lower')
 
         if self.found:
-            for index, (goal) in enumerate(path):
+            for index, (goal) in enumerate(self.path):
                 cur = goal
                 if cur.parent is not None:
                     start = self.goals[index]
@@ -129,11 +129,11 @@ def draw_combined_maps(self, path, name='RRT'):
                               label=f"Planning time: " + "{:.2f}".format(self.total_planning_time) + "(s)")
 
             ]
-            axs[0].set_title(name + '-Occupancy-Grid', fontsize=18)
+            axs[0].set_title(self.name_method + '-Occupancy-Grid', fontsize=18)
             axs[0].set_xlabel('x-coordinates (px)', labelpad=8, fontsize=18)
             axs[0].set_ylabel('y-coordinates (px)', labelpad=8, fontsize=18)
 
-            axs[1].set_title(name + '-RGB-Map', fontsize=18)
+            axs[1].set_title(self.name_method + '-RGB-Map', fontsize=18)
             axs[1].set_xlabel('x-coordinates (px)', labelpad=8, fontsize=18)
             axs[1].set_ylabel('y-coordinates (px)', labelpad=8, fontsize=18)
 
@@ -149,7 +149,7 @@ def draw_combined_maps(self, path, name='RRT'):
         # fig.add_artist(legend_texts)
         # plt.legend(handles=custom_texts, bbox_to_anchor=(1.01, 1), fontsize="18", shadow=True, borderpad=1,
         #            loc='upper left')
-        filename = save_files.get_name_to_save_plot(self.name_folder, name, self.path_solutions)
+        filename = save_files.get_name_to_save_plot(self.name_folder, self.name_method, self.path_solutions)
         plt.savefig(filename, dpi=500)
         plt.show()
 

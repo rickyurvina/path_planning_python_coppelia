@@ -1,14 +1,14 @@
 import numpy as np
 
 from src.components.step_3_rrt.check_collision import check_collision
-from src.components.step_3_rrt.dis import dis
+from src.components.step_3_rrt.distance import distance
 from src.components.step_3_rrt.path_cost import path_cost
 
 
 def rewire(self, new_node, neighbors, start):
     if neighbors == []:
         return
-    distances = [dis(self, new_node, node) for node in neighbors]
+    distances = [distance(self, new_node, node) for node in neighbors]
     costs = [d + path_cost(self, start, neighbors[i]) for i, d in enumerate(distances)]
     indices = np.argsort(np.array(costs))
 

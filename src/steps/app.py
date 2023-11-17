@@ -42,10 +42,10 @@ def main():
         paths = []
         # RRT
         start_time_rrt = time.time()
-        method, total_nodes, total_cost, total_samples_in_object, total_planning_time, search_vertices, total_samples, success = step_3_rrt.informed_rrt(
+        self_rrt = step_3_rrt.informed_rrt(
             data,
             name_folder)
-        paths.append(search_vertices)
+        paths.append(self_rrt.search_vertices)
         end_time_rrt = time.time()
         execution_time_rrt = end_time_rrt - start_time_rrt
         print("execution_time_rrt", execution_time_rrt)
@@ -61,7 +61,7 @@ def main():
             'ordered_positions': data['ordered_positions'],
             'route': route,
             'paths': paths,
-            'path_length_rrt': total_cost,
+            'path_length_rrt': self_rrt.total_cost,
             'time': execution_time_data + execution_time_tsp + execution_time_rrt,
             'total_loaded_tsp': total_loaded_tsp,
             'total_length_tsp': total_length_tsp,
@@ -75,9 +75,9 @@ def main():
             'tsp_time': execution_time_tsp,
             'rrt_time': execution_time_rrt,
             'folder': name_folder,
-            'path_length_rrt': total_cost if success else 0,
-            'total_loaded_tsp': total_loaded_tsp if success else 0,
-            'total_length_tsp': total_length_tsp if success else 0,
+            'path_length_rrt': self_rrt.total_cost if self_rrt.success else 0,
+            'total_loaded_tsp': total_loaded_tsp if self_rrt.success else 0,
+            'total_length_tsp': total_length_tsp if self_rrt.success else 0,
         }
         save_data_base(data)
         save_files.save_workspace(variables, name_folder)

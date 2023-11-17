@@ -27,61 +27,61 @@ def run_multiple_test(num_tests=1):
                               data_loaded['ordered_positions'],
                               name_folder, path_solutions)
 
-            method, total_nodes, total_cost, total_collisions, total_planning_time, _, total_samples, success = RRT_PLANNER.rrt()
+            method, self_rrt, search_vertices = RRT_PLANNER.rrt()
             data = {
                 'prefix': 'tests_rrt',
                 'method': method if method is not None else "tests_rrt",
                 'test_number': test_number,
-                'total_cost': total_cost if total_cost is not None else 0,
-                'total_collisions': total_collisions if total_collisions is not None else 0,
-                'total_samples': total_samples if total_samples is not None else 0,
-                'total_planning_time': total_planning_time if total_planning_time is not None else 0,
+                'total_cost': self_rrt.total_cost if self_rrt.total_cost is not None else 0,
+                'total_collisions': self_rrt.total_collisions if self_rrt.total_collisions is not None else 0,
+                'total_samples': self_rrt.total_samples if self_rrt.total_samples is not None else 0,
+                'total_planning_time': self_rrt.total_planning_time if self_rrt.total_planning_time is not None else 0,
                 "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
                     data_loaded['ordered_positions']) else len(
                     data_loaded['ordered_positions']),
                 "name_folder": name_folder,
-                "success": success,
-                "total_nodes": total_nodes if total_nodes is not None else 0,
+                "success": self_rrt.success,
+                "total_nodes": self_rrt.total_nodes if self_rrt.total_nodes is not None else 0,
             }
             save_data_rrt_test(data)
             save_files.save_workspace(data, name_folder, path_solutions)
             print(Fore.LIGHTGREEN_EX + "!!Saves on database rrt!!")
 
-            method, total_nodes, total_cost, total_collisions, total_planning_time, _, total_samples, success = RRT_PLANNER.rrt_star()
+            method, self_rrt_star, search_vertices = RRT_PLANNER.rrt_star()
             data = {
                 'prefix': 'tests_rrt_star',
                 'method': method if method is not None else "rrt_star",
                 'test_number': test_number,
-                'total_cost': total_cost if total_cost is not None else 0,
-                'total_collisions': total_collisions if total_collisions is not None else 0,
-                'total_samples': total_samples if total_samples is not None else 0,
-                'total_planning_time': total_planning_time if total_planning_time is not None else 0,
+                'total_cost': self_rrt_star.total_cost if self_rrt_star.total_cost is not None else 0,
+                'total_collisions': self_rrt_star.total_collisions if self_rrt_star.total_collisions is not None else 0,
+                'total_samples': self_rrt_star.total_samples if self_rrt_star.total_samples is not None else 0,
+                'total_planning_time': self_rrt_star.total_planning_time if self_rrt_star.total_planning_time is not None else 0,
                 "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
                     data_loaded['ordered_positions']) else len(
                     data_loaded['ordered_positions']),
                 "name_folder": name_folder,
-                "success": success,
-                "total_nodes": total_nodes if total_nodes is not None else 0,
+                "success": self_rrt_star.success,
+                "total_nodes": self_rrt_star.total_nodes if self_rrt_star.total_nodes is not None else 0,
             }
             save_data_rrt_test(data)
             save_files.save_workspace(data, name_folder, path_solutions)
             print(Fore.LIGHTGREEN_EX + "!!Saves on database rrt-star!!")
 
-            method, total_nodes, total_cost, total_collisions, total_planning_time, _, total_samples, success = RRT_PLANNER.rrt_informed()
+            method, self_rrt_informed, search_vertices = RRT_PLANNER.rrt_informed()
             data = {
                 'prefix': 'tests_rrt_star_informed',
                 'method': method if method is not None else "tests_rrt_star_informed",
                 'test_number': test_number,
-                'total_cost': total_cost if total_cost is not None else 0,
-                'total_collisions': total_collisions if total_collisions is not None else 0,
-                'total_samples': total_samples if total_samples is not None else 0,
-                'total_planning_time': total_planning_time if total_planning_time is not None else 0,
+                'total_cost': self_rrt_informed.total_cost if self_rrt_informed.total_cost is not None else 0,
+                'total_collisions': self_rrt_informed.total_collisions if self_rrt_informed.total_collisions is not None else 0,
+                'total_samples': self_rrt_informed.total_samples if self_rrt_informed.total_samples is not None else 0,
+                'total_planning_time': self_rrt_informed.total_planning_time if self_rrt_informed.total_planning_time is not None else 0,
                 "waypoints_number": config.BREAK_AT if config.BREAK_AT < len(
                     data_loaded['ordered_positions']) else len(
                     data_loaded['ordered_positions']),
                 "name_folder": name_folder,
-                "success": success,
-                "total_nodes": total_nodes if total_nodes is not None else 0,
+                "success": self_rrt_informed.success,
+                "total_nodes": self_rrt_informed.total_nodes if self_rrt_informed.total_nodes is not None else 0,
             }
             save_data_rrt_test(data)
             save_files.save_workspace(data, name_folder, path_solutions)

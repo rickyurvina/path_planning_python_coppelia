@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.components.step_3_rrt.check_collision import check_collision
-from src.components.step_3_rrt.dis import dis
+from src.components.step_3_rrt.distance import distance
 from src.components.step_3_rrt.get_nearest_node import get_nearest_node
 from src.components.step_3_rrt.informed_rrt import Node
 
@@ -20,7 +20,7 @@ def extend_unicycle(self, goal, new_point, extend_dis=300):
         new_node.cost = extend_dis
         self.vertices.append(new_node)
         if not self.found:
-            d = dis(self, new_node, goal)
+            d = distance(self, new_node, goal)
             if d < extend_dis:
                 goal.cost = d
                 goal.parent = new_node
