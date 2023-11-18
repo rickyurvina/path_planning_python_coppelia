@@ -133,7 +133,7 @@ class RRT:
                             n_pts = config.MIN_ITER
                     i = 0
 
-                    for i in range(n_pts):
+                    for i in range(1000):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
                             return None, None, None, None, None, None, None, False
@@ -194,7 +194,7 @@ class RRT:
                         else:
                             n_pts = config.MIN_ITER
                     i = 0
-                    for i in range(n_pts):
+                    for i in range(1000):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
                             return None, None, None, None, None, None, None, False
@@ -257,7 +257,7 @@ class RRT:
                             n_pts = config.MIN_ITER
                     i = 0
 
-                    for i in range(n_pts):
+                    for i in range(10000):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
                             return None, None, None, None, None, None, None, False
