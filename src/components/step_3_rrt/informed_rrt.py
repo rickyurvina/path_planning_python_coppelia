@@ -133,7 +133,7 @@ class RRT:
                             n_pts = config.MIN_ITER
                     i = 0
 
-                    for i in range(1000):
+                    for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
                             return None, None, None, None, None, None, None, False
@@ -194,7 +194,7 @@ class RRT:
                         else:
                             n_pts = config.MIN_ITER
                     i = 0
-                    for i in range(1000):
+                    for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
                             return None, None, None, None, None, None, None, False
@@ -237,6 +237,7 @@ class RRT:
             path = []
             search_vertices = []
             self.init_map()
+            self.name_method = "RRT-Informed"
             for index, (position) in enumerate(self.goals):
                 if index == config.BREAK_AT:
                     break
@@ -257,7 +258,7 @@ class RRT:
                             n_pts = config.MIN_ITER
                     i = 0
 
-                    for i in range(10000):
+                    for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
                             return None, None, None, None, None, None, None, False
@@ -283,7 +284,6 @@ class RRT:
                 end_time = time.time()
                 self.total_planning_time = end_time - self.start_time
                 self.path = path
-                self.name_method = "RRT-Informed"
                 self.search_vertices = search_vertices
                 draw_map(self)
                 # draw_combined_maps(self, path, "RRT_Informed")

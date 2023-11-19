@@ -75,10 +75,13 @@ def save_data_rrt_test(data):
         name_folder = data['name_folder']
         success = data['success']
         total_nodes = data['total_nodes']
-        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples,waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes) VALUES (%s, %s, %s, %s,%s, %s,%s, %s, %s,%s,%s, %s, %s)"
+        extend_dis = config.RADIUS
+        neighbor_size = config.NEIGHBOR_SIZE
+        time_limit = config.TIME_LIMIT
+        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples,waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit) VALUES (%s, %s, %s, %s,%s, %s,%s, %s, %s,%s,%s, %s, %s,%s, %s, %s)"
         values = (
             method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number,
-            min_iter, max_iter, date, name_folder, success, total_nodes)
+            min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit)
         cursor.execute(query, values)
         cnx.commit()
         cursor.close()

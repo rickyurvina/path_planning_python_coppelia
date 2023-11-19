@@ -4,6 +4,15 @@ from src.components.step_3_rrt.distance import distance
 
 
 def get_new_point_in_ellipsoid(self, goal_bias, c_best, start, goal):
+    '''Choose the goal or generate a random point in an ellipsoid
+             defined by start, goal and current best length of path
+          arguments:
+              goal_bias - the possibility of choosing the goal instead of a random point
+              c_best - the length of the current best path
+
+          return:
+              point - the new point
+    '''
     if np.random.random() < goal_bias:
         point = [goal.row, goal.col]
     else:

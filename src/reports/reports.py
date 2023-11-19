@@ -76,11 +76,13 @@ def success_failure_rate_by_method(test_number='20231112-d66cad06-6c3a-47e0-8234
             COUNT(*) as total_tests
         FROM
             results_tests_rrt
+        WHERE
+            test_number = %s
         GROUP BY
             method, success;
     """
-    # cursor.execute(query, (test_number,))
-    cursor.execute(query)
+    cursor.execute(query, (test_number,))
+    # cursor.execute(query)
 
     results = cursor.fetchall()
 
@@ -157,6 +159,7 @@ def plot_test_rrt(results, name_folder, path_solutions='../../solutions', num_te
     num_tests = results[0][1]
     avg_costs = [row[2] for row in results]
     avg_collisions = [row[3] for row in results]
+    avg_planning_time = [row[4] for row in results]
     avg_nodes = [row[8] for row in results]
     avg_samples = [row[9] for row in results]
 
@@ -170,6 +173,8 @@ def plot_test_rrt(results, name_folder, path_solutions='../../solutions', num_te
     ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
     p = ax.bar(index + bar_width, avg_nodes, bar_width, label='Average Nodes')
     ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
+    p = ax.bar(index + bar_width * 2, avg_planning_time, bar_width, label='Average Planning Time')
+    ax.bar_label(p, fmt='{:,.0f}' + 's', fontsize=20)
     # p = ax.bar(index + bar_width * 2, avg_samples, bar_width, label='Average Samples')
     # ax.bar_label(p, fmt='{:,.0f}', fontsize=18)
 
