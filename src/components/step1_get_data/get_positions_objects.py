@@ -55,8 +55,38 @@ def get_positions(clientID):
     return positions, weights, rows, object_handles
 
 
+def get_positions_of_objects_to_hide(clientID):
+    object_handles = []
+    terrain_handles = []
+    husky_name = f'Husky'
+    _, cuboid_handle = sim.simxGetObjectHandle(clientID, husky_name, sim.simx_opmode_blocking)
+    object_handles.append(cuboid_handle)
+    for o in range(int(config.NUM_WAY_POINTS)):
+        object_name = f'hi{o + 1}b1'
+        _, cuboid_handle = sim.simxGetObjectHandle(clientID, object_name, sim.simx_opmode_blocking)
+        object_handles.append(cuboid_handle)
+    for o in range(int(config.NUM_ROWS_MAP)):
+        row_name = f'h{o + 1}'
+        _, cuboid_handle = sim.simxGetObjectHandle(clientID, row_name, sim.simx_opmode_blocking)
+        object_handles.append(cuboid_handle)
+    for o in range(int(config.NUM_BOXES)):
+        box_name = f'box{o + 1}'
+        _, cuboid_handle = sim.simxGetObjectHandle(clientID, box_name, sim.simx_opmode_blocking)
+        object_handles.append(cuboid_handle)
+
+    for o in range(int(config.NUM_TERRAINS)):
+        hash_name = f'#{o - 1}' if o > 0 else ''
+        tra_name = f'tra{o + 1}{hash_name}'
+        _, cuboid_handle = sim.simxGetObjectHandle(clientID, tra_name, sim.simx_opmode_blocking)
+
+        terrain_handles.append(cuboid_handle)
+
+    return object_handles, terrain_handles
+
+
 if __name__ == '__main__':
     clientId = startSimulation()
-    positions, weights, rows, object_handles = get_positions(clientId)
+    object_handles, terrain_handles = get_positions_of_objects_to_hide(clientId)
+    # print(object_handles)
+    print(terrain_handles)
     close_simulation(clientId)
-    print(positions, weights, rows, object_handles)
