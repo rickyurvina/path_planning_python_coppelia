@@ -119,24 +119,23 @@ class RRT:
                 if index != len(self.goals) - 1:
                     start = position
                     goal = self.goals[index + 1]
-                    if index > 0:
-                        self.found = False
-                        self.vertices = []
-                        self.vertices.append(start)
-                        actual_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                               self.ordered_positions[index])
-                        next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                             self.ordered_positions[index + 1])
-                        if actual_row != next_row:
-                            n_pts = config.MAX_ITER
-                        else:
-                            n_pts = config.MIN_ITER
+                    self.found = False
+                    self.vertices = []
+                    self.vertices.append(start)
+                    actual_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                           self.ordered_positions[index])
+                    next_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                         self.ordered_positions[index + 1])
+                    if actual_row != next_row:
+                        n_pts = config.MAX_ITER
+                    else:
+                        n_pts = config.MIN_ITER
                     i = 0
 
                     for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
-                            return None, None, None, None, None, None, None, False
+                            return None
                         new_point = sample(self, start, goal, config.GOAL_SAMPLE_RATE)
                         new_node = self.extend(goal, new_point, config.RADIUS)
                         if self.found:
@@ -159,9 +158,10 @@ class RRT:
                 self.path = path
                 self.name_method = "RRT"
                 self.search_vertices = search_vertices
-                draw_map(self)
-                # draw_combined_maps(self, path, "RRT")
-                print(config.MESSAGE_PLOTTED)
+                if config.NO_PLOT_RRT:
+                    draw_map(self)
+                    # draw_combined_maps(self, path, "RRT")
+                    print(config.MESSAGE_PLOTTED)
                 return self
             return None
         except Exception as e:
@@ -181,23 +181,22 @@ class RRT:
                 if index != len(self.goals) - 1:
                     start = position
                     goal = self.goals[index + 1]
-                    if index > 0:
-                        self.found = False
-                        self.vertices = []
-                        self.vertices.append(start)
-                        actual_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                               self.ordered_positions[index])
-                        next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                             self.ordered_positions[index + 1])
-                        if actual_row != next_row:
-                            n_pts = config.MAX_ITER
-                        else:
-                            n_pts = config.MIN_ITER
+                    self.found = False
+                    self.vertices = []
+                    self.vertices.append(start)
+                    actual_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                           self.ordered_positions[index])
+                    next_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                         self.ordered_positions[index + 1])
+                    if actual_row != next_row:
+                        n_pts = config.MAX_ITER
+                    else:
+                        n_pts = config.MIN_ITER
                     i = 0
                     for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
-                            return None, None, None, None, None, None, None, False
+                            return None
                         # Extend a new node
                         new_point = sample(self, start, goal, config.GOAL_SAMPLE_RATE)
                         new_node = self.extend(goal, new_point, config.RADIUS)
@@ -223,9 +222,10 @@ class RRT:
                 self.path = path
                 self.name_method = "RRT-Star"
                 self.search_vertices = search_vertices
-                draw_map(self)
-                # draw_combined_maps(self, path, "RRT_Star")
-                print(config.MESSAGE_PLOTTED)
+                if config.NO_PLOT_RRT:
+                    draw_map(self)
+                    # draw_combined_maps(self, path, "RRT")
+                    print(config.MESSAGE_PLOTTED)
                 return self
             return None
         except Exception as e:
@@ -245,23 +245,23 @@ class RRT:
                 if index != len(self.goals) - 1:
                     start = position
                     goal = self.goals[index + 1]
-                    if index > 0:
-                        self.found = False
-                        self.vertices = []
-                        self.vertices.append(start)
-                        actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
-                        next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                             self.ordered_positions[index + 1])
-                        if actual_row != next_row:
-                            n_pts = config.MAX_ITER
-                        else:
-                            n_pts = config.MIN_ITER
+                    # if index > 0:
+                    self.found = False
+                    self.vertices = []
+                    self.vertices.append(start)
+                    actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
+                    next_row = get_row_of_position.find_row_for_position(self.rows,
+                                                                         self.ordered_positions[index + 1])
+                    if actual_row != next_row:
+                        n_pts = config.MAX_ITER
+                    else:
+                        n_pts = config.MIN_ITER
                     i = 0
 
                     for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
-                            return None, None, None, None, None, None, None, False
+                            return None
                         c_best = 0
                         if self.found:
                             c_best = path_cost(self, start, goal, c_best)
@@ -285,9 +285,11 @@ class RRT:
                 self.total_planning_time = end_time - self.start_time
                 self.path = path
                 self.search_vertices = search_vertices
-                draw_map(self)
-                # draw_combined_maps(self, path, "RRT_Informed")
-                print(config.MESSAGE_PLOTTED)
+                if config.NO_PLOT_RRT:
+                    draw_map(self)
+                    # draw_combined_maps(self, path, "RRT")
+                    print(config.MESSAGE_PLOTTED)
+                
                 return self
             return None
         except Exception as e:

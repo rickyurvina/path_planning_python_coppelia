@@ -104,5 +104,5 @@ if __name__ == '__main__':
         data = get_data(name_folder)
     else:
         data = load_files.load_solution_data("solutions")
-    # main(data['positions'], data['weights'], data['rows'], name_folder)
-    run_tsp_with_varied_capacity(data, name_folder)
+    main(data['positions'], data['weights'], data['rows'], name_folder)
+    # run_tsp_with_varied_capacity(data, name_folder)
