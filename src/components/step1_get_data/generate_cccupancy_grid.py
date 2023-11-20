@@ -176,10 +176,16 @@ def combine_occupancy_grids(occupancy_grid, occupancy_grid_traver):
 
 
 def main(clientId, object_handles, name_folder):
-    occupancy_grid, gray, img = generate_occupancy_grid(clientId, object_handles, name_folder)
+    object_handles_traver, terrain_handles = get_positions_of_objects_to_hide(clientId)
+    array_objects = np.concatenate((object_handles, terrain_handles))
+    occupancy_grid, gray, img = generate_occupancy_grid(clientId, array_objects, name_folder)
     occupancy_grid_processed = generate_occupancy_processed(gray)
-    img_contours, occupancy_grid_filled = generate_occupancy_grid_filled(img, occupancy_grid_processed)
-    return occupancy_grid_filled
+    occupancy_grid_processed_copy = occupancy_grid_processed.copy()
+    img_contours, occupancy_grid_filled = generate_occupancy_grid_filled(img, occupancy_grid_processed_copy)
+    occupancy_grid_traver, gray_traver, img_traver = generate_og_traversability(clientId, object_handles_traver)
+    img_contours_tra, occupancy_grid_filled_traver = generate_occupancy_grid_filled(img_traver, occupancy_grid_traver)
+    occupancy_grid_combined = combine_occupancy_grids(occupancy_grid_filled, occupancy_grid_filled_traver)
+    return occupancy_grid_combined
 
 
 if __name__ == '__main__':

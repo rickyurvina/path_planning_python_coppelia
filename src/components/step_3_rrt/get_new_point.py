@@ -20,15 +20,23 @@ def get_new_point(self, goal_bias, start, goal):
         min_y = 0
         max_y = config.RESOLUTION_Y
 
-    self.size_x_min = min_x
-    self.size_x_max = max_x
-    self.size_y_min = min_y
-    self.size_y_max = max_y
+    if self.name_method == 'RRT-Informed':
+        self.size_x_min = min_x
+        self.size_x_max = max_x
+        self.size_y_min = min_y
+        self.size_y_max = max_y
+    else:
+        self.size_x_min = 0
+        self.size_x_max = config.RESOLUTION_X
+        self.size_y_min = 0
+        self.size_y_max = config.RESOLUTION_Y
+
     if np.random.random() < goal_bias:
         point = [goal.row, goal.col]
     else:
-        if self.name_method == 'RRT-Informed':
-            point = [np.random.randint(min_x, self.size_x_max - 1), np.random.randint(min_y, max_y_search)]
-        else:
-            point = [np.random.randint(0, self.size_row - 1), np.random.randint(0, self.size_col - 1)]
+        # if self.name_method == 'RRT-Informed':
+        #     point = [np.random.randint(min_x, self.size_x_max - 1), np.random.randint(min_y, max_y_search)]
+        # else:
+        point = [np.random.randint(self.size_y_min, self.size_y_max - 1),
+                 np.random.randint(self.size_x_min, self.size_x_max - 1)]
     return point

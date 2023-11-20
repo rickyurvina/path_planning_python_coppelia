@@ -11,7 +11,7 @@ from src.reports.reports import average_test, success_failure_rate_by_method
 from src.steps import config
 
 
-def run_multiple_test(num_tests=10):
+def run_multiple_test(num_tests=100):
     try:
         unique_code = str(uuid.uuid4())
         test_number = datetime.now().strftime("%Y%m%d") + "-" + str(unique_code)

@@ -75,8 +75,8 @@ def get_positions_of_objects_to_hide(clientID):
         object_handles.append(cuboid_handle)
 
     for o in range(int(config.NUM_TERRAINS)):
-        hash_name = f'#{o - 1}' if o > 0 else ''
-        tra_name = f'tra{o + 1}{hash_name}'
+        # hash_name = f'#{o - 1}' if o > 0 else ''
+        tra_name = f'tra{o + 1}'
         _, cuboid_handle = sim.simxGetObjectHandle(clientID, tra_name, sim.simx_opmode_blocking)
 
         terrain_handles.append(cuboid_handle)
