@@ -142,7 +142,5 @@ Y
 ,src/components/step_3_rrt/extend_unicycle.py,b\3\b3490321cec7c40dec8bf0ebf41f436f0434ecfb
 b
 2src/components/step_3_rrt/all_methods_one_graph.py,f\8\f87c0205cc865c4ef07f2f549328bda0d9574738
-m
-=src/components/step1_get_data/get_occupancy_traversability.py,0\2\0227e42efca3693fba626ac69a688e52185bc425
 C
 src/coppelia/sim.py,4\9\4957eeec32b11cfdd671e8f45b73dca9610f55b5
