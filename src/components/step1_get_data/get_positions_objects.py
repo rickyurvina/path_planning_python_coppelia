@@ -4,6 +4,7 @@ from src.components.step1_get_data.close_simulation_coppelia import close_simula
 from src.components.step1_get_data.start_simulation_coppelia import startSimulation
 from src.coppelia import sim
 from src.steps import config
+import random
 
 
 # Costo computacional O(n^2)-> n= len positions
@@ -58,6 +59,7 @@ def get_positions(clientID):
 def get_positions_of_objects_to_hide(clientID):
     object_handles = []
     terrain_handles = []
+    frictions_values = []
     husky_name = f'Husky'
     _, cuboid_handle = sim.simxGetObjectHandle(clientID, husky_name, sim.simx_opmode_blocking)
     object_handles.append(cuboid_handle)
@@ -78,10 +80,19 @@ def get_positions_of_objects_to_hide(clientID):
         # hash_name = f'#{o - 1}' if o > 0 else ''
         tra_name = f'tra{o + 1}'
         _, cuboid_handle = sim.simxGetObjectHandle(clientID, tra_name, sim.simx_opmode_blocking)
+        # _, friction_old = sim.simxGetObjectFloatParameter(clientID, cuboid_handle,
+        #                                                   sim.sim_objfloatparam_bullet_friction_old,
+        #                                                   sim.simx_opmode_blocking)
 
+        # print(f"Valor de 'frictionOld' para {tra_name}: {friction_old}")
+
+        # terrain_handles.append(terrain_handle)
+        friction_value = round(random.uniform(0, 1), 1)
+        print(f"Valor de 'friction' para {tra_name}: {friction_value}")
+        frictions_values.append(friction_value)
         terrain_handles.append(cuboid_handle)
 
-    return object_handles, terrain_handles
+    return object_handles, terrain_handles, frictions_values
 
 
 if __name__ == '__main__':

@@ -144,3 +144,7 @@ b
 2src/components/step_3_rrt/all_methods_one_graph.py,f\8\f87c0205cc865c4ef07f2f549328bda0d9574738
 C
 src/coppelia/sim.py,4\9\4957eeec32b11cfdd671e8f45b73dca9610f55b5
+H
+src/coppelia/simConst.py,a\5\a5979b3fe0df04ceab750565f4ab8538fcd3030c
+_
+/src/components/step1_get_data/traversability.py,b\a\ba15e02ee192af7b183997fb0dc836d33c23b818
