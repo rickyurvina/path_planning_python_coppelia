@@ -4,7 +4,7 @@ from colorama import init, Fore
 import matplotlib.pyplot as plt
 from src.components.common import load_files, save_files
 import matplotlib.lines as mlines
-
+from shapely.geometry import LineString
 from src.steps import config
 
 
@@ -29,13 +29,32 @@ def draw_map(self):
                             ax2.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
                     lines = []
                     while cur.col != start.col or cur.row != start.row:
-                        lines.append([cur.col, cur.row, cur.parent.col, cur.parent.row])
+                        lines.append((cur.col, cur.row))
                         cur = cur.parent
+                    # lines = np.array(lines)
+                    lines.append((start.col, start.row))
+                    lines.reverse()
                     lines = np.array(lines)
+
                     color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255), np.random.randint(0, 255),
                                                           np.random.randint(0, 255))
-                    ax.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], marker='o', color='b')
-                    ax2.plot(lines[:, 0], lines[:, 1], lines[:, 2], lines[:, 3], marker='o', color='b')
+                    ax.plot(lines[:, 0], lines[:, 1], color='b')
+                    ax2.plot(lines[:, 0], lines[:, 1], color='b')
+
+                    if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH:
+                        line = LineString(lines)
+                        parallel_line = line.parallel_offset(50, side='right')
+                        parallel_line_left = line.parallel_offset(50,
+                                                                  side='left')
+                        parallel_x, parallel_y = parallel_line.xy
+                        parallel_x_left, parallel_y_left = parallel_line_left.xy
+                        ax.plot(parallel_x, parallel_y, color='black', linestyle='--', linewidth=1.5)
+                        ax.plot(parallel_x_left, parallel_y_left, color='black', linestyle='--',
+                                linewidth=1.5)  # Ajusta el color
+                        # ax2.plot(parallel_x, parallel_y, color='gray', linestyle='--', linewidth=1)
+                        # ax2.plot(parallel_x_left, parallel_y_left, color='gray', linestyle='--',
+                        #          linewidth=2)  # Ajusta el color
+
                     if goal:
                         ax.plot(goal.col, goal.row, markersize=5, marker='o', color='r',
                                 label='Goal')

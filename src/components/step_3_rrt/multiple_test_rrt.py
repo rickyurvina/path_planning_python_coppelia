@@ -11,13 +11,13 @@ from src.reports.reports import average_test, success_failure_rate_by_method
 from src.steps import config
 
 
-def run_multiple_test(num_tests=100):
+def run_multiple_test(num_tests=20):
     try:
         unique_code = str(uuid.uuid4())
         test_number = datetime.now().strftime("%Y%m%d") + "-" + str(unique_code)
         data_loaded = load_files.load_solution_data()
         ordered_transformed = shift_positions(data_loaded['ordered_positions'])
-        indexes = [0, 3]
+        indexes = [0, 4]
         array_for_test = [ordered_transformed[i] for i in indexes]
         name_folder = create_folder.create_folder("../../solutions")
         path_solutions = "../../solutions"
