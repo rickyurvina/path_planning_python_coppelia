@@ -2,6 +2,7 @@ from src.components.step1_get_data.close_simulation_coppelia import close_simula
 from src.components.common.draw_maps import draw_maps
 from src.components.step1_get_data.get_positions_objects import get_positions_of_objects_to_hide
 from src.components.step1_get_data.start_simulation_coppelia import startSimulation
+from src.components.step1_get_data.traversability import can_traverse_terrain
 from src.coppelia import sim
 import numpy as np
 import cv2
@@ -11,7 +12,7 @@ from src.components.step1_get_data.generate_rgb import generate_rgb
 from src.steps import config
 
 
-def generate_occupancy_grid(clientID, object_handles, name_folder):
+def generate_occupancy_grid(clientID, object_handles):
     try:
         # Obtener el handle del objeto al que se desea eliminar la textura
         _, box_terrain = sim.simxGetObjectHandle(clientID, 'box_terrain', sim.simx_opmode_blocking)
@@ -103,7 +104,7 @@ def generate_occupancy_grid_filled(img, occupancy_grid):
     return img_contours, occupancy_grid_filled
 
 
-def generate_og_traversability(clientID, object_handles):
+def generate_og_traversability(clientID, object_handles, terrain_handles, frictions_values):
     try:
         # Obtener el handle del objeto al que se desea eliminar la textura
         _, box_terrain = sim.simxGetObjectHandle(clientID, 'box_terrain', sim.simx_opmode_blocking)
@@ -113,6 +114,15 @@ def generate_og_traversability(clientID, object_handles):
                                             sim.simx_opmode_blocking)
         res = sim.simxSetObjectIntParameter(clientID, husky, sim.sim_objintparam_visibility_layer, False,
                                             sim.simx_opmode_blocking)
+
+        frictions_values = [0.3, 0.4]
+        for i in range(len(terrain_handles)):
+            _, _, can_traverse = can_traverse_terrain(frictions_values[i])
+            if can_traverse == True:
+                res = sim.simxSetObjectIntParameter(clientID, terrain_handles[i],
+                                                    sim.sim_objintparam_visibility_layer,
+                                                    False,
+                                                    sim.simx_opmode_blocking)
 
         for i in range(len(object_handles)):
             res = sim.simxSetObjectIntParameter(clientID, object_handles[i], sim.sim_objintparam_visibility_layer,
@@ -155,6 +165,11 @@ def generate_og_traversability(clientID, object_handles):
                                                     True,
                                                     sim.simx_opmode_blocking)
 
+            for i in range(len(terrain_handles)):
+                res = sim.simxSetObjectIntParameter(clientID, terrain_handles[i], sim.sim_objintparam_visibility_layer,
+                                                    True,
+                                                    sim.simx_opmode_blocking)
+
                 # Recorrer todos los contornos encontrados
             occupancy_grid = (thresh > 1).astype(np.uint8)
         return occupancy_grid, gray, img
@@ -176,14 +191,15 @@ def combine_occupancy_grids(occupancy_grid, occupancy_grid_traver):
 
 
 def main(clientId, object_handles, name_folder):
-    object_handles_traver, terrain_handles = get_positions_of_objects_to_hide(clientId)
+    object_handles_traver, terrain_handles, frictions_values = get_positions_of_objects_to_hide(clientId)
     array_objects = np.concatenate((object_handles, terrain_handles))
-    occupancy_grid, gray, img = generate_occupancy_grid(clientId, array_objects, name_folder)
+    occupancy_grid, gray, img = generate_occupancy_grid(clientId, array_objects)
     occupancy_grid_processed = generate_occupancy_processed(gray)
     occupancy_grid_processed_copy = occupancy_grid_processed.copy()
     img_contours, occupancy_grid_filled = generate_occupancy_grid_filled(img, occupancy_grid_processed_copy)
     occupancy_grid_traver, gray_traver, img_traver = generate_og_traversability(clientId, object_handles_traver)
-    img_contours_tra, occupancy_grid_filled_traver = generate_occupancy_grid_filled(img_traver, occupancy_grid_traver)
+    img_contours_tra, occupancy_grid_filled_traver = generate_occupancy_grid_filled(img_traver, occupancy_grid_traver,
+                                                                                    terrain_handles, frictions_values)
     occupancy_grid_combined = combine_occupancy_grids(occupancy_grid_filled, occupancy_grid_filled_traver)
     return occupancy_grid_combined
 
@@ -192,14 +208,15 @@ if __name__ == '__main__':
     clientId = startSimulation()
     _, _, _, object_handles = get_positions_objects.get_positions(clientId)
     name_folder = create_folder.create_folder("../../solutions")
-    object_handles_traver, terrain_handles = get_positions_of_objects_to_hide(clientId)
+    object_handles_traver, terrain_handles, frictions_values = get_positions_of_objects_to_hide(clientId)
     array_objects = np.concatenate((object_handles, terrain_handles))
-    occupancy_grid, gray, img = generate_occupancy_grid(clientId, array_objects, name_folder)
+    occupancy_grid, gray, img = generate_occupancy_grid(clientId, array_objects)
     rbg = generate_rgb(clientId, name_folder)
     occupancy_grid_processed = generate_occupancy_processed(gray)
     occupancy_grid_processed_copy = occupancy_grid_processed.copy()
     img_contours, occupancy_grid_filled = generate_occupancy_grid_filled(img, occupancy_grid_processed_copy)
-    occupancy_grid_traver, gray_traver, img_traver = generate_og_traversability(clientId, object_handles_traver)
+    occupancy_grid_traver, gray_traver, img_traver = generate_og_traversability(clientId, object_handles_traver,
+                                                                                terrain_handles, frictions_values)
     img_contours_tra, occupancy_grid_filled_traver = generate_occupancy_grid_filled(img_traver, occupancy_grid_traver)
     occupancy_grid_combined = combine_occupancy_grids(occupancy_grid_filled, occupancy_grid_filled_traver)
 
