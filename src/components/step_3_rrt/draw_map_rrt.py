@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from src.components.common import load_files, save_files
 import matplotlib.lines as mlines
 from shapely.geometry import LineString
+
+from src.components.step_3_rrt.smooth_path import smooth_path
 from src.steps import config
 
 
@@ -35,14 +37,16 @@ def draw_map(self):
                     lines.append((start.col, start.row))
                     lines.reverse()
                     lines = np.array(lines)
+                    path_smooth = smooth_path(lines)
+                    ax.plot(path_smooth[:, 0], path_smooth[:, 1], color='r', label='Ruta Suavizada')
 
                     color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255), np.random.randint(0, 255),
                                                           np.random.randint(0, 255))
-                    ax.plot(lines[:, 0], lines[:, 1], color='b')
+                    # ax.plot(lines[:, 0], lines[:, 1], color='b')
                     ax2.plot(lines[:, 0], lines[:, 1], color='b')
 
                     if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH:
-                        line = LineString(lines)
+                        line = LineString(path_smooth)
                         parallel_line = line.parallel_offset(50, side='right')
                         parallel_line_left = line.parallel_offset(50,
                                                                   side='left')

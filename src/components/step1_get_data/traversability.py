@@ -20,7 +20,7 @@ def bekker_wong(wheel_radius, sinkage, cohesion, friction_angle, object_friction
     friction_angle_rad = math.radians(friction_angle)
     Rc = (wheel_radius / sinkage) * (cohesion / (object_friction * math.tan(friction_angle_rad)))
 
-    return (wheel_radius / sinkage) * (cohesion / (object_friction * math.tan(friction_angle_rad)))
+    return Rc
 
 
 def can_traverse_terrain(object_friction, traction_force=400, wheel_radius=0.3, sinkage=0.2, cohesion=50,

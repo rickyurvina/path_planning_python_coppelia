@@ -150,7 +150,6 @@ class RRT:
                     path.append(goal)
                     search_vertices.append(self.vertices)
 
-                    # Output
             if self.found:
                 print(config.MESSAGE_DONE)
                 end_time = time.time()
@@ -289,7 +288,7 @@ class RRT:
                     draw_map(self)
                     # draw_combined_maps(self, path, "RRT")
                     print(config.MESSAGE_PLOTTED)
-                
+
                 return self
             return None
         except Exception as e:

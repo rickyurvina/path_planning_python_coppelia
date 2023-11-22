@@ -148,3 +148,5 @@ H
 src/coppelia/simConst.py,a\5\a5979b3fe0df04ceab750565f4ab8538fcd3030c
 _
 /src/components/step1_get_data/traversability.py,b\a\ba15e02ee192af7b183997fb0dc836d33c23b818
+X
+(src/components/step_3_rrt/smooth_path.py,1\5\1551e45aafbb8b64b5cb9a2781923960e27d417d
