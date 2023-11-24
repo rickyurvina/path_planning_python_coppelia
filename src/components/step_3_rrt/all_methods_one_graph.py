@@ -5,6 +5,8 @@ import traceback
 import numpy as np
 from colorama import init, Fore
 from matplotlib import pyplot as plt
+from shapely import LineString
+
 from src.components.common.save_on_database import save_data_rrt_test
 from src.components.step_3_rrt.informed_rrt import RRT
 from src.components.step_3_rrt.shift_positions import shift_positions
@@ -65,7 +67,7 @@ def draw_multiple_maps(rrt_instances, name_folder):
         ax2.imshow(rrt_instances[0].map_array, cmap='gray', origin='lower')
 
         for index_rrt, self in enumerate(rrt_instances):
-            if self.found:
+            if self.found and len(self.smoot_path) <= 0:
                 for index, (goal) in enumerate(self.path):
                     cur = goal
                     if cur.parent is not None and index == 0:
@@ -93,6 +95,10 @@ def draw_multiple_maps(rrt_instances, name_folder):
                             ax2.plot(goal.col, goal.row, markersize=5, marker='o', color='r',
                                      label='Goal')
 
+            smoot_path = self.smoot_path
+            if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH and smoot_path is not None:
+                ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label='Ruta Suavizada')
+                ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label='Ruta Suavizada')
         name_occupancy = self.name_method + '-Occupancy-Grid'
         name_rgb = self.name_method + '-RGB-Map'
         # ax2.set_title(name_occupancy, fontsize=18)

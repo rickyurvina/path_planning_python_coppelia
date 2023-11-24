@@ -150,3 +150,7 @@ _
 /src/components/step1_get_data/traversability.py,b\a\ba15e02ee192af7b183997fb0dc836d33c23b818
 X
 (src/components/step_3_rrt/smooth_path.py,1\5\1551e45aafbb8b64b5cb9a2781923960e27d417d
+Y
+)src/components/step_3_rrt/optimization.py,e\2\e2ecb04f6cb3e7917b3d81f2888916419762712a
+`
+0src/components/step_3_rrt/path_to_soomth_path.py,4\d\4d9ba407a444727fd7e0ab77df626c1e86954c35

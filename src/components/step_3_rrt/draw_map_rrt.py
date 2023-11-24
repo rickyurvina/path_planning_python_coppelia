@@ -17,7 +17,7 @@ def draw_map(self):
         ax.imshow(self.map_array_rgb, cmap='gray', origin='lower')
         ax2.imshow(self.map_array, cmap='gray', origin='lower')
 
-        if self.found:
+        if self.found and len(self.smoot_path) <= 0:
             for index, (goal) in enumerate(self.path):
                 cur = goal
                 if cur.parent is not None:
@@ -33,38 +33,36 @@ def draw_map(self):
                     while cur.col != start.col or cur.row != start.row:
                         lines.append((cur.col, cur.row))
                         cur = cur.parent
-                    # lines = np.array(lines)
                     lines.append((start.col, start.row))
                     lines.reverse()
                     lines = np.array(lines)
-                    path_smooth = smooth_path(lines)
-                    ax.plot(path_smooth[:, 0], path_smooth[:, 1], color='r', label='Ruta Suavizada')
-
                     color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255), np.random.randint(0, 255),
                                                           np.random.randint(0, 255))
                     # ax.plot(lines[:, 0], lines[:, 1], color='b')
+                    ax.plot(lines[:, 0], lines[:, 1], color='b')
                     ax2.plot(lines[:, 0], lines[:, 1], color='b')
-
-                    if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH:
-                        line = LineString(path_smooth)
-                        parallel_line = line.parallel_offset(50, side='right')
-                        parallel_line_left = line.parallel_offset(50,
-                                                                  side='left')
-                        parallel_x, parallel_y = parallel_line.xy
-                        parallel_x_left, parallel_y_left = parallel_line_left.xy
-                        ax.plot(parallel_x, parallel_y, color='black', linestyle='--', linewidth=1.5)
-                        ax.plot(parallel_x_left, parallel_y_left, color='black', linestyle='--',
-                                linewidth=1.5)  # Ajusta el color
-                        # ax2.plot(parallel_x, parallel_y, color='gray', linestyle='--', linewidth=1)
-                        # ax2.plot(parallel_x_left, parallel_y_left, color='gray', linestyle='--',
-                        #          linewidth=2)  # Ajusta el color
-
                     if goal:
                         ax.plot(goal.col, goal.row, markersize=5, marker='o', color='r',
                                 label='Goal')
                         ax2.plot(goal.col, goal.row, markersize=5, marker='o', color='r',
                                  label='Goal')
 
+        smoot_path = self.smoot_path
+        if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH and smoot_path is not None:
+            ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label='Ruta Suavizada')
+            ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label='Ruta Suavizada')
+            line = LineString(self.smoot_path)
+            parallel_line = line.parallel_offset(50, side='right')
+            parallel_line_left = line.parallel_offset(50,
+                                                      side='left')
+            parallel_x, parallel_y = parallel_line.xy
+            parallel_x_left, parallel_y_left = parallel_line_left.xy
+            ax.plot(parallel_x, parallel_y, color='black', linestyle='--', linewidth=1.5)
+            ax.plot(parallel_x_left, parallel_y_left, color='black', linestyle='--',
+                    linewidth=1.5)  # Ajusta el color
+            # ax2.plot(parallel_x, parallel_y, color='gray', linestyle='--', linewidth=1)
+            # ax2.plot(parallel_x_left, parallel_y_left, color='gray', linestyle='--',
+            #          linewidth=2)  # Ajusta el color
         ax.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
         ax2.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
 

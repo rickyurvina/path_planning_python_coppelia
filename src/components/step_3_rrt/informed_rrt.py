@@ -9,6 +9,7 @@ from src.components.step_3_rrt.get_nearest_node import get_nearest_node
 from src.components.step_3_rrt.get_neighbors import get_neighbors
 from src.components.step_3_rrt.path_cost import path_cost
 from src.components.step_3_rrt.path_cost_final import path_cost_final
+from src.components.step_3_rrt.path_to_soomth_path import to_smooth_path
 from src.components.step_3_rrt.rewire import rewire
 from src.components.step_3_rrt.sample import sample
 from src.components.step_3_rrt.shift_positions import shift_positions
@@ -67,6 +68,7 @@ class RRT:
         self.path = []
         self.search_vertices = []
         self.name_method = "RRT-INFORMED"
+        self.smoot_path = []
 
     def init_map(self):
         self.found = False
@@ -82,6 +84,7 @@ class RRT:
         self.path = []
         self.search_vertices = []
         self.name_method = ""
+        self.smoot_path = []
 
     def extend(self, goal, new_point, extend_dis=10):
         nearest_node = get_nearest_node(self, new_point)
@@ -284,6 +287,8 @@ class RRT:
                 self.total_planning_time = end_time - self.start_time
                 self.path = path
                 self.search_vertices = search_vertices
+                self.smoot_path = np.array(to_smooth_path(self))
+                self.path = self.smoot_path
                 if config.NO_PLOT_RRT:
                     draw_map(self)
                     # draw_combined_maps(self, path, "RRT")
@@ -305,9 +310,9 @@ def main():
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder, path_solutions)
 
-    # RRT_PLANNER.rrt()
-    # RRT_PLANNER.rrt_star()
-    RRT_PLANNER.rrt_informed()
+    RRT_PLANNER.rrt()
+    RRT_PLANNER.rrt_star()
+    # RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':
