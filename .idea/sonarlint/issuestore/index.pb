@@ -154,3 +154,5 @@ Y
 )src/components/step_3_rrt/optimization.py,e\2\e2ecb04f6cb3e7917b3d81f2888916419762712a
 `
 0src/components/step_3_rrt/path_to_soomth_path.py,4\d\4d9ba407a444727fd7e0ab77df626c1e86954c35
+c
+3src/components/step_3_rrt/path_cost_final_smooth.py,b\e\be178b44b8c5c56bed0ad53a84e79d254ea36032

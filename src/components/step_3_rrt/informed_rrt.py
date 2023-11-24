@@ -9,6 +9,7 @@ from src.components.step_3_rrt.get_nearest_node import get_nearest_node
 from src.components.step_3_rrt.get_neighbors import get_neighbors
 from src.components.step_3_rrt.path_cost import path_cost
 from src.components.step_3_rrt.path_cost_final import path_cost_final
+from src.components.step_3_rrt.path_cost_final_smooth import path_cost_final_smoothed
 from src.components.step_3_rrt.path_to_soomth_path import to_smooth_path
 from src.components.step_3_rrt.rewire import rewire
 from src.components.step_3_rrt.sample import sample
@@ -98,7 +99,7 @@ class RRT:
             new_node.cost = extend_dis
             self.vertices.append(new_node)
             if not self.found:
-                d = distance(self, new_node, goal)
+                d = distance(new_node, goal)
                 if d < extend_dis:
                     goal.cost = d
                     goal.parent = new_node
@@ -289,6 +290,11 @@ class RRT:
                 self.search_vertices = search_vertices
                 self.smoot_path = np.array(to_smooth_path(self))
                 self.path = self.smoot_path
+                print(config.MESSAGE_PATH % self.total_cost)
+                # smoothed_path_nodes = [Node(int(pt[0]), int(pt[1])) for pt in self.smoot_path]
+                # self.total_cost = path_cost_final_smoothed(smoothed_path_nodes)
+                # print(config.MESSAGE_PATH % self.total_cost)
+
                 if config.NO_PLOT_RRT:
                     draw_map(self)
                     # draw_combined_maps(self, path, "RRT")
@@ -310,9 +316,9 @@ def main():
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder, path_solutions)
 
-    RRT_PLANNER.rrt()
-    RRT_PLANNER.rrt_star()
-    # RRT_PLANNER.rrt_informed()
+    # RRT_PLANNER.rrt()
+    # RRT_PLANNER.rrt_star()
+    RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':
