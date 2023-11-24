@@ -97,8 +97,8 @@ def draw_multiple_maps(rrt_instances, name_folder):
 
             smoot_path = self.smoot_path
             if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH and smoot_path is not None:
-                ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label='Ruta Suavizada')
-                ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label='Ruta Suavizada')
+                ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
+                ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
         name_occupancy = self.name_method + '-Occupancy-Grid'
         name_rgb = self.name_method + '-RGB-Map'
         # ax2.set_title(name_occupancy, fontsize=18)

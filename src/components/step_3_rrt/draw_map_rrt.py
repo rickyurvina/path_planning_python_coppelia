@@ -22,13 +22,6 @@ def draw_map(self):
                 cur = goal
                 if cur.parent is not None:
                     start = self.goals[index]
-                    # Draw Trees or Sample points
-                    if config.DRAW_TREE_RRT and config.BREAK_AT == 1:
-                        for node in self.vertices[1:-1]:
-                            ax.plot(node.col, node.row, markersize=3, marker='o', color='y')
-                            ax.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
-                            ax2.plot(node.col, node.row, markersize=3, marker='o', color='y')
-                            ax2.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
                     lines = []
                     while cur.col != start.col or cur.row != start.row:
                         lines.append((cur.col, cur.row))
@@ -47,13 +40,20 @@ def draw_map(self):
                         ax2.plot(goal.col, goal.row, markersize=5, marker='o', color='r',
                                  label='Goal')
 
+        # Draw Trees or Sample points
+        if config.DRAW_TREE_RRT and config.BREAK_AT == 1:
+            for node in self.vertices[1:-1]:
+                ax.plot(node.col, node.row, markersize=3, marker='o', color='y')
+                ax.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
+                ax2.plot(node.col, node.row, markersize=3, marker='o', color='y')
+                ax2.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
         smoot_path = self.smoot_path
         if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH and smoot_path is not None:
-            ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label='Ruta Suavizada')
-            ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label='Ruta Suavizada')
+            ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
+            ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
             line = LineString(self.smoot_path)
-            parallel_line = line.parallel_offset(50, side='right')
-            parallel_line_left = line.parallel_offset(50,
+            parallel_line = line.parallel_offset(config.CLEARANCE_RADIUS, side='right')
+            parallel_line_left = line.parallel_offset(config.CLEARANCE_RADIUS,
                                                       side='left')
             parallel_x, parallel_y = parallel_line.xy
             parallel_x_left, parallel_y_left = parallel_line_left.xy
