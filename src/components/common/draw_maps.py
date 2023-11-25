@@ -18,7 +18,8 @@ def draw_maps(map_data, name_folder):
             if name == 'RGB':
                 ax.imshow(occupancy_grid, origin='lower', aspect='equal')
             else:
-                ax.imshow(occupancy_grid, cmap='gray', origin='lower')
+                ax.imshow(occupancy_grid, cmap='gray', vmin=0, vmax=1)
+            # ax.colorbar()
             ax.set_title(name)
             ax.set_xlabel('X-Coordinates (px)', fontsize=14)
             ax.set_ylabel('Y-Coordinates (px)', fontsize=14)
