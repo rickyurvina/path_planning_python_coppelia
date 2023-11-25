@@ -156,3 +156,5 @@ c
 3src/components/step_3_rrt/path_cost_final_smooth.py,b\e\be178b44b8c5c56bed0ad53a84e79d254ea36032
 k
 ;src/components/step_3_rrt/check_collision_with_clearance.py,8\f\8f5cd86a3c2295cea2b62e44a87f3ef0b1ca2c08
+X
+(src/components/step1_get_data/test_og.py,a\c\ac70ca29358d6d022a379c06be0994061b25029a

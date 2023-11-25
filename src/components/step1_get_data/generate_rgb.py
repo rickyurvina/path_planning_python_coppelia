@@ -26,7 +26,7 @@ def generate_rgb(clientID, name_folder):
             # Convertir la imagen en un array numpy
             img = np.array(image, dtype=np.uint8)
             img.resize([resolution[1], resolution[0], 3])
-            plot_rgb(img, name_folder)
+            # plot_rgb(img, name_folder)
     except Exception as e:
         print(e)
 
