@@ -93,8 +93,8 @@ def run_tsp_with_varied_capacity(data, name_folder, num_tests=1):
     for i in range(num_tests):
         random_capacity = random.randint(8, 45)
         start_point_tsp = random.randint(0, len(data['positions']) - 1)
-        config.VEHICLE_CAPACITIES = 39
-        config.START_POINT_TSP = 4
+        config.VEHICLE_CAPACITIES = 45
+        config.START_POINT_TSP = 5
         main(data['positions'], data['weights'], data['rows'], name_folder)
 
 
@@ -104,5 +104,5 @@ if __name__ == '__main__':
         data = get_data(name_folder)
     else:
         data = load_files.load_solution_data("solutions")
-    main(data['positions'], data['weights'], data['rows'], name_folder)
-    # run_tsp_with_varied_capacity(data, name_folder)
+    # main(data['positions'], data['weights'], data['rows'], name_folder)
+    run_tsp_with_varied_capacity(data, name_folder)

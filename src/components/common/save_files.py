@@ -22,9 +22,8 @@ def save_image(img):
     print("Guardado como", filename)
 
 
-def get_name_to_save_plot(name_folder, prefix, path_folder=config.PATH_FOLDER):
+def get_name_to_save_plot(name_folder, prefix, path_folder=config.PATH_FOLDER, ext=".png"):
     folder = path_folder + "/" + name_folder
-    ext = ".png"
     # Verificar la existencia de archivo y establecer el contador
     i = 1
     while os.path.exists(os.path.join(folder, prefix + str(i) + ext)):
