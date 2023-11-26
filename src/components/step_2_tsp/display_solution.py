@@ -113,11 +113,12 @@ def plots_positions(route=none, data=none, rows=none, name_folder=none):
                borderpad=1,
                loc='lower right')
     # ax.grid(True)
-    filename = save_files.get_name_to_save_plot(name_folder, 'tsp_solution_weighted')
+    filename = save_files.get_name_to_save_plot(name_folder, 'tsp_solution_weighted', path_folder=config.PATH_FOLDER,
+                                                ext=".svg")
     # plt.title("Prioritized route for harvesting")
     plt.xlabel('x-coordinates (m)', fontsize=16)
     plt.ylabel('y-coordinates (m)', fontsize=16)
-    plt.savefig(filename, dpi=500)
+    plt.savefig(filename, format='svg', dpi=500)
     plt.show()
 
     print("Saved as", filename)
