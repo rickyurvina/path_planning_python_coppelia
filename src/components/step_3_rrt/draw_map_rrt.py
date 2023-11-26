@@ -18,6 +18,13 @@ def draw_map(self):
         ax2.imshow(self.map_array, cmap='gray', origin='lower')
 
         if self.found and len(self.smoot_path) <= 0:
+            if config.DRAW_TREE_RRT and config.BREAK_AT == 1:
+                for node in self.vertices[1:-1]:
+                    ax.plot(node.col, node.row, markersize=3, marker='o', color='y')
+                    ax.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
+                    ax2.plot(node.col, node.row, markersize=3, marker='o', color='y')
+                    ax2.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
+
             for index, (goal) in enumerate(self.path):
                 cur = goal
                 if cur.parent is not None:
@@ -41,14 +48,14 @@ def draw_map(self):
                                  label='Goal')
 
         # Draw Trees or Sample points
-        if config.DRAW_TREE_RRT and config.BREAK_AT == 1:
+        if config.DRAW_TREE_RRT and config.BREAK_AT == 1 and self.name_method == 'IRRT':
             for node in self.vertices[1:-1]:
                 ax.plot(node.col, node.row, markersize=3, marker='o', color='y')
                 ax.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
                 ax2.plot(node.col, node.row, markersize=3, marker='o', color='y')
                 ax2.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
         smoot_path = self.smoot_path
-        if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH and smoot_path is not None:
+        if self.name_method == 'IRRT' and config.DRAW_SAFE_PATH and smoot_path is not None:
             ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
             ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
             line = LineString(self.smoot_path)
@@ -93,10 +100,10 @@ def draw_map(self):
         ax.set_ylabel('y-coordinates (px)', labelpad=8, fontsize=self.font_size)
         ax2.set_xlabel('x-coordinates (px)', labelpad=8, fontsize=self.font_size)
         ax2.set_ylabel('y-coordinates (px)', labelpad=8, fontsize=self.font_size)
-        filename_rgb = save_files.get_name_to_save_plot(self.name_folder, name_rgb, self.path_solutions)
-        filename_og = save_files.get_name_to_save_plot(self.name_folder, name_occupancy, self.path_solutions)
-        fig.savefig(filename_rgb, dpi=500)
-        fig2.savefig(filename_og, dpi=500)
+        filename_rgb = save_files.get_name_to_save_plot(self.name_folder, name_rgb, self.path_solutions, '.svg')
+        filename_og = save_files.get_name_to_save_plot(self.name_folder, name_occupancy, self.path_solutions, '.svg')
+        fig.savefig(filename_rgb, format='svg', dpi=500)
+        fig2.savefig(filename_og, format='svg', dpi=500)
         fig.show()
         fig2.show()
     except Exception as e:

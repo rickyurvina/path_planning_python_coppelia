@@ -13,7 +13,7 @@ def rewire(self, new_node, neighbors, start):
     costs = [d + path_cost(self, start, neighbors[i]) for i, d in enumerate(distances)]
     indices = np.argsort(np.array(costs))
 
-    if self.name_method == 'RRT-Informed':
+    if self.name_method == 'IRRT':
 
         for i in indices:
             if not check_collision_with_clearance(self, new_node, neighbors[i]):

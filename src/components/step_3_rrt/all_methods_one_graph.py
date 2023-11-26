@@ -52,13 +52,13 @@ def run_multiple_test(num_tests=1):
             if self_rrt_informed is not None:
                 rrt_instances.append(self_rrt_informed)
 
-        draw_multiple_maps(rrt_instances, name_folder) if rrt_instances else None
+        draw_multiple_maps(rrt_instances) if rrt_instances else None
     except Exception as e:
         print(Fore.RED + str(e))
         traceback.print_exc()
 
 
-def draw_multiple_maps(rrt_instances, name_folder):
+def draw_multiple_maps(rrt_instances):
     try:
 
         fig, ax = plt.subplots(1, figsize=(16, 10))
@@ -96,7 +96,7 @@ def draw_multiple_maps(rrt_instances, name_folder):
                                      label='Goal')
 
             smoot_path = self.smoot_path
-            if self.name_method == 'RRT-Informed' and config.DRAW_SAFE_PATH and smoot_path is not None:
+            if self.name_method == 'IRRT' and config.DRAW_SAFE_PATH and smoot_path is not None:
                 ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
                 ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
         name_occupancy = self.name_method + '-Occupancy-Grid'
@@ -112,10 +112,10 @@ def draw_multiple_maps(rrt_instances, name_folder):
         ax.set_ylabel('y-coordinates (px)', labelpad=8, fontsize=self.font_size)
         ax2.set_xlabel('x-coordinates (px)', labelpad=8, fontsize=self.font_size)
         ax2.set_ylabel('y-coordinates (px)', labelpad=8, fontsize=self.font_size)
-        filename_rgb = save_files.get_name_to_save_plot(self.name_folder, name_rgb, self.path_solutions)
-        filename_og = save_files.get_name_to_save_plot(self.name_folder, name_occupancy, self.path_solutions)
-        fig.savefig(filename_rgb, dpi=500)
-        fig2.savefig(filename_og, dpi=500)
+        filename_rgb = save_files.get_name_to_save_plot(self.name_folder, name_rgb, self.path_solutions, '.svg')
+        filename_og = save_files.get_name_to_save_plot(self.name_folder, name_occupancy, self.path_solutions, '.svg')
+        fig.savefig(filename_rgb, format='svg', dpi=500)
+        fig2.savefig(filename_og, format='svg', dpi=500)
         fig.show()
         fig2.show()
     except Exception as e:

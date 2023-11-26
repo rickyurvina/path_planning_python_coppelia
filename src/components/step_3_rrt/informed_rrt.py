@@ -69,7 +69,7 @@ class RRT:
         self.success = True
         self.path = []
         self.search_vertices = []
-        self.name_method = "RRT-INFORMED"
+        self.name_method = "IRRT"
         self.smoot_path = []
 
     def init_map(self):
@@ -95,7 +95,7 @@ class RRT:
         new_col = nearest_node.col + extend_dis * np.sin(slope)
         new_node = Node(int(new_row), int(new_col))
 
-        if self.name_method == 'RRT-Informed':
+        if self.name_method == 'IRRT':
             if (self.size_y_min <= new_row < self.size_y_max) and (self.size_x_min <= new_col < self.size_x_max) and \
                     not check_collision_with_clearance(self, nearest_node, new_node):
                 new_node.parent = nearest_node
@@ -259,7 +259,7 @@ class RRT:
             path = []
             search_vertices = []
             self.init_map()
-            self.name_method = "RRT-Informed"
+            self.name_method = "IRRT"
             for index, (position) in enumerate(self.goals):
                 if index == config.BREAK_AT:
                     break
@@ -336,8 +336,8 @@ def main():
                       name_folder, path_solutions)
 
     # RRT_PLANNER.rrt()
-    # RRT_PLANNER.rrt_star()
-    RRT_PLANNER.rrt_informed()
+    RRT_PLANNER.rrt_star()
+    # RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':

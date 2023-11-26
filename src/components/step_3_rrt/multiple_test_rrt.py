@@ -80,7 +80,7 @@ def run_multiple_test(num_tests=2):
             self_rrt_informed = RRT_PLANNER_INFORMED.rrt_informed()
             data = {
                 'prefix': 'tests_rrt_star_informed',
-                'method': self_rrt_informed.name_method if self_rrt_informed is not None else "RRT-Informed",
+                'method': self_rrt_informed.name_method if self_rrt_informed is not None else "IRRT",
                 'test_number': test_number,
                 'total_cost': self_rrt_informed.total_cost if self_rrt_informed is not None else 0,
                 'total_collisions': self_rrt_informed.total_collisions if self_rrt_informed is not None else 0,
@@ -95,7 +95,7 @@ def run_multiple_test(num_tests=2):
             }
             save_data_rrt_test(data)
             save_files.save_workspace(data, name_folder, path_solutions)
-        print(Fore.LIGHTGREEN_EX + "!!Saves on database rrt-informed!!")
+        print(Fore.LIGHTGREEN_EX + "!!Saves on database IRRT!!")
         average_test(test_number, name_folder, path_solutions, num_tests)
         success_failure_rate_by_method(test_number, name_folder, path_solutions, num_tests)
     except Exception as e:

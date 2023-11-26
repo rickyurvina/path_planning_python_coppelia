@@ -18,7 +18,7 @@ def check_collision_with_clearance(self, node1, node2, clearance_radius=config.C
             if not (0 <= row < self.size_y_max and 0 <= col < self.size_x_max):
                 continue  # Saltear si estamos fuera de los límites del mapa
 
-            if self.map_array[row][col] == 0:
+            if self.map_array[row][col] < 1:
                 self.total_collisions += 1
                 return True
 

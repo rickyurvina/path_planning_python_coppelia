@@ -149,8 +149,8 @@ def plot_success_failure_bar_by_method(method_success_failure, name_folder, path
     ax.set_ylim(0, 100)
 
     name = 'success_failure_rate_by_method'
-    filename = get_name_to_save_plot(name_folder, name, path_solutions)
-    plt.savefig(filename, dpi=500)
+    filename = get_name_to_save_plot(name_folder, name, path_solutions, '.svg')
+    plt.savefig(filename, format='svg', dpi=500)
     plt.show()
 
 
@@ -186,8 +186,8 @@ def plot_test_rrt(results, name_folder, path_solutions='../../solutions', num_te
     ax.set_xticklabels(methods, fontsize=20)
     ax.legend(fontsize=20)
     name = 'average_test_rrt'
-    filename = get_name_to_save_plot(name_folder, name, path_solutions)
-    plt.savefig(filename, dpi=500)
+    filename = get_name_to_save_plot(name_folder, name, path_solutions, '.svg')
+    plt.savefig(filename, format='svg', dpi=500)
     plt.show()
 
 
@@ -195,5 +195,5 @@ if __name__ == "__main__":
     name_folder = create_folder.create_folder("../solutions")
     test_number = '20231112-e95a987b-59fc-436e-b997-99d50167cfa5'
     path_solutions = '../solutions'
-    success_failure_rate_by_method(test_number, name_folder, path_solutions, 10)
+    # success_failure_rate_by_method(test_number, name_folder, path_solutions, 10)
     average_test(test_number, name_folder, path_solutions, 10)
