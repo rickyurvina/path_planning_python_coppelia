@@ -40,11 +40,23 @@ def can_traverse_terrain(object_friction, traction_force=400, wheel_radius=0.3, 
     Returns:
     - True if the vehicle can traverse the terrain, False otherwise.
     """
+    # object_friction = transform_value(object_friction)
     soil_resistance = bekker_wong(wheel_radius, sinkage, cohesion, friction_angle, object_friction)
-    print(f"Soil resistance: {soil_resistance}")
-    print(f"Traction force: {traction_force}")
-    print(f"Can traverse? {soil_resistance <= traction_force}")
-    return soil_resistance, traction_force, soil_resistance <= traction_force
+    # print(f"Object friction: {object_friction}")
+    # print(f"Soil resistance: {soil_resistance}")
+    # print(f"Traction force: {traction_force}")
+    # print(f"Can traverse? {soil_resistance <= traction_force}")
+    return soil_resistance <= traction_force
+
+
+def transform_value(value):
+    # Asegura que el valor esté en el rango [0, 1]
+    value = max(0, min(1, value))
+
+    # Realiza la transformación deseada
+    transformed_value = 1 - value
+
+    return transformed_value
 
 
 if __name__ == '__main__':
@@ -52,17 +64,13 @@ if __name__ == '__main__':
     sinkage_1 = 0.2  # Wheel sinkage into the soil (m)
     cohesion_1 = 50  # Soil cohesion (Pa)
     friction_angle_1 = 30  # Soil friction angle (degrees)
-    object_friction = 0.4
+    object_friction = 0.6
     resistance_1 = bekker_wong(wheel_radius_1, sinkage_1, cohesion_1, friction_angle_1, object_friction)
     print(f"Soil resistance 1: {resistance_1} N")
     traction_force_husky_can = 400  # Traction force available on the wheels (N)
 
-    soil_resistance, traction_force, can_traverse_husky_can = can_traverse_terrain(object_friction,
-                                                                                   traction_force_husky_can,
-                                                                                   wheel_radius_1, sinkage_1,
-                                                                                   cohesion_1, friction_angle_1,
-                                                                                   )
-
-    print(f"Bekker wong resistance? {soil_resistance}")
-    print(f"Traction robot force {traction_force}")
-    print(f"Can the robot traverse this terrain? {can_traverse_husky_can}")
+    soil_resistance = can_traverse_terrain(object_friction,
+                                           traction_force_husky_can,
+                                           wheel_radius_1, sinkage_1,
+                                           cohesion_1, friction_angle_1,
+                                           )

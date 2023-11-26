@@ -43,7 +43,7 @@ def run_multiple_test(num_tests=1):
             self_rrt_star = RRT_PLANNER_STAR.rrt_star()
             if self_rrt_star is not None:
                 rrt_instances.append(self_rrt_star)
-
+            #
             RRT_PLANNER_INFORMED = RRT(data_loaded['occupancy_grid'], data_loaded['rgb'], array_for_test,
                                        data_loaded['rows'],
                                        data_loaded['ordered_positions'],

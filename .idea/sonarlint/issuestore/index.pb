@@ -158,3 +158,5 @@ k
 ;src/components/step_3_rrt/check_collision_with_clearance.py,8\f\8f5cd86a3c2295cea2b62e44a87f3ef0b1ca2c08
 X
 (src/components/step1_get_data/test_og.py,a\c\ac70ca29358d6d022a379c06be0994061b25029a
+f
+6src/components/step_3_rrt/check_feasibility_terrain.py,0\9\0957f3a272fad50a886636990ba7fb272176df4f
