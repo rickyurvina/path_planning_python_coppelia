@@ -1,7 +1,9 @@
 import time
 import math
 from scipy.interpolate import interp1d
-from src.components.move_controller.speed_mapping import speed_mapping
+
+from src.components.step_4_controller.pid_controller import main_pid
+from src.components.step_4_controller.speed_mapping import speed_mapping
 from src.components.step1_get_data.close_simulation_coppelia import close_simulation
 from src.coppelia import sim
 from src.components.step1_get_data.start_simulation_coppelia import startSimulation
@@ -44,4 +46,5 @@ def move_controller():
 
 if __name__ == '__main__':
     # Uso de la función
-    interpolate_path()
+    # interpolate_path()
+    main_pid()
