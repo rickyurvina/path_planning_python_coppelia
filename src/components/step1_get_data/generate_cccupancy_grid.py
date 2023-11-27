@@ -270,7 +270,7 @@ if __name__ == '__main__':
     occupancy_grid_combined = combine_occupancy_grids(occupancy_grid_filled, occupancy_grid_filled_traver)
 
     map_data = [
-        # (rbg, 'RGB'),
+        (rbg, 'RGB'),
         (occupancy_grid, 'Occupancy Grid (OG)'),
         (occupancy_grid_processed, 'Expanded OG'),
         (img_contours, 'OG Contours'),
