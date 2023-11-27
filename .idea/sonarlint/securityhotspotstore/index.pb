@@ -158,5 +158,9 @@ k
 ;src/components/step_3_rrt/check_collision_with_clearance.py,8\f\8f5cd86a3c2295cea2b62e44a87f3ef0b1ca2c08
 X
 (src/components/step1_get_data/test_og.py,a\c\ac70ca29358d6d022a379c06be0994061b25029a
-f
-6src/components/step_3_rrt/check_feasibility_terrain.py,0\9\0957f3a272fad50a886636990ba7fb272176df4f
+K
+src/steps/step_4_control.py,a\b\abdf882418aa67bb66a0550124a91bc7a3134c6b
+b
+2src/components/move_controller/interpolate_paht.py,9\c\9c7d0ff8238afbd8bab1ed02ebeb5a05c72c28d7
+_
+/src/components/move_controller/speed_mapping.py,c\1\c1509c1b418789754c7fe15337fada78bd434fc0
