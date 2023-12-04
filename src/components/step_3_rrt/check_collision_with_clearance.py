@@ -21,7 +21,6 @@ def check_collision_with_clearance(self, node1, node2, clearance_radius=config.C
 
             value = self.map_array[row][col]
             if value > 0 and value < 1:
-                print("value", value)
                 if not can_traverse_terrain(value):
                     self.total_collisions += 1
                     return True

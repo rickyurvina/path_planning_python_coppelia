@@ -11,7 +11,7 @@ def check_collision(self, node1, node2):
     for point in points_between:
         value = self.map_array[point[0]][point[1]]
         if value > 0 and value < 1:
-            print("value", value)
+            # print("value", value)
             if not can_traverse_terrain(value):
                 self.total_collisions += 1
                 return True

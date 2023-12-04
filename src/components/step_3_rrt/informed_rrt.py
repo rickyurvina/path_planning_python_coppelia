@@ -336,8 +336,8 @@ def main():
                       name_folder, path_solutions)
 
     # RRT_PLANNER.rrt()
-    RRT_PLANNER.rrt_star()
-    # RRT_PLANNER.rrt_informed()
+    # RRT_PLANNER.rrt_star()
+    RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':

@@ -112,8 +112,11 @@ def generate_occupancy_grid_filled_terrain(img, list_occupancy_grid):
     cont = 0
     rows, cols = config.RESOLUTION_X, config.RESOLUTION_Y
     for occupancy_grid in list_occupancy_grid:
+        occupancy_grid = cv2.flip(occupancy_grid, 0)
         contours, hierarchy = cv2.findContours(occupancy_grid, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         img_contours = img.copy()
+        img_contours = cv2.flip(img_contours, 0)  # Voltear la imagen
+
         occupancy_grid_to_export = np.ones((rows, cols))
 
         for i in range(len(contours)):
@@ -128,7 +131,7 @@ def generate_occupancy_grid_filled_terrain(img, list_occupancy_grid):
             x, y, w, h = cv2.boundingRect(contours[i])
             occupancy_grid_to_export[y:y + h, x:x + w] = frictions_values[cont]
             # Dibujar el rectángulo en la imagen
-            cv2.rectangle(img_contours, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            # cv2.rectangle(img_contours, (x, y), (x + w, y + h), (0, 255, 0), 2)
             list_occupancy_grid_filled.append(occupancy_grid_to_export)
         cont += 1
 
