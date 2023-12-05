@@ -34,9 +34,6 @@ def get_new_point(self, goal_bias, start, goal):
     if np.random.random() < goal_bias:
         point = [goal.row, goal.col]
     else:
-        # if self.name_method == 'IRRT':
-        #     point = [np.random.randint(min_x, self.size_x_max - 1), np.random.randint(min_y, max_y_search)]
-        # else:
         point = [np.random.randint(self.size_y_min, self.size_y_max - 1),
                  np.random.randint(self.size_x_min, self.size_x_max - 1)]
     return point

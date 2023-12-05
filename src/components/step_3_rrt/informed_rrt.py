@@ -25,13 +25,12 @@ init()
 
 
 class Node:
-    def __init__(self, row, col):
+    def __init__(self, row, col, angle=0.0):
         self.row = row  # coordinate
         self.col = col  # coordinate
         self.parent = None  # parent node / edge
         self.cost = 0.0  # cost to parent / edge weight
-        self.total_nodes = 0
-        self.execution_time_rrt = 0
+        self.angle = angle
 
 
 class RRT:
@@ -64,6 +63,8 @@ class RRT:
         self.search_vertices = []
         self.name_method = "IRRT"
         self.smoot_path = []
+        self.execution_time_rrt = 0
+        self.total_nodes = 0
 
     def init_map(self):
         self.found = False
@@ -83,9 +84,9 @@ class RRT:
 
     def extend(self, goal, new_point, extend_dis=10):
         nearest_node = get_nearest_node(self, new_point)
-        slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
-        new_row = nearest_node.row + extend_dis * np.cos(slope)
-        new_col = nearest_node.col + extend_dis * np.sin(slope)
+        angle = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
+        new_row = nearest_node.row + extend_dis * np.cos(angle)
+        new_col = nearest_node.col + extend_dis * np.sin(angle)
         new_node = Node(int(new_row), int(new_col))
 
         if self.name_method == 'IRRT':

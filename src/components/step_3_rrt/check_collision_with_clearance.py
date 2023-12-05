@@ -1,5 +1,6 @@
 from src.components.step1_get_data.traversability import can_traverse_terrain
 from src.components.step_3_rrt.check_collision import check_collision
+from src.components.step_3_rrt.check_kinematic_constraints import check_kinematic_constraints
 from src.steps import config
 
 
@@ -9,6 +10,9 @@ def check_collision_with_clearance(self, node1, node2, clearance_radius=config.C
 
     # Verificar colisión en la línea entre los dos nodos
     if check_collision(self, node1, node2):
+        return True
+
+    if check_kinematic_constraints(node1, node2):
         return True
 
     # Verificar colisión en el área circular alrededor de node2
