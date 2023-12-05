@@ -30,13 +30,6 @@ class Node:
         self.col = col  # coordinate
         self.parent = None  # parent node / edge
         self.cost = 0.0  # cost to parent / edge weight
-        self.target_speed = 10.0 / 3.6
-        self.yaw_th = np.deg2rad(0.3)
-        self.xy_th = 0.5
-        self.invalid_travel_ratio = 5.0
-        self.robot_radius = 0.0
-        self.connect_circle_dist = 50.0
-        self.model = UnicycleRobot(0.1, 0.5, 0.1, 1.0, 0.5)
         self.total_nodes = 0
         self.execution_time_rrt = 0
 

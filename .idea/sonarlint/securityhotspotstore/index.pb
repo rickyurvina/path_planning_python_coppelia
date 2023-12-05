@@ -170,3 +170,5 @@ S
 #src/components/step_3_rrt/column.py,3\2\323f499b9dfd5a341e782afd3a336dd702fd9bdc
 X
 (src/components/step_3_rrt/plot_columb.py,5\0\50be99845a2f28cc890f1276738a298aa49950eb
+_
+/src/components/step_3_rrt/differential_drive.py,5\4\54f40a1f819635105e700fbb4687b269bfb5256b
