@@ -3,7 +3,7 @@ from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
 
 
-def smooth_path(path, smoothness=0.0001):
+def smooth_path(path, smoothness=0.1):
     """
     Smoothens the path using cubic splines.
 

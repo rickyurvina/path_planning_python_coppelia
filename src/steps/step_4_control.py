@@ -45,6 +45,5 @@ def move_controller():
 
 
 if __name__ == '__main__':
-    # Uso de la función
     # interpolate_path()
     main_pid()

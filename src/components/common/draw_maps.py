@@ -27,7 +27,7 @@ def draw_maps(map_data, name_folder):
                     # cbar.invert_yaxis()
 
                     # ax.colorbar()
-            ax.set_title(name, fontSize=10)
+            ax.set_title(name)
             ax.set_xlabel('X-Coordinates (px)', fontsize=10)
             ax.set_ylabel('Y-Coordinates (px)', fontsize=10)
 

@@ -12,8 +12,8 @@ def check_collision_with_clearance(self, node1, node2, clearance_radius=config.C
     if check_collision(self, node1, node2):
         return True
 
-    if check_kinematic_constraints(node1, node2):
-        return True
+    # if check_kinematic_constraints(node1, node2):
+    #     return True
 
     # Verificar colisión en el área circular alrededor de node2
     for i in range(-clearance_radius, clearance_radius + 1):

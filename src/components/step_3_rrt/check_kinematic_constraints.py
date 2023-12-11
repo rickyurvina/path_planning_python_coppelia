@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     node1 = Node(row=0, col=0)
     node2 = Node(row=1, col=1)
-    max_angle = math.radians(45)  # Ángulo máximo permitido, convertido a radianes
+    max_angle = math.radians(45)
 
     if check_kinematic_constraints(node1, node2):
         print("El ángulo cumple con la restricción.")
