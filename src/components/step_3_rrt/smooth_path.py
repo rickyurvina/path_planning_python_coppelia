@@ -3,7 +3,7 @@ from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
 
 
-def smooth_path(path, smoothness=0.0001):
+def smooth_path(path, smoothness=0.1):
     """
     Smoothens the path using cubic splines.
 
@@ -18,7 +18,7 @@ def smooth_path(path, smoothness=0.0001):
     t = np.arange(0, len(path), 1)
 
     # Apply cubic splines
-    cs = CubicSpline(t, path, bc_type='clamped', extrapolate=False, axis=0)
+    cs = CubicSpline(t, path, bc_type='clamped')
 
     # Interpolate to obtain a smoothed trajectory
     t_smooth = np.arange(0, len(path) - 1, smoothness)

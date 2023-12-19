@@ -19,7 +19,7 @@ def run_multiple_test(num_tests=1):
     try:
         data_loaded = load_files.load_solution_data()
         ordered_transformed = shift_positions(data_loaded['ordered_positions'])
-        indexes = [0, 4]
+        indexes = [3, 4]
         array_for_test = [ordered_transformed[i] for i in indexes]
         name_folder = create_folder.create_folder("../../solutions")
         path_solutions = "../../solutions"

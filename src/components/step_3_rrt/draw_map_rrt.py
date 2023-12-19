@@ -56,20 +56,20 @@ def draw_map(self):
                 ax2.plot([node.col, node.parent.col], [node.row, node.parent.row], color='y')
         smoot_path = self.smoot_path
         if self.name_method == 'IRRT' and config.DRAW_SAFE_PATH and smoot_path is not None:
-            ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
-            ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
-            line = LineString(self.smoot_path)
-            parallel_line = line.parallel_offset(config.CLEARANCE_RADIUS, side='right')
-            parallel_line_left = line.parallel_offset(config.CLEARANCE_RADIUS,
-                                                      side='left')
-            parallel_x, parallel_y = parallel_line.xy
-            parallel_x_left, parallel_y_left = parallel_line_left.xy
-            ax.plot(parallel_x, parallel_y, color='black', linestyle='--', linewidth=1.5)
-            ax.plot(parallel_x_left, parallel_y_left, color='black', linestyle='--',
-                    linewidth=1.5)  # Ajusta el color
-            # ax2.plot(parallel_x, parallel_y, color='gray', linestyle='--', linewidth=1)
-            # ax2.plot(parallel_x_left, parallel_y_left, color='gray', linestyle='--',
-            #          linewidth=2)  # Ajusta el color
+            ax.plot(smoot_path[:, 0], smoot_path[:, 1], color='b', label=self.name_method)
+            ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='b', label=self.name_method)
+            # line = LineString(self.smoot_path)
+            # parallel_line = line.parallel_offset(config.CLEARANCE_RADIUS, side='right')
+            # parallel_line_left = line.parallel_offset(config.CLEARANCE_RADIUS,
+            #                                           side='left')
+            # parallel_x, parallel_y = parallel_line.xy
+            # parallel_x_left, parallel_y_left = parallel_line_left.xy
+            # ax.plot(parallel_x, parallel_y, color='black', linestyle='--', linewidth=1.5)
+            # ax.plot(parallel_x_left, parallel_y_left, color='black', linestyle='--',
+            #         linewidth=1.5)  # Ajusta el color
+            # ax2.plot(parallel_x, parallel_y, color='black', linestyle='--', linewidth=1.5)
+            # ax2.plot(parallel_x_left, parallel_y_left, color='black', linestyle='--',
+            #          linewidth=1.5)  # Ajusta el color
         ax.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
         ax2.plot(self.goals[0].col, self.goals[0].row, markersize=5, marker='o', color='g', label='Start')
 

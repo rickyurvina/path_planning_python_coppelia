@@ -169,11 +169,11 @@ def plot_test_rrt(results, name_folder, path_solutions='../../solutions', num_te
 
     p = ax.bar(index - bar_width, avg_costs, bar_width, label='Average Cost')
     ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
-    p = ax.bar(index, avg_collisions, bar_width, label='Average Collisions')
+    # p = ax.bar(index, avg_collisions, bar_width, label='Average Collisions')
+    # ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
+    p = ax.bar(index, avg_nodes, bar_width, label='Average Nodes')
     ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
-    p = ax.bar(index + bar_width, avg_nodes, bar_width, label='Average Nodes')
-    ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
-    p = ax.bar(index + bar_width * 2, avg_planning_time, bar_width, label='Average Planning Time')
+    p = ax.bar(index + bar_width, avg_planning_time, bar_width, label='Average Planning Time')
     ax.bar_label(p, fmt='{:,.0f}' + 's', fontsize=20)
     # p = ax.bar(index + bar_width * 2, avg_samples, bar_width, label='Average Samples')
     # ax.bar_label(p, fmt='{:,.0f}', fontsize=18)
@@ -193,7 +193,7 @@ def plot_test_rrt(results, name_folder, path_solutions='../../solutions', num_te
 
 if __name__ == "__main__":
     name_folder = create_folder.create_folder("../solutions")
-    test_number = '20231112-e95a987b-59fc-436e-b997-99d50167cfa5'
+    test_number = '20231210-aea28ef2-3437-424e-afc1-63fd1a8cc230'
     path_solutions = '../solutions'
-    # success_failure_rate_by_method(test_number, name_folder, path_solutions, 10)
+    success_failure_rate_by_method(test_number, name_folder, path_solutions, 10)
     average_test(test_number, name_folder, path_solutions, 10)

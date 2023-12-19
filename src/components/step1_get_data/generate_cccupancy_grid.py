@@ -112,10 +112,10 @@ def generate_occupancy_grid_filled_terrain(img, list_occupancy_grid):
     cont = 0
     rows, cols = config.RESOLUTION_X, config.RESOLUTION_Y
     for occupancy_grid in list_occupancy_grid:
-        occupancy_grid = cv2.flip(occupancy_grid, 0)
+        # occupancy_grid = cv2.flip(occupancy_grid, 0)
         contours, hierarchy = cv2.findContours(occupancy_grid, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         img_contours = img.copy()
-        img_contours = cv2.flip(img_contours, 0)  # Voltear la imagen
+        # img_contours = cv2.flip(img_contours, 0)  # Voltear la imagen
 
         occupancy_grid_to_export = np.ones((rows, cols))
 
@@ -246,13 +246,16 @@ def main(clientId, object_handles):
     occupancy_grid_processed = generate_occupancy_processed(gray)
     occupancy_grid_processed_copy = occupancy_grid_processed.copy()
     img_contours, occupancy_grid_filled = generate_occupancy_grid_filled(img, occupancy_grid_processed_copy)
-    img_traver, list_occupancy_grid = generate_og_traversability(clientId, object_handles_traver, terrain_handles,
-                                                                 frictions_values)
-    img_contours_tra, occupancy_grid_filled_traver = generate_occupancy_grid_filled_terrain(img_traver,
-                                                                                            list_occupancy_grid)
-    occupancy_grid_combined = combine_occupancy_grids(occupancy_grid_filled, occupancy_grid_filled_traver)
+    if config.DETECT_FRICTION_TERRAIN:
+        img_traver, list_occupancy_grid = generate_og_traversability(clientId, object_handles_traver, terrain_handles,
+                                                                     frictions_values)
+        img_contours_tra, occupancy_grid_filled_traver = generate_occupancy_grid_filled_terrain(img_traver,
+                                                                                                list_occupancy_grid)
+        occupancy_grid_combined = combine_occupancy_grids(occupancy_grid_filled, occupancy_grid_filled_traver)
 
-    return occupancy_grid_combined
+        return occupancy_grid_combined
+    else:
+        return occupancy_grid_filled
 
 
 if __name__ == '__main__':
