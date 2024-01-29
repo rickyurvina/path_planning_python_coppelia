@@ -1,3 +1,5 @@
+import math
+
 from src.components.step1_get_data.traversability import can_traverse_terrain
 from src.components.step_3_rrt.check_collision import check_collision
 from src.steps import config
@@ -5,7 +7,9 @@ from src.steps import config
 
 def check_collision_with_clearance(self, node1, node2, clearance_radius=config.CLEARANCE_RADIUS):
     if node2 is None:
-        return False
+        return False, None
+
+    closest_obstacle_distance = float('inf')
 
     # Verificar colisión en la línea entre los dos nodos
     if check_collision(self, node1, node2):
@@ -23,9 +27,11 @@ def check_collision_with_clearance(self, node1, node2, clearance_radius=config.C
             if value > 0 and value < 1:
                 if not can_traverse_terrain(value):
                     self.total_collisions += 1
-                    return True
+                    return True, None
+                obstacle_distance = math.sqrt((node2.row - row) ** 2 + (node2.col - col) ** 2)
+                closest_obstacle_distance = min(closest_obstacle_distance, obstacle_distance)
             if value == 0:
                 self.total_collisions += 1
-                return True
+                return True, None
 
-    return False
+    return False, closest_obstacle_distance

@@ -19,7 +19,7 @@ def run_multiple_test(num_tests=1):
     try:
         data_loaded = load_files.load_solution_data()
         ordered_transformed = shift_positions(data_loaded['ordered_positions'])
-        indexes = [3, 4]
+        indexes = [0, 4]
         array_for_test = [ordered_transformed[i] for i in indexes]
         name_folder = create_folder.create_folder("../../solutions")
         path_solutions = "../../solutions"
@@ -43,7 +43,7 @@ def run_multiple_test(num_tests=1):
             self_rrt_star = RRT_PLANNER_STAR.rrt_star()
             if self_rrt_star is not None:
                 rrt_instances.append(self_rrt_star)
-            #
+
             RRT_PLANNER_INFORMED = RRT(data_loaded['occupancy_grid'], data_loaded['rgb'], array_for_test,
                                        data_loaded['rows'],
                                        data_loaded['ordered_positions'],
@@ -52,7 +52,7 @@ def run_multiple_test(num_tests=1):
             if self_rrt_informed is not None:
                 rrt_instances.append(self_rrt_informed)
 
-        draw_multiple_maps(rrt_instances) if rrt_instances else None
+        # draw_multiple_maps(rrt_instances) if rrt_instances else None
     except Exception as e:
         print(Fore.RED + str(e))
         traceback.print_exc()

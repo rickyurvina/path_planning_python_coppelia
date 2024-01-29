@@ -71,6 +71,7 @@ class RRT:
         self.search_vertices = []
         self.name_method = "IRRT"
         self.smoot_path = []
+        self.distances_obstacles = []
 
     def init_map(self):
         self.found = False
@@ -87,6 +88,7 @@ class RRT:
         self.search_vertices = []
         self.name_method = ""
         self.smoot_path = []
+        self.distances_obstacles = []
 
     def extend(self, goal, new_point, extend_dis=10):
         nearest_node = get_nearest_node(self, new_point)
@@ -112,10 +114,13 @@ class RRT:
             else:
                 return None
         else:
+            collision, obstacle_distance = check_collision(self, nearest_node, new_node)
+
             if (self.size_y_min <= new_row < self.size_y_max) and (self.size_x_min <= new_col < self.size_x_max) and \
-                    not check_collision(self, nearest_node, new_node):
+                    not collision:
                 new_node.parent = nearest_node
                 new_node.cost = extend_dis
+                self.distances_obstacles.append(obstacle_distance) if self.name_method == 'RRT' else None
                 self.vertices.append(new_node)
                 if not self.found:
                     d = distance(new_node, goal)
@@ -133,7 +138,7 @@ class RRT:
             path = []
             search_vertices = []
             self.init_map()
-
+            self.name_method = "RRT"
             for index, (position) in enumerate(self.goals):
 
                 if index == config.BREAK_AT:
@@ -145,16 +150,7 @@ class RRT:
                     self.found = False
                     self.vertices = []
                     self.vertices.append(start)
-                    actual_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                           self.ordered_positions[index])
-                    next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                         self.ordered_positions[index + 1])
-                    if actual_row != next_row:
-                        n_pts = config.MAX_ITER
-                    else:
-                        n_pts = config.MIN_ITER
-                    i = 0
-
+                    n_pts = config.MAX_ITER
                     for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
@@ -168,8 +164,17 @@ class RRT:
                         self.total_nodes += steps
                         self.total_cost += path_cost_final(self, start, goal)
                         print(config.MESSAGE_PATH % steps)
+                        print(self.distances_obstacles)
+                        print("Promedio de distancias", np.mean(self.distances_obstacles))
+                        print("Desviación estándar de distancias", np.std(self.distances_obstacles))
+                        print("Máxima distancia", np.max(self.distances_obstacles))
+                        print("Mínima distancia", np.min(self.distances_obstacles))
+                        print("Varianza de distancias", np.var(self.distances_obstacles))
                     else:
                         print(Fore.RED + config.PATH_NO_FOUND)
+                        self.found = True
+                        break
+
                     path.append(goal)
                     search_vertices.append(self.vertices)
 
@@ -206,15 +211,8 @@ class RRT:
                     self.found = False
                     self.vertices = []
                     self.vertices.append(start)
-                    actual_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                           self.ordered_positions[index])
-                    next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                         self.ordered_positions[index + 1])
-                    if actual_row != next_row:
-                        n_pts = config.MAX_ITER
-                    else:
-                        n_pts = config.MIN_ITER
-                    i = 0
+                    n_pts = config.MAX_ITER
+
                     for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
@@ -231,8 +229,17 @@ class RRT:
                         self.total_nodes += steps
                         self.total_cost += path_cost_final(self, start, goal)
                         print(config.MESSAGE_PATH % steps)
+                        print(self.distances_obstacles)
+                        print("Promedio de distancias", np.mean(self.distances_obstacles))
+                        print("Desviación estándar de distancias", np.std(self.distances_obstacles))
+                        print("Máxima distancia", np.max(self.distances_obstacles))
+                        print("Mínima distancia", np.min(self.distances_obstacles))
+                        print("Varianza de distancias", np.var(self.distances_obstacles))
                     else:
                         print(Fore.RED + config.PATH_NO_FOUND)
+                        self.found = True
+                        break
+
                     path.append(goal)
                     search_vertices.append(self.vertices)
 
@@ -267,19 +274,10 @@ class RRT:
                 if index != len(self.goals) - 1:
                     start = position
                     goal = self.goals[index + 1]
-                    # if index > 0:
                     self.found = False
                     self.vertices = []
                     self.vertices.append(start)
-                    actual_row = get_row_of_position.find_row_for_position(self.rows, self.ordered_positions[index])
-                    next_row = get_row_of_position.find_row_for_position(self.rows,
-                                                                         self.ordered_positions[index + 1])
-                    if actual_row != next_row:
-                        n_pts = config.MAX_ITER
-                    else:
-                        n_pts = config.MIN_ITER
-                    i = 0
-
+                    n_pts = config.MAX_ITER
                     for i in range(n_pts):
                         if (time.time() >= (self.start_time + config.TIME_LIMIT)):
                             print(Fore.RED + "Time is up")
@@ -299,6 +297,8 @@ class RRT:
                         print(config.MESSAGE_PATH % steps)
                     else:
                         print(Fore.RED + config.PATH_NO_FOUND)
+                        self.found = True
+                        break
                     path.append(goal)
                     search_vertices.append(self.vertices)
             if self.found:
@@ -310,9 +310,6 @@ class RRT:
                 self.smoot_path = np.array(to_smooth_path(self))
                 self.path = self.smoot_path
                 print(config.MESSAGE_PATH % self.total_cost)
-                # smoothed_path_nodes = [Node(int(pt[0]), int(pt[1])) for pt in self.smoot_path]
-                # self.total_cost = path_cost_final_smoothed(smoothed_path_nodes)
-                # print(config.MESSAGE_PATH % self.total_cost)
 
                 if config.NO_PLOT_RRT:
                     draw_map(self)
@@ -336,8 +333,8 @@ def main():
                       name_folder, path_solutions)
 
     # RRT_PLANNER.rrt()
-    # RRT_PLANNER.rrt_star()
-    RRT_PLANNER.rrt_informed()
+    RRT_PLANNER.rrt_star()
+    # RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':

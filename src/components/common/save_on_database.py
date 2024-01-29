@@ -28,7 +28,7 @@ def save_data_base(data):
         num_rows = int(config.NUM_ROWS)
         expand_distance = 0
         goal_sample_rate = float(config.GOAL_SAMPLE_RATE)
-        min_inter = int(config.MIN_ITER)
+        min_iter = int(config.MIN_ITER)
         max_iter = int(config.MAX_ITER)
         radius = float(config.RADIUS)
         method = config.METHOD
@@ -37,10 +37,10 @@ def save_data_base(data):
         total_length_tsp = float(data['total_length_tsp']) / 100
         on_line = config.ON_LINE
 
-        query = "INSERT INTO results (total_time, load_data_time, tsp_time, rrt_time, folder, vehicle_capacities, num_rows, expand_distance,goal_sample_rate, max_iter, radius, method,path_length,min_inter,total_loaded_tsp,total_length_tsp,on_line) VALUES (%s, %s, %s, %s,%s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO results (total_time, load_data_time, tsp_time, rrt_time, folder, vehicle_capacities, num_rows, expand_distance,goal_sample_rate, max_iter, radius, method,path_length,min_iter,total_loaded_tsp,total_length_tsp,on_line) VALUES (%s, %s, %s, %s,%s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         values = (
             total_time, load_data_time, tsp_time, rrt_time, folder, vehicle_capacities, num_rows, expand_distance,
-            goal_sample_rate, max_iter, radius, method, path_length, min_inter, total_loaded_tsp, total_length_tsp,
+            goal_sample_rate, max_iter, radius, method, path_length, min_iter, total_loaded_tsp, total_length_tsp,
             on_line)
         cursor.execute(query, values)
         cnx.commit()

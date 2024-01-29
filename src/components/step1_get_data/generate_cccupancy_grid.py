@@ -108,7 +108,7 @@ def generate_occupancy_grid_filled(img, occupancy_grid):
 
 def generate_occupancy_grid_filled_terrain(img, list_occupancy_grid):
     list_occupancy_grid_filled = []
-    frictions_values = [0.1, 0.3, 0.7, 0.9]
+    frictions_values = [0.1, 0.3, 0.7, 0.9, 0.2]
     cont = 0
     rows, cols = config.RESOLUTION_X, config.RESOLUTION_Y
     for occupancy_grid in list_occupancy_grid:
