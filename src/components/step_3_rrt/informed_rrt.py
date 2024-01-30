@@ -6,6 +6,7 @@ from src.components.step_3_rrt.check_collision import check_collision
 from src.components.step_3_rrt.check_collision_with_clearance import check_collision_with_clearance
 from src.components.step_3_rrt.distance import distance
 from src.components.step_3_rrt.draw_map_rrt import draw_map, draw_combined_maps
+from src.components.step_3_rrt.find_nearest_obstacle import find_nearest_obstacle
 from src.components.step_3_rrt.get_nearest_node import get_nearest_node
 from src.components.step_3_rrt.get_neighbors import get_neighbors
 from src.components.step_3_rrt.path_cost import path_cost
@@ -96,10 +97,11 @@ class RRT:
         new_row = nearest_node.row + extend_dis * np.cos(slope)
         new_col = nearest_node.col + extend_dis * np.sin(slope)
         new_node = Node(int(new_row), int(new_col))
-
         if self.name_method == 'IRRT':
-            if (self.size_y_min <= new_row < self.size_y_max) and (self.size_x_min <= new_col < self.size_x_max) and \
-                    not check_collision_with_clearance(self, nearest_node, new_node):
+            if (self.size_y_min <= new_row < self.size_y_max) and (
+                    self.size_x_min <= new_col < self.size_x_max) and not check_collision_with_clearance(self,
+                                                                                                         nearest_node,
+                                                                                                         new_node):
                 new_node.parent = nearest_node
                 new_node.cost = extend_dis
                 self.vertices.append(new_node)
@@ -114,16 +116,16 @@ class RRT:
             else:
                 return None
         else:
-            collision, obstacle_distance = check_collision(self, nearest_node, new_node)
-
-            if (self.size_y_min <= new_row < self.size_y_max) and (self.size_x_min <= new_col < self.size_x_max) and \
-                    not collision:
+            if (self.size_y_min <= new_row < self.size_y_max) and (
+                    self.size_x_min <= new_col < self.size_x_max) and not check_collision(self, nearest_node, new_node):
                 new_node.parent = nearest_node
                 new_node.cost = extend_dis
-                self.distances_obstacles.append(obstacle_distance) if self.name_method == 'RRT' else None
                 self.vertices.append(new_node)
                 if not self.found:
                     d = distance(new_node, goal)
+                    nearest_obstacle, obstacle_distance = find_nearest_obstacle(self.map_array, new_node)
+                    self.distances_obstacles.append(
+                        obstacle_distance) if (self.name_method == 'RRT' and obstacle_distance != 0) else None
                     if d < extend_dis:
                         goal.cost = d
                         goal.parent = new_node
@@ -229,12 +231,6 @@ class RRT:
                         self.total_nodes += steps
                         self.total_cost += path_cost_final(self, start, goal)
                         print(config.MESSAGE_PATH % steps)
-                        print(self.distances_obstacles)
-                        print("Promedio de distancias", np.mean(self.distances_obstacles))
-                        print("Desviación estándar de distancias", np.std(self.distances_obstacles))
-                        print("Máxima distancia", np.max(self.distances_obstacles))
-                        print("Mínima distancia", np.min(self.distances_obstacles))
-                        print("Varianza de distancias", np.var(self.distances_obstacles))
                     else:
                         print(Fore.RED + config.PATH_NO_FOUND)
                         self.found = True
@@ -255,6 +251,12 @@ class RRT:
                     draw_map(self)
                     # draw_combined_maps(self, path, "RRT")
                     print(config.MESSAGE_PLOTTED)
+                    print(self.distances_obstacles)
+                    print("Promedio de distancias", np.mean(self.distances_obstacles))
+                    print("Desviación estándar de distancias", np.std(self.distances_obstacles))
+                    print("Máxima distancia", np.max(self.distances_obstacles))
+                    print("Mínima distancia", np.min(self.distances_obstacles))
+                    print("Varianza de distancias", np.var(self.distances_obstacles))
                 return self
             return None
         except Exception as e:
@@ -310,6 +312,12 @@ class RRT:
                 self.smoot_path = np.array(to_smooth_path(self))
                 self.path = self.smoot_path
                 print(config.MESSAGE_PATH % self.total_cost)
+                print(self.distances_obstacles)
+                print("Promedio de distancias", np.mean(self.distances_obstacles))
+                print("Desviación estándar de distancias", np.std(self.distances_obstacles))
+                print("Máxima distancia", np.max(self.distances_obstacles))
+                print("Mínima distancia", np.min(self.distances_obstacles))
+                print("Varianza de distancias", np.var(self.distances_obstacles))
 
                 if config.NO_PLOT_RRT:
                     draw_map(self)
@@ -333,8 +341,8 @@ def main():
                       name_folder, path_solutions)
 
     # RRT_PLANNER.rrt()
-    RRT_PLANNER.rrt_star()
-    # RRT_PLANNER.rrt_informed()
+    # RRT_PLANNER.rrt_star()
+    RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':

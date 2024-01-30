@@ -12,7 +12,7 @@ def save_data_base(data):
     try:
         cnx = mysql.connector.connect(
             user='root',
-            password='12345',
+            password='12345678',
             host='localhost',
             database='tesis'
         )
@@ -57,11 +57,19 @@ def save_data_rrt_test(data):
     try:
         cnx = mysql.connector.connect(
             user='root',
-            password='12345',
+            password='12345678',
             host='localhost',
             database='tesis'
         )
         cursor = cnx.cursor()
+
+        # Nuevos campos para la inserción
+        average_distance = data.get('average_distance', 0)
+        std_dev_distance = data.get('std_dev_distance', 0)
+        max_distance = data.get('max_distance', 0)
+        min_distance = data.get('min_distance', 0)
+        variance_distance = data.get('variance_distance', 0)
+
         method = data['method']
         test_number = data['test_number']
         total_cost = data['total_cost']
@@ -78,10 +86,13 @@ def save_data_rrt_test(data):
         extend_dis = config.RADIUS
         neighbor_size = config.NEIGHBOR_SIZE
         time_limit = config.TIME_LIMIT
-        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples,waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit) VALUES (%s, %s, %s, %s,%s, %s,%s, %s, %s,%s,%s, %s, %s,%s, %s, %s)"
+
+        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit, average_distance, std_dev_distance, max_distance, min_distance, variance_distance) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         values = (
             method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number,
-            min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit)
+            min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit,
+            average_distance, std_dev_distance, max_distance, min_distance, variance_distance
+        )
         cursor.execute(query, values)
         cnx.commit()
         cursor.close()
@@ -91,22 +102,27 @@ def save_data_rrt_test(data):
         traceback.print_exc()
 
 # save_data_base()
-# CREATE TABLE results (
+# CREATE TABLE results_tests_rrt (
 #     id INT AUTO_INCREMENT PRIMARY KEY,
-#     total_time INT,
-#     load_data_time INT,
-#     tsp_time INT,
-#     rrt_time INT,
-#     folder VARCHAR(255),
-#     vehicle_capacities INT,
-# 	num_rows INT,
-# 	expand_distance VARCHAR(255) NULL,
-# 	goal_sample_rate VARCHAR(255) NULL,
-# 	max_iter INT,
+#     method VARCHAR(255),
+#     test_number INT,
+#     total_cost FLOAT,
+#     total_collisions INT,
+#     total_planning_time FLOAT,
+#     total_samples INT,
+#     waypoints_number INT,
 #     min_iter INT,
-# 	radius VARCHAR(255) NULL,
-# 	method VARCHAR(255),
-# 	path_length VARCHAR(255) NULL,
-#     total_loaded_tsp VARCHAR(45) NULL,
-#     total_length_tsp VARCHAR(45) NULL
+#     max_iter INT,
+#     date TIMESTAMP,
+#     name_folder VARCHAR(255),
+#     success BOOLEAN,
+#     total_nodes INT,
+#     extend_dis FLOAT,
+#     neighbor_size INT,
+#     time_limit INT,
+#     average_distance FLOAT,
+#     std_dev_distance FLOAT,
+#     max_distance FLOAT,
+#     min_distance FLOAT,
+#     variance_distance FLOAT
 # );

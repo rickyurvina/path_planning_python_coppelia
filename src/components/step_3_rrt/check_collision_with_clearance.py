@@ -7,12 +7,12 @@ from src.steps import config
 
 def check_collision_with_clearance(self, node1, node2, clearance_radius=config.CLEARANCE_RADIUS):
     if node2 is None:
-        return False, None
-
-    closest_obstacle_distance = float('inf')
+        return False
 
     # Verificar colisión en la línea entre los dos nodos
-    if check_collision(self, node1, node2):
+    collision = check_collision(self, node1, node2)
+
+    if collision:
         return True
 
     # Verificar colisión en el área circular alrededor de node2
@@ -27,11 +27,9 @@ def check_collision_with_clearance(self, node1, node2, clearance_radius=config.C
             if value > 0 and value < 1:
                 if not can_traverse_terrain(value):
                     self.total_collisions += 1
-                    return True, None
-                obstacle_distance = math.sqrt((node2.row - row) ** 2 + (node2.col - col) ** 2)
-                closest_obstacle_distance = min(closest_obstacle_distance, obstacle_distance)
+                    return True
             if value == 0:
                 self.total_collisions += 1
-                return True, None
+                return True
 
-    return False, closest_obstacle_distance
+    return False
