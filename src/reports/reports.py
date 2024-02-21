@@ -244,7 +244,7 @@ def calculate_average_by_method_from_db(test_number=None):
         create_grouped_bar_chart(result)
         create_heatmap(result)
         create_scatter_plot(result)
-        create_radar_chart(result)
+        # create_radar_chart(result)
 
     except Exception as e:
         print(e)
@@ -360,10 +360,73 @@ def create_radar_chart(methods, data_values):
     plt.show()
 
 
+def average_curvature(test_number='20240219-07bd2315-a44a-4e0f-852d-3ca7275941b4'):
+    try:
+        cnx = mysql.connector.connect(
+            user='root',
+            password='12345678',
+            host='localhost',
+            database='tesis'
+        )
+        cursor = cnx.cursor(dictionary=True)
+
+        # Construir la consulta SQL
+        query = """
+             SELECT
+                 method,
+                 AVG(smoothness) AS avg_smoothness,
+                 AVG(curvature) AS avg_curvature
+             FROM
+                 results_tests_rrt
+         """
+
+        # Añadir cláusula WHERE si se proporciona test_number
+        if test_number is not None:
+            query += f" WHERE test_number = '{test_number}'"
+
+        query += " GROUP BY method;"
+
+        # Ejecutar la consulta SQL
+        cursor.execute(query)
+        result = cursor.fetchall()
+        # Imprimir resultados en una tabla
+        table = PrettyTable()
+        table.field_names = ['Method', 'Avg Smoothness', 'Avg Curvature', 'Best Method (Suavidad)',
+                             'Diff. Suavidad (%)']
+
+        # Encontrar el método con la mejor suavidad y curvatura
+        best_smoothness = min(result, key=lambda x: x['avg_smoothness'])
+
+        for row in result:
+            smoothness_improvement = ((best_smoothness['avg_smoothness'] - row['avg_smoothness']) / best_smoothness[
+                'avg_smoothness']) * 100
+            best_method_smoothness = 'Yes' if row['method'] == best_smoothness['method'] else 'No'
+
+            table.add_row([
+                row['method'],
+                round(row['avg_smoothness'], 2),
+                round(row['avg_curvature'], 5),
+                best_method_smoothness,
+                f"{smoothness_improvement:.2f}%"
+            ])
+
+        print(table)
+    except Exception as e:
+        print(e)
+    finally:
+        # Cerrar la conexión a la base de datos
+        if cnx.is_connected():
+            cursor.close()
+            cnx.close()
+
+
 if __name__ == "__main__":
     name_folder = create_folder.create_folder("../solutions")
     test_number = '20240130-c05af441-e181-4b95-885d-bfffd222bfa0'
+    # test_number = '20240219-9d82c29e-99a1-493f-bd2f-e5f6b81e0332'
+
     path_solutions = '../solutions'
     # success_failure_rate_by_method(test_number, name_folder, path_solutions, 10)
     # average_test(test_number, name_folder, path_solutions, 10)
+    # average_curvature(test_number)
     calculate_average_by_method_from_db(test_number)

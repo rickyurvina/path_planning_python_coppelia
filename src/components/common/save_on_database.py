@@ -69,7 +69,6 @@ def save_data_rrt_test(data):
         max_distance = data.get('max_distance', 0)
         min_distance = data.get('min_distance', 0)
         variance_distance = data.get('variance_distance', 0)
-
         method = data['method']
         test_number = data['test_number']
         total_cost = data['total_cost']
@@ -83,15 +82,17 @@ def save_data_rrt_test(data):
         name_folder = data['name_folder']
         success = data['success']
         total_nodes = data['total_nodes']
+        smoothness = data['smoothness']
+        curvature = data['curvature']
         extend_dis = config.RADIUS
         neighbor_size = config.NEIGHBOR_SIZE
         time_limit = config.TIME_LIMIT
 
-        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit, average_distance, std_dev_distance, max_distance, min_distance, variance_distance) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit, average_distance, std_dev_distance, max_distance, min_distance, variance_distance, smoothness,curvature) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s)"
         values = (
             method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number,
             min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit,
-            average_distance, std_dev_distance, max_distance, min_distance, variance_distance
+            average_distance, std_dev_distance, max_distance, min_distance, variance_distance, smoothness, curvature
         )
         cursor.execute(query, values)
         cnx.commit()
@@ -124,5 +125,7 @@ def save_data_rrt_test(data):
 #     std_dev_distance FLOAT,
 #     max_distance FLOAT,
 #     min_distance FLOAT,
-#     variance_distance FLOAT
+#     variance_distance FLOAT,
+#     smoothness FLOAT,
+#     curvature FLOAT
 # );

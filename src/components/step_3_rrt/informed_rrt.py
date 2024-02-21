@@ -21,6 +21,7 @@ from src.components import create_folder
 from src.components.step_3_rrt.unicycle_robot import UnicycleRobot
 from src.steps import config
 import time
+from src.components.step_3_rrt.path_curvature import calculate_curvature, calculate_curvature_variation, plot_curvature
 
 init()
 
@@ -73,6 +74,8 @@ class RRT:
         self.name_method = "IRRT"
         self.smoot_path = []
         self.distances_obstacles = []
+        self.curvature = 0
+        self.smoothness = 0
 
     def init_map(self):
         self.found = False
@@ -90,6 +93,8 @@ class RRT:
         self.name_method = ""
         self.smoot_path = []
         self.distances_obstacles = []
+        self.curvature = 0
+        self.smoothness = 0
 
     def extend(self, goal, new_point, extend_dis=10):
         nearest_node = get_nearest_node(self, new_point)
@@ -172,6 +177,7 @@ class RRT:
                         print("Máxima distancia", np.max(self.distances_obstacles))
                         print("Mínima distancia", np.min(self.distances_obstacles))
                         print("Varianza de distancias", np.var(self.distances_obstacles))
+
                     else:
                         print(Fore.RED + config.PATH_NO_FOUND)
                         self.found = True
@@ -187,6 +193,11 @@ class RRT:
                 self.path = path
                 self.name_method = "RRT"
                 self.search_vertices = search_vertices
+                res_curvature, self.smoothness = calculate_curvature_variation(self)
+                self.curvature = np.mean(res_curvature)
+                plot_curvature(res_curvature)
+                print("promedio de la curvatura", np.mean(self.curvature))
+                print("Suavidad", self.smoothness)
                 if config.NO_PLOT_RRT:
                     draw_map(self)
                     # draw_combined_maps(self, path, "RRT")
@@ -247,6 +258,12 @@ class RRT:
                 self.path = path
                 self.name_method = "RRT-Star"
                 self.search_vertices = search_vertices
+                curvature, self.smoothness = calculate_curvature_variation(self)
+                self.curvature = np.mean(curvature)
+                # print("curvature", curvature)
+                plot_curvature(curvature)
+                print("promedio de la curvatura", np.mean(self.curvature))
+                print("Suavidad", self.smoothness)
                 if config.NO_PLOT_RRT:
                     draw_map(self)
                     # draw_combined_maps(self, path, "RRT")
@@ -257,6 +274,7 @@ class RRT:
                     print("Máxima distancia", np.max(self.distances_obstacles))
                     print("Mínima distancia", np.min(self.distances_obstacles))
                     print("Varianza de distancias", np.var(self.distances_obstacles))
+
                 return self
             return None
         except Exception as e:
@@ -318,6 +336,12 @@ class RRT:
                 print("Máxima distancia", np.max(self.distances_obstacles))
                 print("Mínima distancia", np.min(self.distances_obstacles))
                 print("Varianza de distancias", np.var(self.distances_obstacles))
+                curvature, self.smoothness = calculate_curvature_variation(self)
+                self.curvature = np.mean(curvature)
+                # print("curvature", curvature)
+                plot_curvature(curvature)
+                print("promedio de la curvatura", np.mean(self.curvature))
+                print("Suavidad", self.smoothness)
 
                 if config.NO_PLOT_RRT:
                     draw_map(self)

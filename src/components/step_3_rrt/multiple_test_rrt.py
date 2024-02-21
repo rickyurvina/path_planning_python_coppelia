@@ -13,7 +13,7 @@ from src.reports.reports import average_test, success_failure_rate_by_method
 from src.steps import config
 
 
-def run_multiple_test(num_tests=100):
+def run_multiple_test(num_tests=1):
     try:
         unique_code = str(uuid.uuid4())
         test_number = datetime.now().strftime("%Y%m%d") + "-" + str(unique_code)
@@ -51,6 +51,8 @@ def run_multiple_test(num_tests=100):
                 'max_distance': np.max(self_rrt.distances_obstacles) if self_rrt else 0,
                 'min_distance': np.min(self_rrt.distances_obstacles) if self_rrt else 0,
                 'variance_distance': np.var(self_rrt.distances_obstacles) if self_rrt else 0,
+                'smoothness': self_rrt.smoothness if self_rrt else 0,
+                'curvature': self_rrt.curvature if self_rrt else 0,
             }
             save_data_rrt_test(data)
             save_files.save_workspace(data, name_folder, path_solutions)
@@ -81,6 +83,8 @@ def run_multiple_test(num_tests=100):
                 'max_distance': np.max(self_rrt_star.distances_obstacles) if self_rrt_star else 0,
                 'min_distance': np.min(self_rrt_star.distances_obstacles) if self_rrt_star else 0,
                 'variance_distance': np.var(self_rrt_star.distances_obstacles) if self_rrt_star else 0,
+                'smoothness': self_rrt_star.smoothness if self_rrt_star else 0,
+                'curvature': self_rrt_star.curvature if self_rrt_star else 0,
             }
             save_data_rrt_test(data)
             save_files.save_workspace(data, name_folder, path_solutions)
@@ -107,6 +111,8 @@ def run_multiple_test(num_tests=100):
                 'max_distance': np.max(self_rrt_informed.distances_obstacles) if self_rrt_informed else 0,
                 'min_distance': np.min(self_rrt_informed.distances_obstacles) if self_rrt_informed else 0,
                 'variance_distance': np.var(self_rrt_informed.distances_obstacles) if self_rrt_informed else 0,
+                'smoothness': self_rrt_informed.smoothness if self_rrt_informed else 0,
+                'curvature': self_rrt_informed.curvature if self_rrt_informed else 0,
             }
 
             save_data_rrt_test(data)
@@ -120,4 +126,4 @@ def run_multiple_test(num_tests=100):
 
 
 if __name__ == '__main__':
-    run_multiple_test()
+    run_multiple_test(150)

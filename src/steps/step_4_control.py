@@ -33,14 +33,23 @@ def move_controller():
         print("Error connecting to CoppeliaSim")
         exit()
     # Get the handle of the Pioneer 3DX robot
-    _, pioneer_handle = sim.simxGetObjectHandle(clientID, 'Pioneer_p3dx', sim.simx_opmode_blocking)
-    _, left_motor_handle = sim.simxGetObjectHandle(clientID, 'Pioneer_p3dx_leftMotor', sim.simx_opmode_blocking)
-    _, right_motor_handle = sim.simxGetObjectHandle(clientID, 'Pioneer_p3dx_rightMotor', sim.simx_opmode_blocking)
-    sim.simxSetJointTargetVelocity(clientID, left_motor_handle, 1, sim.simx_opmode_oneshot)
-    sim.simxSetJointTargetVelocity(clientID, right_motor_handle, 1, sim.simx_opmode_oneshot)
-    # sim.simxSetObjectPosition(clientID, pioneer_handle, -1, [0, 0, 0], sim.simx_opmode_blocking)
-    sim.simxSetJointTargetVelocity(clientID, left_motor_handle, 0, sim.simx_opmode_oneshot)
-    sim.simxSetJointTargetVelocity(clientID, right_motor_handle, 0, sim.simx_opmode_oneshot)
+    error_code_pionner, pioneer_handle = sim.simxGetObjectHandle(clientID, 'Pioneer_p3dx', sim.simx_opmode_blocking)
+    print(error_code_pionner)
+    error_code_left, left_motor_handle = sim.simxGetObjectHandle(clientID, 'leftMotor',
+                                                                 sim.simx_opmode_blocking)
+    print(error_code_left, left_motor_handle)
+    error_code_right, right_motor_handle = sim.simxGetObjectHandle(clientID, 'rightMotor',
+                                                                   sim.simx_opmode_blocking)
+    print(error_code_right, right_motor_handle)
+    for i in range(1, 30):
+        # Get the position of the robot
+        error_code_position, position = sim.simxGetObjectPosition(clientID, pioneer_handle, -1,
+                                                                  sim.simx_opmode_blocking)
+        print(error_code_position, position)
+        sim.simxSetJointTargetVelocity(clientID, left_motor_handle, 1, sim.simx_opmode_oneshot)
+        sim.simxSetJointTargetVelocity(clientID, right_motor_handle, 0.5, sim.simx_opmode_oneshot)
+        time.sleep(0.1)
+
     close_simulation(clientID)
 
 
@@ -48,3 +57,4 @@ if __name__ == '__main__':
     # Uso de la función
     # interpolate_path()
     main_pid()
+    move_controller()
