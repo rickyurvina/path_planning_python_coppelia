@@ -9,12 +9,11 @@ from src.steps import config
 
 
 def export_to_excel_and_json(path_array, name_folder):
-    base_filename = "path_data"  # Nombre base para los archivos
     path_array_meters = pixels_to_meters(path_array)
     df = pd.DataFrame(path_array, columns=['x', 'y'])
     df_2 = pd.DataFrame(path_array_meters, columns=['x', 'y'])
-    filename = f"{base_filename}-resolution_pixels"
-    filename_2 = f"{base_filename}-resolution_meters"
+    filename = "path_pixels"
+    filename_2 = f"path_meters"
     file_name_excel = get_name_to_save_excel(name_folder, filename, '../../solutions', ext=".xlsx")
     file_name_excel_2 = get_name_to_save_excel(name_folder, filename_2, '../../solutions', ext=".xlsx")
     file_name_json = get_name_to_save_excel(name_folder, filename, '../../solutions', ext=".json")
