@@ -34,6 +34,30 @@ def get_name_to_save_plot(name_folder, prefix, path_folder=config.PATH_FOLDER, e
     return filename
 
 
+def get_name_to_save_excel(name_folder, prefix, path_folder=config.PATH_FOLDER, ext=".xlsx"):
+    folder = path_folder + "/" + name_folder
+    # Verificar la existencia de archivo y establecer el contador
+    i = 1
+    while os.path.exists(os.path.join(folder, prefix + str(i) + ext)):
+        i += 1
+    # Guardar la imagen con el nombre adecuado
+    filename = os.path.join(folder, prefix + str(i) + ext)
+    print("Guardado como", filename)
+    return filename
+
+
+def get_name_to_save_json(name_folder, prefix, path_folder=config.PATH_FOLDER, ext=".json"):
+    folder = path_folder + "/" + name_folder
+    # Verificar la existencia de archivo y establecer el contador
+    i = 1
+    while os.path.exists(os.path.join(folder, prefix + str(i) + ext)):
+        i += 1
+    # Guardar la imagen con el nombre adecuado
+    filename = os.path.join(folder, prefix + str(i) + ext)
+    print("Guardado como", filename)
+    return filename
+
+
 def save_workspace(variables, name_folder, path_folder=config.PATH_FOLDER):
     folder = path_folder + "/" + name_folder
     if (variables['prefix']):

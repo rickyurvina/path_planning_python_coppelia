@@ -223,9 +223,7 @@ def calculate_average_by_method_from_db(test_number=None):
         # Ejecutar la consulta SQL
         cursor.execute(query)
         result = cursor.fetchall()
-        methods = [row['method'] for row in result]
         data_keys = ['avg_distance', 'avg_std_dev', 'avg_max_distance', 'avg_min_distance']
-        data_values = [[row[key] for key in data_keys] for row in result]
 
         # Imprimir resultados en una tabla
         table = PrettyTable()
@@ -236,14 +234,14 @@ def calculate_average_by_method_from_db(test_number=None):
                                              ['avg_distance', 'avg_std_dev', 'avg_max_distance', 'avg_min_distance']])
 
         print(table)
-        create_bar_chart(result)
-        create_boxplot(result)
-        create_violin_plot(result)
-        create_line_plot(result)
-        create_stacked_bar_chart(result)
-        create_grouped_bar_chart(result)
-        create_heatmap(result)
-        create_scatter_plot(result)
+        # create_bar_chart(result)
+        # create_boxplot(result)
+        # create_violin_plot(result)
+        # create_line_plot(result)
+        # create_stacked_bar_chart(result)
+        # create_grouped_bar_chart(result)
+        # create_heatmap(result)
+        # create_scatter_plot(result)
         # create_radar_chart(result)
 
     except Exception as e:
@@ -420,13 +418,73 @@ def average_curvature(test_number='20240219-07bd2315-a44a-4e0f-852d-3ca7275941b4
             cnx.close()
 
 
+def get_column_data(test_number, column_name):
+    try:
+        cnx = mysql.connector.connect(
+            user='root',
+            password='12345678',
+            host='localhost',
+            database='tesis'
+        )
+        cursor = cnx.cursor()
+
+        query = f"""
+            SELECT 
+                method,
+                {column_name}
+            FROM 
+                results_tests_rrt
+            WHERE 
+                test_number = '{test_number}'
+        """
+
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        df = pd.DataFrame(data, columns=['method', column_name])
+        plot_smoothness_stacked_line(df, column_name)
+        return df
+
+    except Exception as e:
+        print(e)
+    finally:
+        if cnx.is_connected():
+            cursor.close()
+            cnx.close()
+
+
+def plot_smoothness_stacked_line(df, column_name):
+    # Crear una lista de métodos únicos
+    methods = df['method'].unique()
+    colors = ['blue', 'orange', 'green']
+    fig, ax = plt.subplots()
+    valores = list(range(150))
+    for method, color in zip(methods, colors):
+        method_data = df[df['method'] == method]
+        smoothness_strings = method_data[column_name].values
+        smoothness_floats = smoothness_strings.astype(float)
+        ax.plot(valores, smoothness_floats, color=color, lw=2, label=method)
+        # ax.scatter(valores, smoothness_floats, fc=color, s=100, lw=1.5,
+        #            ec="white", zorder=22)
+
+        # Configurar leyenda y etiquetas
+    ax.legend(fontsize=14, edgecolor='black')
+    ax.set_xlabel('# Test', fontsize=14)
+    ax.set_ylabel(column_name.capitalize(), fontsize=14)
+    name = column_name
+    filename = get_name_to_save_plot(name_folder, name, path_solutions, '.svg')
+    plt.savefig(filename, format='svg', dpi=500)
+    plt.show()
+
+
 if __name__ == "__main__":
     name_folder = create_folder.create_folder("../solutions")
-    test_number = '20240130-c05af441-e181-4b95-885d-bfffd222bfa0'
+    test_number = '20240219-9d82c29e-99a1-493f-bd2f-e5f6b81e0332'
     # test_number = '20240219-9d82c29e-99a1-493f-bd2f-e5f6b81e0332'
 
     path_solutions = '../solutions'
     # success_failure_rate_by_method(test_number, name_folder, path_solutions, 10)
     # average_test(test_number, name_folder, path_solutions, 10)
     # average_curvature(test_number)
-    calculate_average_by_method_from_db(test_number)
+    # calculate_average_by_method_from_db(test_number)
+    get_column_data(test_number, column_name='std_dev_distance')

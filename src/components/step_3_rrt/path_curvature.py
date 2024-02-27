@@ -17,6 +17,7 @@ def calculate_curvature_variation(self, x=[], y=[]):
         print("No hay camino")
     else:
         x, y = get_path_coordinates(self)
+    path_x_y = np.column_stack((x, y))
     curvature, d2x_dt2, d2y_dt2 = calculate_curvature(x, y)
     smoothness = calculate_smoothness(d2x_dt2, d2y_dt2)
     return curvature, smoothness

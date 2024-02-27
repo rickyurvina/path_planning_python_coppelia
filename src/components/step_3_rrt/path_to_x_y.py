@@ -1,3 +1,6 @@
+from src.components.step_3_rrt.path_to_file import export_to_excel_and_json
+
+
 def get_path_coordinates(self):
     # Inicializar listas para almacenar las coordenadas x e y
     x_positions = []
@@ -16,5 +19,8 @@ def get_path_coordinates(self):
             current_node = current_node.parent
         x_positions.reverse()
         y_positions.reverse()
+
+    x_y_positions = list(zip(x_positions, y_positions))
+    export_to_excel_and_json(x_y_positions, self.name_folder)
 
     return x_positions, y_positions

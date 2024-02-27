@@ -40,7 +40,7 @@ def get_pionner_poisiton(clientID, pionner_handle):
     position_x = position[0]
     position_y = position[1]
     position_z = position[2]
-    print(error_code_position, position)
+    # print(error_code_position, position)
     return position_x, position_y, position_z
 
 
@@ -59,9 +59,9 @@ def generate_trajectory(x, y):
 
 def pid_controller(clientID, left_motor_handle, right_motor_handle, pionner_handle, path_x, path_y, ):
     # Parámetros del PID
-    kp = 1.0
+    kp = 0.5
     ki = 0.1
-    kd = 0.01
+    kd = 0.2
 
     # Inicialización de errores acumulativos e instantáneos
     integral = 0
@@ -90,7 +90,8 @@ def pid_controller(clientID, left_motor_handle, right_motor_handle, pionner_hand
         # Aplicar control PID para ajustar velocidades de las ruedas
         v_left = v_ref
         v_right = v_ref
-
+        print("v_ref", v_ref)
+        print("v_left", v_left)
         # Mover el robot con las velocidades calculadas
         move_robot(clientID, left_motor_handle, right_motor_handle, v_left, v_right)
 
@@ -101,12 +102,18 @@ def pid_controller(clientID, left_motor_handle, right_motor_handle, pionner_hand
         time.sleep(0.1)
 
 
+def velocities_to_zero(clientID, left_motor_handle, right_motor_handle):
+    sim.simxSetJointTargetVelocity(clientID, left_motor_handle, 0, sim.simx_opmode_oneshot)
+    sim.simxSetJointTargetVelocity(clientID, right_motor_handle, 0, sim.simx_opmode_oneshot)
+
+
 def main_pid():
     clientID = startSimulation()
     left_motor_handle, right_motor_handle, pioneer_handle = get_pionner_handles(clientID)
+    velocities_to_zero(clientID, left_motor_handle, right_motor_handle)
 
-    path_x = [0, 2]
-    path_y = [0, 3]
+    path_x = [0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06]
+    path_y = [0, 0.35, 0.4, 0.50, 0.65, 0.5, 0.35]
 
     # Ejecutar el controlador PID con la trayectoria especificada
     pid_controller(clientID, left_motor_handle, right_motor_handle, pioneer_handle, path_x, path_y)

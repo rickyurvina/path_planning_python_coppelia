@@ -364,9 +364,9 @@ def main():
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder, path_solutions)
 
-    # RRT_PLANNER.rrt()
+    RRT_PLANNER.rrt()
     # RRT_PLANNER.rrt_star()
-    RRT_PLANNER.rrt_informed()
+    # RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':

@@ -74,5 +74,5 @@ if __name__ == '__main__':
     name_folder = create_folder.create_folder()
     path_solutions = config.PATH_FOLDER
     rrt(data, name_folder, path_solutions)
-    rrt_star(data, name_folder, path_solutions)
-    informed_rrt(data, name_folder, path_solutions)
+    # rrt_star(data, name_folder, path_solutions)
+    # informed_rrt(data, name_folder, path_solutions)
