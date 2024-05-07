@@ -1,59 +1,125 @@
+# Maximum capacity of the vehicle
 VEHICLE_CAPACITIES = 100
+
+# Starting point for the Traveling Salesman Problem (TSP)
 START_POINT_TSP = 2
+
+# Number of rows in the grid
 NUM_ROWS = 6
+
+# Number of border points generated per row
 NUM_POINTS_BORDER_BY_ROW = 1
+
+# Number of center points generated per row
 NUM_POINTS_CENTER_BY_ROW = 0
+
+# Rate at which to sample the goal state for RRT
 GOAL_SAMPLE_RATE = 0.05
+
+# Minimum number of iterations for RRT
 MIN_ITER = 2000
+
+# Maximum number of iterations for RRT
 MAX_ITER = 2000
-RADIUS = 60  # Radius for extend in RRT
-NEIGHBOR_SIZE = 60  # Size of the neighborhood to search for the nearest node
-BREAK_AT = 10  # Break the loop if the distance to the goal is less than this value
+
+# Radius for extending the RRT tree
+RADIUS = 60
+
+# Size of the neighborhood to search for the nearest node
+NEIGHBOR_SIZE = 100
+
+# Break the RRT loop if the distance to the goal is less than this value
+BREAK_AT = 1
+
+# Method used for RRT (e.g., "INFORMED_RRT_UNICYCLE")
 METHOD = "INFORMED_RRT_UNICYCLE"
-ON_LINE = 1
+
+# Flag to indicate whether the RRT algorithm is executed online
+ON_LINE = 0
+
+# Resolution of the grid in the x-direction
 RESOLUTION_X = 1000
+
+# Resolution of the grid in the y-direction
 RESOLUTION_Y = 1000
+
+# Width of the map/grid
 MAP_WIDTH = 15
+
+# Height of the map/grid
 MAP_HEIGHT = 15
+
+# Weight factor used in calculations
 FACTOR_WEIGHT = 2
+
+# Flag indicating whether a Husky vehicle is used
 HUSKY = 1
-SOLUTION = "solution_1820_28012024"
-# solution_1820_28012024
-# solution_1976_27022024
-# Pruebas rrt osbtaculos
-# prueba 1 solution_1744_18122023
-# prueba 1.2 solution_1755_18012024
-# prueba 1.3 solution_1757_18012024
-# prueba 2 solution_1771_19012024
-# prueba 2.2 solution_1773_19012024
-# prueba 2.3 solution_1774_19012024
-# prueba 3 solution_1789_19122023
-# prueba 3.2 solution_1775_19012024
-# prueba 3.3 solution_1776_19012024
-#
-# Pruebas rrt terreno
-# prueba 1 terrain solution_1810_24012024
-# prueba 1 terrain solution_1813_25012024
-# prueba 1 terrain solution_1820_28012024
+
+# Name of the solution folder
+SOLUTION = "solution_2049_07052024"
+
+# Folder containing TSP tests
 FOLDER_TSP_TESTS = "solution_580_08112023"
+
+# Message template for displaying the number of nodes used to find a path
 MESSAGE_NODES = "It took %d nodes to find the current path"
+
+# Message template for displaying the length of a path
 MESSAGE_PATH = "The path length is %.2f"
+
+# Message indicating that no path was found
 PATH_NO_FOUND = "No path found"
+
+# Identifier for position index
 POSITION_INDEX = "position index"
+
+# Message indicating completion
 MESSAGE_DONE = "Done"
+
+# Message indicating that plotting is complete
 MESSAGE_PLOTTED = "Plotted"
+
+# Limit for area of interest
 LIMIT_AOI = 50
+
+# Folder path for saving solutions
 PATH_FOLDER = '../solutions'
+
+# Size of the map/grid
 SIZE_MAP = 1000
+
+# Scale factor for the map/grid
 SCALE_MAP = 15
+
+# Time limit for operations
 TIME_LIMIT = 15000000
+
+# Flag to indicate whether to draw the RRT tree
 DRAW_TREE_RRT = 0
+
+# Number of waypoints
 NUM_WAY_POINTS = 6
+
+# Number of boxes
 NUM_BOXES = 6
+
+# Number of rows in the map
 NUM_ROWS_MAP = 8
+
+# Number of different terrains
 NUM_TERRAINS = 5
+
+# Flag to indicate whether to plot the RRT tree
 NO_PLOT_RRT = 1
-DRAW_SAFE_PATH = 1
+
+# Flag to indicate whether to draw the safe path
+DRAW_SAFE_PATH = 0
+
+# Radius for clearance
 CLEARANCE_RADIUS = 20
+
+# Flag to indicate whether to detect friction terrain
 DETECT_FRICTION_TERRAIN = True
+
+# Identifier for test reports
 TEST_NUMBER_REPORTS = '20240219-9d82c29e-99a1-493f-bd2f-e5f6b81e0332'

@@ -230,11 +230,11 @@ class RRT:
                 self.path = path
                 self.name_method = "RRT"
                 self.search_vertices = search_vertices
-                res_curvature, self.smoothness = calculate_curvature_variation(self)
-                self.curvature = np.mean(res_curvature)
-                plot_curvature(res_curvature)
-                print("promedio de la curvatura", np.mean(self.curvature))
-                print("Suavidad", self.smoothness)
+                # res_curvature, self.smoothness = calculate_curvature_variation(self)
+                # self.curvature = np.mean(res_curvature)
+                # plot_curvature(res_curvature)
+                # print("promedio de la curvatura", np.mean(self.curvature))
+                # print("Suavidad", self.smoothness)
                 if config.NO_PLOT_RRT:
                     draw_map(self)
                     # draw_combined_maps(self, path, "RRT")
@@ -384,19 +384,19 @@ class RRT:
                 self.search_vertices = search_vertices
                 self.smoot_path = np.array(to_smooth_path(self))
                 self.path = self.smoot_path
-                print(config.MESSAGE_PATH % self.total_cost)
-                print(self.distances_obstacles)
-                print("Promedio de distancias", np.mean(self.distances_obstacles))
-                print("Desviación estándar de distancias", np.std(self.distances_obstacles))
-                print("Máxima distancia", np.max(self.distances_obstacles))
-                print("Mínima distancia", np.min(self.distances_obstacles))
-                print("Varianza de distancias", np.var(self.distances_obstacles))
-                curvature, self.smoothness = calculate_curvature_variation(self)
-                self.curvature = np.mean(curvature)
-                # print("curvature", curvature)
-                plot_curvature(curvature)
-                print("promedio de la curvatura", np.mean(self.curvature))
-                print("Suavidad", self.smoothness)
+                # print(config.MESSAGE_PATH % self.total_cost)
+                # print(self.distances_obstacles)
+                # print("Promedio de distancias", np.mean(self.distances_obstacles))
+                # print("Desviación estándar de distancias", np.std(self.distances_obstacles))
+                # print("Máxima distancia", np.max(self.distances_obstacles))
+                # print("Mínima distancia", np.min(self.distances_obstacles))
+                # print("Varianza de distancias", np.var(self.distances_obstacles))
+                # curvature, self.smoothness = calculate_curvature_variation(self)
+                # self.curvature = np.mean(curvature)
+                # # print("curvature", curvature)
+                # plot_curvature(curvature)
+                # print("promedio de la curvatura", np.mean(self.curvature))
+                # print("Suavidad", self.smoothness)
 
                 if config.NO_PLOT_RRT:
                     draw_map(self)
