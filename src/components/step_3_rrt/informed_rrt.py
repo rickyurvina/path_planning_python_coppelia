@@ -1,7 +1,6 @@
 import numpy as np
 import traceback
 from colorama import init, Fore
-from src.components.step_2_tsp import get_row_of_position
 from src.components.step_3_rrt.check_collision import check_collision
 from src.components.step_3_rrt.check_collision_with_clearance import check_collision_with_clearance
 from src.components.step_3_rrt.distance import distance
@@ -11,14 +10,12 @@ from src.components.step_3_rrt.get_nearest_node import get_nearest_node
 from src.components.step_3_rrt.get_neighbors import get_neighbors
 from src.components.step_3_rrt.path_cost import path_cost
 from src.components.step_3_rrt.path_cost_final import path_cost_final
-from src.components.step_3_rrt.path_cost_final_smooth import path_cost_final_smoothed
 from src.components.step_3_rrt.path_to_soomth_path import to_smooth_path
 from src.components.step_3_rrt.rewire import rewire
 from src.components.step_3_rrt.sample import sample
 from src.components.step_3_rrt.shift_positions import shift_positions
 from src.components.common import load_files, save_files
 from src.components import create_folder
-from src.components.step_3_rrt.unicycle_robot import UnicycleRobot
 from src.steps import config
 import time
 from src.components.step_3_rrt.path_curvature import calculate_curvature, calculate_curvature_variation, plot_curvature
@@ -28,6 +25,13 @@ init()
 
 class Node:
     def __init__(self, row, col):
+        """
+        Initialize a Node object.
+
+        Args:
+            row (int): The row index of the node.
+            col (int): The column index of the node.
+        """
         self.row = row  # coordinate
         self.col = col  # coordinate
         self.parent = None  # parent node / edge
@@ -38,7 +42,6 @@ class Node:
         self.invalid_travel_ratio = 5.0
         self.robot_radius = 0.0
         self.connect_circle_dist = 50.0
-        self.model = UnicycleRobot(0.1, 0.5, 0.1, 1.0, 0.5)
         self.total_nodes = 0
         self.execution_time_rrt = 0
 
@@ -46,6 +49,18 @@ class Node:
 class RRT:
     def __init__(self, map_array, map_array_rgb, goals, rows, ordered_positions, name_folder,
                  path_solutions=config.PATH_FOLDER):
+        """
+        Initialize an RRT object.
+
+        Args:
+            map_array (numpy.ndarray): The occupancy grid map array.
+            map_array_rgb (numpy.ndarray): The RGB map array.
+            goals (list): A list of goal nodes.
+            rows (int): Number of rows in the map array.
+            ordered_positions (list): A list of ordered positions.
+            name_folder (str): Name of the folder to save plots.
+            path_solutions (str): Path to save solutions.
+        """
         self.map_array = map_array  # map array, 1->free, 0->obstacle
         self.map_array_rgb = map_array_rgb  # map array, 1->free, 0->obstacle
         self.rows = rows  # map array, 1->free, 0->obstacle
@@ -61,7 +76,6 @@ class RRT:
         self.found = False  # found flag
         self.name_folder = name_folder
         self.path_solutions = path_solutions
-        self.model = UnicycleRobot(0.1, 0.5, 0.1, 1.0, 0.5)
         self.total_collisions = 0
         self.total_planning_time = 0
         self.total_cost = 0
@@ -78,6 +92,9 @@ class RRT:
         self.smoothness = 0
 
     def init_map(self):
+        """
+        Initialize the RRT map for planning.
+        """
         self.found = False
         self.vertices = []
         self.vertices.append(self.goals[0])
@@ -97,6 +114,17 @@ class RRT:
         self.smoothness = 0
 
     def extend(self, goal, new_point, extend_dis=10):
+        """
+        Extend the RRT tree towards a new point.
+
+        Args:
+            goal (Node): The goal node.
+            new_point (list): Coordinates of the new point.
+            extend_dis (float): Distance to extend towards the new point.
+
+        Returns:
+            Node or None: The new node if successfully extended, None otherwise.
+        """
         nearest_node = get_nearest_node(self, new_point)
         slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
         new_row = nearest_node.row + extend_dis * np.cos(slope)
@@ -141,6 +169,15 @@ class RRT:
                 return None
 
     def rrt(self, n_pts=config.MIN_ITER):
+        """
+        Run the RRT algorithm.
+
+        Args:
+            n_pts (int): Number of iterations for RRT algorithm.
+
+        Returns:
+            RRT or None: The RRT object if a path is found, None otherwise.
+        """
         try:
             path = []
             search_vertices = []
@@ -209,6 +246,15 @@ class RRT:
             traceback.print_exc()
 
     def rrt_star(self, n_pts=1000):
+        """
+        Run the RRT* algorithm.
+
+        Args:
+            n_pts (int): Number of iterations for RRT* algorithm.
+
+        Returns:
+            RRT or None: The RRT object if a path is found, None otherwise.
+        """
         try:
             path = []
             search_vertices = []
@@ -282,6 +328,15 @@ class RRT:
             traceback.print_exc()
 
     def rrt_informed(self, n_pts=config.MIN_ITER):
+        """
+        Run the Informed RRT* algorithm.
+
+        Args:
+            n_pts (int): Number of iterations for Informed RRT* algorithm.
+
+        Returns:
+            RRT or None: The RRT object if a path is found, None otherwise.
+        """
         try:
             path = []
             search_vertices = []
@@ -364,9 +419,9 @@ def main():
     RRT_PLANNER = RRT(data['occupancy_grid'], data['rgb'], ordered_transformed, data['rows'], data['ordered_positions'],
                       name_folder, path_solutions)
 
-    RRT_PLANNER.rrt()
+    # RRT_PLANNER.rrt()
     # RRT_PLANNER.rrt_star()
-    # RRT_PLANNER.rrt_informed()
+    RRT_PLANNER.rrt_informed()
 
 
 if __name__ == '__main__':

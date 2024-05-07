@@ -2,6 +2,15 @@ from src.steps import config
 
 
 def shift_positions(ordered_positions):
+    """
+    Shift the positions to fit within the map size.
+
+    Args:
+        ordered_positions (list): List of ordered positions.
+
+    Returns:
+        list: List of shifted positions.
+    """
     size = config.SIZE_MAP
     scale_value = size / config.SCALE_MAP
     shifted_positions = []

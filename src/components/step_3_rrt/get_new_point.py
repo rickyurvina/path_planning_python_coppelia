@@ -4,6 +4,18 @@ from src.steps import config
 
 
 def get_new_point(self, goal_bias, start, goal):
+    """
+    Get a new random point for expanding the RRT tree.
+
+    Args:
+        self: The RRT object.
+        goal_bias (float): Bias towards selecting the goal as the new point.
+        start (Node): The start node of the RRT tree.
+        goal (Node): The goal node of the RRT tree.
+
+    Returns:
+        list: The coordinates of the new random point.
+    """
     min_x = min(start.col, goal.col) - config.LIMIT_AOI
     max_x = max(start.col, goal.col) + config.LIMIT_AOI
     min_y = min(start.row, goal.row) - config.LIMIT_AOI
@@ -34,9 +46,6 @@ def get_new_point(self, goal_bias, start, goal):
     if np.random.random() < goal_bias:
         point = [goal.row, goal.col]
     else:
-        # if self.name_method == 'IRRT':
-        #     point = [np.random.randint(min_x, self.size_x_max - 1), np.random.randint(min_y, max_y_search)]
-        # else:
         point = [np.random.randint(self.size_y_min, self.size_y_max - 1),
                  np.random.randint(self.size_x_min, self.size_x_max - 1)]
     return point

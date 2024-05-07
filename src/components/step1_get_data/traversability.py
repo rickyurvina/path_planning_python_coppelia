@@ -3,20 +3,18 @@ import math
 
 def bekker_wong(wheel_radius, sinkage, cohesion, friction_angle, object_friction):
     """
-    Calculates the soil resistance force using the Bekker-Wong formula.
+    Function to calculate the soil resistance force using the Bekker-Wong formula.
 
     Parameters:
-    - wheel_radius: wheel radius (m)
-    - sinkage: wheel sinkage into the soil (m)
-    - cohesion: soil cohesion (Pa)
-    - friction_angle: soil friction angle (in degrees)
-    - object_friction: soil friction of object in coppelia [0-1]
-
+    wheel_radius (float): The radius of the wheel in meters.
+    sinkage (float): The sinkage of the wheel into the soil in meters.
+    cohesion (float): The cohesion of the soil in Pascal.
+    friction_angle (float): The friction angle of the soil in degrees.
+    object_friction (float): The friction of the object in Coppelia, ranging from 0 to 1.
 
     Returns:
-    - soil resistance force (N)
+    float: The soil resistance force in Newton.
     """
-
     friction_angle_rad = math.radians(friction_angle)
     Rc = (wheel_radius / sinkage) * (cohesion / (object_friction * math.tan(friction_angle_rad)))
 
@@ -24,36 +22,37 @@ def bekker_wong(wheel_radius, sinkage, cohesion, friction_angle, object_friction
 
 
 def can_traverse_terrain(object_friction, traction_force=400, wheel_radius=0.3, sinkage=0.2, cohesion=50,
-                         friction_angle=30,
-                         ):
+                         friction_angle=30):
     """
-    Determines if a vehicle can traverse a terrain using the Bekker-Wong model.
+    Function to determine if a vehicle can traverse a terrain using the Bekker-Wong model.
 
     Parameters:
-    - object_friction: soil friction of object in coppelia [0-1]
-    - vertical_force: vertical force applied by the wheel (N)
-    - wheel_radius: wheel radius (m)
-    - sinkage: wheel sinkage into the soil (m)
-    - cohesion: soil cohesion (Pa)
-    - friction_angle: soil friction angle (degrees)
+    object_friction (float): The friction of the object in Coppelia, ranging from 0 to 1.
+    traction_force (float): The traction force available on the wheels in Newton. Default is 400.
+    wheel_radius (float): The radius of the wheel in meters. Default is 0.3.
+    sinkage (float): The sinkage of the wheel into the soil in meters. Default is 0.2.
+    cohesion (float): The cohesion of the soil in Pascal. Default is 50.
+    friction_angle (float): The friction angle of the soil in degrees. Default is 30.
 
     Returns:
-    - True if the vehicle can traverse the terrain, False otherwise.
+    bool: True if the vehicle can traverse the terrain, False otherwise.
     """
-    # object_friction = transform_value(object_friction)
     soil_resistance = bekker_wong(wheel_radius, sinkage, cohesion, friction_angle, object_friction)
-    # print(f"Object friction: {object_friction}")
-    # print(f"Soil resistance: {soil_resistance}")
-    # print(f"Traction force: {traction_force}")
-    # print(f"Can traverse? {soil_resistance <= traction_force}")
+
     return soil_resistance <= traction_force
 
 
 def transform_value(value):
-    # Asegura que el valor esté en el rango [0, 1]
-    value = max(0, min(1, value))
+    """
+    Function to transform a value to ensure it is within the range [0, 1].
 
-    # Realiza la transformación deseada
+    Parameters:
+    value (float): The value to be transformed.
+
+    Returns:
+    float: The transformed value.
+    """
+    value = max(0, min(1, value))
     transformed_value = 1 - value
 
     return transformed_value
@@ -74,3 +73,4 @@ if __name__ == '__main__':
                                            wheel_radius_1, sinkage_1,
                                            cohesion_1, friction_angle_1,
                                            )
+    print(f"Can the vehicle traverse the terrain? {soil_resistance}")

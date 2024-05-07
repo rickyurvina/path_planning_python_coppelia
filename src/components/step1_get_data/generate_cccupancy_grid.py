@@ -1,11 +1,14 @@
 from matplotlib import pyplot as plt
 
-from src.components.step1_get_data.close_simulation_coppelia import close_simulation
+from src.steps import config
+
+if config.ON_LINE:
+    from src.components.step1_get_data.close_simulation_coppelia import close_simulation
+    from src.components.step1_get_data.start_simulation_coppelia import startSimulation
+    from src.coppelia import sim
 from src.components.common.draw_maps import draw_maps
 from src.components.step1_get_data.get_positions_objects import get_positions_of_objects_to_hide
-from src.components.step1_get_data.start_simulation_coppelia import startSimulation
 from src.components.step1_get_data.traversability import can_traverse_terrain
-from src.coppelia import sim
 import numpy as np
 import cv2
 from src.components import create_folder
@@ -15,6 +18,18 @@ from src.steps import config
 
 
 def generate_occupancy_grid(clientID, object_handles):
+    """
+     Function to generate an occupancy grid from a simulation.
+
+     Parameters:
+     clientID (int): The ID of the client for which the simulation will be generated.
+     object_handles (list): List of object handles in the simulation.
+
+     Returns:
+     occupancy_grid (numpy array): The generated occupancy grid.
+     gray (numpy array): The grayscale image of the simulation.
+     img (numpy array): The RGB image of the simulation.
+     """
     try:
         # Obtener el handle del objeto al que se desea eliminar la textura
         _, box_terrain = sim.simxGetObjectHandle(clientID, 'box_terrain', sim.simx_opmode_blocking)
@@ -76,6 +91,15 @@ def generate_occupancy_grid(clientID, object_handles):
 
 
 def generate_occupancy_processed(gray):
+    """
+    Function to process a grayscale image into an occupancy grid.
+
+    Parameters:
+    gray (numpy array): The grayscale image to be processed.
+
+    Returns:
+    occupancy_grid (numpy array): The processed occupancy grid.
+    """
     try:
         thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 111, 2)
         occupancy_grid = (thresh > 1).astype(np.uint8)
@@ -86,6 +110,17 @@ def generate_occupancy_processed(gray):
 
 
 def generate_occupancy_grid_filled(img, occupancy_grid):
+    """
+       Function to fill an occupancy grid based on an image.
+
+       Parameters:
+       img (numpy array): The image to be used for filling.
+       occupancy_grid (numpy array): The occupancy grid to be filled.
+
+       Returns:
+       img_contours (numpy array): The image with contours drawn.
+       occupancy_grid_filled (numpy array): The filled occupancy grid.
+       """
     contours, hierarchy = cv2.findContours(occupancy_grid, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     img_contours = img.copy()
 
@@ -107,6 +142,17 @@ def generate_occupancy_grid_filled(img, occupancy_grid):
 
 
 def generate_occupancy_grid_filled_terrain(img, list_occupancy_grid):
+    """
+     Function to fill an occupancy grid based on an image and a list of occupancy grids.
+
+     Parameters:
+     img (numpy array): The image to be used for filling.
+     list_occupancy_grid (list): The list of occupancy grids to be used for filling.
+
+     Returns:
+     img_contours (numpy array): The image with contours drawn.
+     merged_occupancy_grid (numpy array): The merged occupancy grid.
+     """
     list_occupancy_grid_filled = []
     frictions_values = [0.1, 0.3, 0.7, 0.9, 0.2]
     cont = 0
@@ -140,6 +186,19 @@ def generate_occupancy_grid_filled_terrain(img, list_occupancy_grid):
 
 
 def generate_og_traversability(clientID, object_handles, terrain_handles, frictions_values):
+    """
+       Function to generate an occupancy grid based on traversability.
+
+       Parameters:
+       clientID (int): The ID of the client for which the simulation will be generated.
+       object_handles (list): List of object handles in the simulation.
+       terrain_handles (list): List of terrain handles in the simulation.
+       frictions_values (list): List of friction values for the terrains.
+
+       Returns:
+       img (numpy array): The RGB image of the simulation.
+       list_occupancy_grid (list): The list of generated occupancy grids.
+       """
     try:
         list_occupancy_grid = []
         # Obtener el handle del objeto al que se desea eliminar la textura
@@ -208,26 +267,35 @@ def generate_og_traversability(clientID, object_handles, terrain_handles, fricti
 
 
 def combine_occupancy_grids(occupancy_grid_filled, occupancy_grid_filled_traver):
+    """
+      Function to combine two occupancy grids.
+
+      Parameters:
+      occupancy_grid_filled (numpy array): The first occupancy grid to be combined.
+      occupancy_grid_filled_traver (numpy array): The second occupancy grid to be combined.
+
+      Returns:
+      merged_occupancy_grid (numpy array): The combined occupancy grid.
+      """
     list_occupancy_grid_ = [occupancy_grid_filled, occupancy_grid_filled_traver]
     merged_occupancy_grid = np.ones_like(occupancy_grid_filled)
 
     for occupancy_grid in list_occupancy_grid_:
         merged_occupancy_grid = np.minimum(merged_occupancy_grid, occupancy_grid)
-    # combined = occupancy_grid + occupancy_grid_traver
-    # grid_size = (config.RESOLUTION_X, config.RESOLUTION_Y)
-    # # combined = np.clip(combined, 0, 1)
-    # for i in range(grid_size[0]):
-    #     for j in range(grid_size[1]):
-    #         if combined[i, j] == 1:
-    #             combined[i, j] = 0
-    #         elif combined[i, j] == 2:
-    #             combined[i, j] = 1
-    #         elif combined[i, j] == 1.3:
-    #             combined[i, j] = 0.3
+
     return merged_occupancy_grid
 
 
 def combine_occupancy_grids_terrain(list_occupancy_grid):
+    """
+        Function to combine a list of occupancy grids.
+
+        Parameters:
+        list_occupancy_grid (list): The list of occupancy grids to be combined.
+
+        Returns:
+        merged_occupancy_grid (numpy array): The combined occupancy grid.
+        """
     merged_occupancy_grid = np.ones_like(list_occupancy_grid[0])
 
     for occupancy_grid in list_occupancy_grid:
@@ -239,7 +307,19 @@ def combine_occupancy_grids_terrain(list_occupancy_grid):
     return merged_occupancy_grid
 
 
-def main(clientId, object_handles):
+def main(clientId, object_handles, name_folder, rgb):
+    """
+       Main function to generate and combine occupancy grids.
+
+       Parameters:
+       clientId (int): The ID of the client for which the simulation will be generated.
+       object_handles (list): List of object handles in the simulation.
+       name_folder (str): The name of the folder where the results will be saved.
+       rgb (numpy array): The RGB image of the simulation.
+
+       Returns:
+       occupancy_grid_combined (numpy array): The combined occupancy grid.
+       """
     object_handles_traver, terrain_handles, frictions_values = get_positions_of_objects_to_hide(clientId)
     array_objects = np.concatenate((object_handles, terrain_handles))
     occupancy_grid, gray, img = generate_occupancy_grid(clientId, array_objects)
@@ -253,6 +333,16 @@ def main(clientId, object_handles):
                                                                                                 list_occupancy_grid)
         occupancy_grid_combined = combine_occupancy_grids(occupancy_grid_filled, occupancy_grid_filled_traver)
 
+        map_data = [
+            (rgb, 'RGB'),
+            (occupancy_grid, 'Occupancy Grid (OG)'),
+            (occupancy_grid_processed, 'Expanded OG'),
+            (img_contours, 'OG Contours'),
+            (occupancy_grid_filled_traver, 'Low traction terrain'),
+            (occupancy_grid_combined, 'OG Combined')
+        ]
+        draw_maps(map_data, name_folder)
+
         return occupancy_grid_combined
     else:
         return occupancy_grid_filled
@@ -264,6 +354,7 @@ if __name__ == '__main__':
     name_folder = create_folder.create_folder("../../solutions")
     object_handles_traver, terrain_handles, frictions_values = get_positions_of_objects_to_hide(clientId)
     array_objects = np.concatenate((object_handles, terrain_handles))
+
     occupancy_grid, gray, img = generate_occupancy_grid(clientId, array_objects)
     rbg = generate_rgb(clientId, name_folder)
     occupancy_grid_processed = generate_occupancy_processed(gray)
@@ -283,5 +374,6 @@ if __name__ == '__main__':
         (occupancy_grid_filled_traver, 'Low traction terrain'),
         (occupancy_grid_combined, 'OG Combined'),
     ]
+    config.PATH_FOLDER = '../../solutions'
     draw_maps(map_data, name_folder)
     close_simulation(clientId)

@@ -14,6 +14,15 @@ from src.steps import config
 
 
 def run_multiple_test(num_tests=1):
+    """
+      Run multiple tests using different RRT algorithms and save the results to the database.
+
+      Args:
+          num_tests (int): Number of tests to run.
+
+      Returns:
+          None
+      """
     try:
         unique_code = str(uuid.uuid4())
         test_number = datetime.now().strftime("%Y%m%d") + "-" + str(unique_code)
@@ -96,7 +105,7 @@ def run_multiple_test(num_tests=1):
             self_rrt_informed = RRT_PLANNER_INFORMED.rrt_informed()
             data = {
                 'prefix': 'tests_rrt_star_informed',
-                'method': getattr(self_rrt_informed, 'name_method', 'IRRT'),
+                'method': getattr(self_rrt_informed, 'name_method', 'IRRT*'),
                 'test_number': test_number,
                 'total_cost': getattr(self_rrt_informed, 'total_cost', 0),
                 'total_collisions': getattr(self_rrt_informed, 'total_collisions', 0),

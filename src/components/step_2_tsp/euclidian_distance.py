@@ -5,7 +5,17 @@ from src.steps import config
 
 
 def compute_euclidean_distance_matrix(positions, weights, rows):
-    """Creates callback to return distance between points."""
+    """
+    Function to create a callback that returns the distance between points.
+
+    Parameters:
+    positions (list): The positions of the nodes.
+    weights (list): The weights of the nodes.
+    rows (int): The number of rows in the grid.
+
+    Returns:
+    dict: A dictionary containing the distances between the nodes.
+    """
     distances = {}
     for from_counter, from_node in enumerate(positions):
         distances[from_counter] = {}
@@ -30,7 +40,17 @@ def compute_euclidean_distance_matrix(positions, weights, rows):
 
 
 def compute_custom_cost_matrix(positions, weights, rows):
-    """Creates callback to return custom cost between points."""
+    """
+    Function to create a callback that returns the custom cost between points.
+
+    Parameters:
+    positions (list): The positions of the nodes.
+    weights (list): The weights of the nodes.
+    rows (int): The number of rows in the grid.
+
+    Returns:
+    dict: A dictionary containing the custom costs between the nodes.
+    """
     custom_costs = {}
     for from_counter, from_node in enumerate(positions):
         custom_costs[from_counter] = {}
@@ -60,6 +80,9 @@ def compute_custom_cost_matrix(positions, weights, rows):
 
 
 if __name__ == '__main__':
+    """
+    Main function to load the solution data and compute the distance matrix and the custom cost matrix.
+    """
     data = load_files.load_solution_data()
     distances = compute_euclidean_distance_matrix(data['positions'], data['weights'], data['rows'])
     print(distances)

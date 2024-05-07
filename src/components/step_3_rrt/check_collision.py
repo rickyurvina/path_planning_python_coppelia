@@ -1,10 +1,19 @@
-import math
 import numpy as np
 from src.components.step1_get_data.traversability import can_traverse_terrain
-from src.components.step_3_rrt.find_nearest_obstacle import find_nearest_obstacle
 
 
 def check_collision(self, node1, node2):
+    """
+    Check for collision between two nodes.
+
+    Args:
+        self: Reference to the class instance.
+        node1 (Node): Starting node.
+        node2 (Node): Ending node.
+
+    Returns:
+        bool: True if collision detected, False otherwise.
+    """
     if node2 is None:
         return False
     points_between = zip(np.linspace(node1.row, node2.row, dtype=int),

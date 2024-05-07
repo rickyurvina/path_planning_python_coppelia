@@ -1,9 +1,10 @@
 import numpy as np
-
-from src.components.step1_get_data.close_simulation_coppelia import close_simulation
-from src.components.step1_get_data.start_simulation_coppelia import startSimulation
-from src.coppelia import sim
 from src.steps import config
+
+if config.ON_LINE:
+    from src.components.step1_get_data.close_simulation_coppelia import close_simulation
+    from src.components.step1_get_data.start_simulation_coppelia import startSimulation
+    from src.coppelia import sim
 import random
 
 

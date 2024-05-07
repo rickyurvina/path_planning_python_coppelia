@@ -1,32 +1,34 @@
-import uuid
-from datetime import datetime
 import traceback
 
 import numpy as np
 from colorama import init, Fore
 from matplotlib import pyplot as plt
-from shapely import LineString
-
-from src.components.common.save_on_database import save_data_rrt_test
-from src.components.step_3_rrt.informed_rrt import RRT
-from src.components.step_3_rrt.shift_positions import shift_positions
-from src.components.common import load_files, save_files
-from src.components import create_folder
-from src.steps import config
+from src.components.step_3_rrt.informed_rrt import RRT  # Importing Informed RRT class
+from src.components.step_3_rrt.shift_positions import shift_positions  # Importing function to shift positions
+from src.components.common import load_files, save_files  # Importing common functions for loading and saving files
+from src.components import create_folder  # Importing function to create folders
+from src.steps import config  # Importing configuration
 
 
 def run_multiple_test(num_tests=1):
+    """
+    Run multiple tests of RRT-based path planning.
+
+    Args:
+        num_tests (int): Number of tests to run (default is 1).
+    """
     try:
-        data_loaded = load_files.load_solution_data()
-        ordered_transformed = shift_positions(data_loaded['ordered_positions'])
+        data_loaded = load_files.load_solution_data()  # Load solution data
+        ordered_transformed = shift_positions(data_loaded['ordered_positions'])  # Shift positions
         indexes = [0, 4]
-        array_for_test = [ordered_transformed[i] for i in indexes]
-        name_folder = create_folder.create_folder("../../solutions")
+        array_for_test = [ordered_transformed[i] for i in indexes]  # Select positions for testing
+        name_folder = create_folder.create_folder("../../solutions")  # Create folder for solutions
         path_solutions = "../../solutions"
         rrt_instances = []
         for i in range(num_tests):
             print("Test number: ", i)
             print("Start informed RRT Unicycle star planning")
+            # Create RRT instance for Unicycle RRT planning
             RRT_PLANNER = RRT(data_loaded['occupancy_grid'], data_loaded['rgb'], array_for_test,
                               data_loaded['rows'],
                               data_loaded['ordered_positions'],
@@ -36,6 +38,7 @@ def run_multiple_test(num_tests=1):
             if self_rrt is not None:
                 rrt_instances.append(self_rrt)
 
+            # Create RRT instance for RRT* planning
             RRT_PLANNER_STAR = RRT(data_loaded['occupancy_grid'], data_loaded['rgb'], array_for_test,
                                    data_loaded['rows'],
                                    data_loaded['ordered_positions'],
@@ -44,6 +47,7 @@ def run_multiple_test(num_tests=1):
             if self_rrt_star is not None:
                 rrt_instances.append(self_rrt_star)
 
+            # Create RRT instance for Informed RRT planning
             RRT_PLANNER_INFORMED = RRT(data_loaded['occupancy_grid'], data_loaded['rgb'], array_for_test,
                                        data_loaded['rows'],
                                        data_loaded['ordered_positions'],
@@ -59,8 +63,13 @@ def run_multiple_test(num_tests=1):
 
 
 def draw_multiple_maps(rrt_instances):
-    try:
+    """
+    Draw multiple maps showing RRT-based paths.
 
+    Args:
+        rrt_instances (list): List of RRT instances.
+    """
+    try:
         fig, ax = plt.subplots(1, figsize=(16, 10))
         fig2, ax2 = plt.subplots(1, figsize=(16, 10))
         ax.imshow(rrt_instances[0].map_array_rgb, cmap='gray', origin='lower')
@@ -68,7 +77,7 @@ def draw_multiple_maps(rrt_instances):
 
         for index_rrt, self in enumerate(rrt_instances):
             if self.found and len(self.smoot_path) <= 0:
-                for index, (goal) in enumerate(self.path):
+                for index, goal in enumerate(self.path):
                     cur = goal
                     if cur.parent is not None and index == 0:
                         start = self.goals[index]
@@ -101,11 +110,6 @@ def draw_multiple_maps(rrt_instances):
                 ax2.plot(smoot_path[:, 0], smoot_path[:, 1], color='r', label=self.name_method)
         name_occupancy = self.name_method + '-Occupancy-Grid'
         name_rgb = self.name_method + '-RGB-Map'
-        # ax2.set_title(name_occupancy, fontsize=18)
-        # fig.legend(handles=custom_texts, fontsize="11.5", shadow=True, borderpad=1, loc='outside lower right',
-        #            bbox_to_anchor=(0.98, 0.3))
-        # fig2.legend(handles=custom_texts, fontsize="11.5", shadow=True, borderpad=1, loc='outside lower right',
-        #             bbox_to_anchor=(0.98, 0.3))
         ax.legend(bbox_to_anchor=(1.01, 1), fontsize="11.5", shadow=True, borderpad=1, loc='upper left')
         ax2.legend(bbox_to_anchor=(1.01, 1), fontsize="11.5", shadow=True, borderpad=1, loc='upper left')
         ax.set_xlabel('x-coordinates (px)', labelpad=8, fontsize=self.font_size)

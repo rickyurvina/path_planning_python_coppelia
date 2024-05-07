@@ -3,9 +3,20 @@ import networkx as nx
 from src.components.common import load_files, save_files
 from src.components.step_2_tsp.create_data_tsp import create_data_model
 
-
 def print_solution_tsp(data, manager, routing, solution, name_folder):
-    """Prints solution on console and visualizes the graph."""
+    """
+    Function to print the solution on the console and visualize the graph.
+
+    Parameters:
+    data (dict): The data for the problem.
+    manager (RoutingIndexManager): Index manager for the routing problem.
+    routing (RoutingModel): The routing problem.
+    solution (Assignment): The solution to the routing problem.
+    name_folder (str): The name of the folder to save the plot.
+
+    Returns:
+    None
+    """
     print(f'Objective: {solution.ObjectiveValue()}')
 
     # Create graph of the route
@@ -35,8 +46,8 @@ def print_solution_tsp(data, manager, routing, solution, name_folder):
         nx.draw_networkx(G, pos, with_labels=False, node_size=1500, node_color='lightblue')
         nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
         nx.draw_networkx_labels(G, pos, labels=node_labels)
-        plt.xlabel('x-coordenadas (m)')
-        plt.ylabel('y-coordenadas (m)')
+        plt.xlabel('x-coordinates (m)')
+        plt.ylabel('y-coordinates (m)')
         plt.title('Prioritized route for harvesting')
         plt.savefig(save_files.get_name_to_save_plot(name_folder, 'solution_tps'), dpi=500)
         plt.show()
@@ -46,10 +57,11 @@ def print_solution_tsp(data, manager, routing, solution, name_folder):
         print(plan_output)
 
 
-# TODO REFACTOR THIS MAIN FOR THIS FILE
 if __name__ == '__main__':
+    """
+    Main function to load the solution data, create the data model, and print the solution.
+    """
     data = load_files.load_solution_data()
-    data_model = load_files.load_solution_data()
     data_model = create_data_model(data['positions'], data['weights'], data['rows'])
     print_solution_tsp(data_model, data['manager'], data['routing'], data['solution'], data['name_folder'])
     print('This script is not meant to be run directly. Run main.py instead.')

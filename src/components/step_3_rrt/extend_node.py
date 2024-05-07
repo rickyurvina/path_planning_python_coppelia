@@ -7,6 +7,18 @@ from src.components.step_3_rrt.informed_rrt import Node
 
 
 def extend_node(self, goal, new_point, extend_dis=300):
+    """
+    Extend a node towards a new point within a certain distance.
+
+    Args:
+        self: Reference to the class instance.
+        goal (Node): The goal node.
+        new_point (tuple): Coordinates of the new point to extend towards.
+        extend_dis (int): The maximum distance to extend.
+
+    Returns:
+        Node or None: The newly extended node, or None if extension fails.
+    """
     nearest_node = get_nearest_node(new_point)
     slope = np.arctan2(new_point[1] - nearest_node.col, new_point[0] - nearest_node.row)
     new_row = nearest_node.row + extend_dis * np.cos(slope)

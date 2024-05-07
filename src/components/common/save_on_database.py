@@ -1,5 +1,4 @@
 from datetime import datetime
-
 import mysql.connector
 import traceback
 from colorama import init, Fore
@@ -9,7 +8,17 @@ init()
 
 
 def save_data_base(data):
+    """
+    Function to save data to a MySQL database.
+
+    Parameters:
+    data (dict): The data to be saved.
+
+    Returns:
+    None
+    """
     try:
+        # Establish a connection to the MySQL database
         cnx = mysql.connector.connect(
             user='root',
             password='12345678',
@@ -19,6 +28,7 @@ def save_data_base(data):
 
         cursor = cnx.cursor()
 
+        # Extract data from the input dictionary
         total_time = data['total_time']
         load_data_time = data['load_data_time']
         tsp_time = data['tsp_time']
@@ -37,15 +47,21 @@ def save_data_base(data):
         total_length_tsp = float(data['total_length_tsp']) / 100
         on_line = config.ON_LINE
 
+        # Prepare the SQL query and the values to be inserted
         query = "INSERT INTO results (total_time, load_data_time, tsp_time, rrt_time, folder, vehicle_capacities, num_rows, expand_distance,goal_sample_rate, max_iter, radius, method,path_length,min_iter,total_loaded_tsp,total_length_tsp,on_line) VALUES (%s, %s, %s, %s,%s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         values = (
             total_time, load_data_time, tsp_time, rrt_time, folder, vehicle_capacities, num_rows, expand_distance,
             goal_sample_rate, max_iter, radius, method, path_length, min_iter, total_loaded_tsp, total_length_tsp,
             on_line)
+
+        # Execute the SQL query
         cursor.execute(query, values)
         cnx.commit()
+
+        # Close the cursor and the connection
         cursor.close()
         cnx.close()
+
         print(Fore.LIGHTGREEN_EX + "Data saved successfully")
 
     except Exception as e:
@@ -54,7 +70,17 @@ def save_data_base(data):
 
 
 def save_data_rrt_test(data):
+    """
+    Function to save RRT test data to a MySQL database.
+
+    Parameters:
+    data (dict): The RRT test data to be saved.
+
+    Returns:
+    None
+    """
     try:
+        # Establish a connection to the MySQL database
         cnx = mysql.connector.connect(
             user='root',
             password='12345678',
@@ -63,7 +89,7 @@ def save_data_rrt_test(data):
         )
         cursor = cnx.cursor()
 
-        # Nuevos campos para la inserción
+        # Extract data from the input dictionary
         average_distance = data.get('average_distance', 0)
         std_dev_distance = data.get('std_dev_distance', 0)
         max_distance = data.get('max_distance', 0)
@@ -88,44 +114,21 @@ def save_data_rrt_test(data):
         neighbor_size = config.NEIGHBOR_SIZE
         time_limit = config.TIME_LIMIT
 
-        query = "INSERT INTO results_tests_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit, average_distance, std_dev_distance, max_distance, min_distance, variance_distance, smoothness,curvature) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s)"
+        # Prepare the SQL query and the values to be inserted
+        query = "INSERT INTO results_rrt (method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number, min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit, average_distance, std_dev_distance, max_distance, min_distance, variance_distance, smoothness,curvature) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s)"
         values = (
             method, test_number, total_cost, total_collisions, total_planning_time, total_samples, waypoints_number,
             min_iter, max_iter, date, name_folder, success, total_nodes, extend_dis, neighbor_size, time_limit,
             average_distance, std_dev_distance, max_distance, min_distance, variance_distance, smoothness, curvature
         )
+
+        # Execute the SQL query
         cursor.execute(query, values)
         cnx.commit()
+
+        # Close the cursor and the connection
         cursor.close()
         cnx.close()
     except Exception as e:
         print(e)
         traceback.print_exc()
-
-# save_data_base()
-# CREATE TABLE results_tests_rrt (
-#     id INT AUTO_INCREMENT PRIMARY KEY,
-#     method VARCHAR(255),
-#     test_number INT,
-#     total_cost FLOAT,
-#     total_collisions INT,
-#     total_planning_time FLOAT,
-#     total_samples INT,
-#     waypoints_number INT,
-#     min_iter INT,
-#     max_iter INT,
-#     date TIMESTAMP,
-#     name_folder VARCHAR(255),
-#     success BOOLEAN,
-#     total_nodes INT,
-#     extend_dis FLOAT,
-#     neighbor_size INT,
-#     time_limit INT,
-#     average_distance FLOAT,
-#     std_dev_distance FLOAT,
-#     max_distance FLOAT,
-#     min_distance FLOAT,
-#     variance_distance FLOAT,
-#     smoothness FLOAT,
-#     curvature FLOAT
-# );

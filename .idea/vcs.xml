@@ -2,5 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/steps/step_4_controller/trajectory_tracking_matlab" vcs="Git" />
   </component>
 </project>

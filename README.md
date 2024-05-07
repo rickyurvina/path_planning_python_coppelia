@@ -2,7 +2,7 @@
 
 ## Descripción General
 
-This article presents a combined route and path planning strategy to guide autonomous ground vehicles in scheduled
+This work presents a combined route and path planning strategy to guide autonomous ground vehicles in scheduled
 harvesting tasks within expansive crop rows subject to complex terrain conditions of agricultural fields. The proposed
 planning strategy integrates i) a global planning method based on the Traveling Salesman Problem under the Capacitated
 Vehicle Routing approach to prioritize harvesting positions according to criteria of minimum path length and vehicle's

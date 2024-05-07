@@ -8,12 +8,27 @@ from src.components.step_3_rrt.path_cost import path_cost
 
 
 def rewire(self, new_node, neighbors, start):
+    """
+    Rewire the RRT by considering new connections between the new node and its neighbors.
+
+    Args:
+        self: Instance of the RRT class.
+        new_node: The new node to be rewired.
+        neighbors: List of neighboring nodes.
+        start: The start node of the RRT.
+
+    Returns:
+        None
+    """
     if neighbors == []:
         return
+
+    # Calculate distances and costs for each neighbor
     distances = [distance(new_node, node) for node in neighbors]
     costs = [d + path_cost(self, start, neighbors[i]) for i, d in enumerate(distances)]
     indices = np.argsort(np.array(costs))
 
+    # Rewire the RRT based on the method used
     if self.name_method == 'IRRT':
         for i in indices:
             if not check_collision_with_clearance(self, new_node, neighbors[i]):

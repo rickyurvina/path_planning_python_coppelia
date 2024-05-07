@@ -1,6 +1,6 @@
+# Import necessary modules and configurations
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
-from src.components.step_2_tsp.print_solution_tsp import print_solution_tsp
 from src.components.step_2_tsp.create_data_tsp import create_data_model
 from src.components.step_2_tsp.display_solution import plots_positions
 from src.components.step_2_tsp.routes_of_solution import get_routes
@@ -11,11 +11,19 @@ from src.components import create_folder
 from src.steps import config
 from src.steps.step_1_get_data import get_data
 import random
-from matplotlib import pyplot as plt
 
 
 def main(positions, weights, rows, name_folder):
-    """Solve the CVRP problem."""
+    """
+    Main function to solve the CVRP problem.
+    Args:
+        positions (list): The positions of the nodes.
+        weights (list): The weights of the nodes.
+        rows (int): The number of rows.
+        name_folder (str): The name of the folder where the data will be stored.
+    Returns:
+        tuple: A tuple containing the ordered positions, route, total loaded, and total length.
+    """
     # Instantiate the data problem.
     data = create_data_model(positions, weights, rows)
 
@@ -90,6 +98,13 @@ def main(positions, weights, rows, name_folder):
 
 
 def run_tsp_with_varied_capacity(data, name_folder, num_tests=1):
+    """
+    Function to run the TSP with varied capacity.
+    Args:
+        data (dict): The data dictionary.
+        name_folder (str): The name of the folder where the data will be stored.
+        num_tests (int, optional): The number of tests to run. Defaults to 1.
+    """
     for i in range(num_tests):
         random_capacity = random.randint(8, 45)
         start_point_tsp = random.randint(0, len(data['positions']) - 1)
@@ -99,10 +114,15 @@ def run_tsp_with_varied_capacity(data, name_folder, num_tests=1):
 
 
 if __name__ == '__main__':
+    # Create a new folder
     name_folder = create_folder.create_folder()
+
+    # If the application is set to online mode, get data
     if config.ON_LINE:
         data = get_data(name_folder)
     else:
+        # If the application is set to offline mode, load solution data
         data = load_files.load_solution_data("solutions")
-    # main(data['positions'], data['weights'], data['rows'], name_folder)
+
+    # Run the TSP with varied capacity
     run_tsp_with_varied_capacity(data, name_folder)

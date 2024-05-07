@@ -11,6 +11,12 @@ from src.steps import config
 
 
 def draw_map(self):
+    """
+    Draw the occupancy grid and RGB map along with the planned path and relevant statistics.
+
+    Args:
+        self: Reference to the class instance.
+    """
     try:
         fig, ax = plt.subplots(1, figsize=(12, 6))
         fig2, ax2 = plt.subplots(1, figsize=(12, 6))
@@ -36,9 +42,9 @@ def draw_map(self):
                     lines.append((start.col, start.row))
                     lines.reverse()
                     lines = np.array(lines)
-                    color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255), np.random.randint(0, 255),
+                    color_ = "#{:02x}{:02x}{:02x}".format(np.random.randint(0, 255),
+                                                          np.random.randint(0, 255),
                                                           np.random.randint(0, 255))
-                    # ax.plot(lines[:, 0], lines[:, 1], color='b')
                     ax.plot(lines[:, 0], lines[:, 1], color='b')
                     ax2.plot(lines[:, 0], lines[:, 1], color='b')
                     if goal:
@@ -113,6 +119,12 @@ def draw_map(self):
 
 
 def draw_combined_maps(self):
+    """
+    Draw combined occupancy grid and RGB map along with the planned path and relevant statistics.
+
+    Args:
+        self: Reference to the class instance.
+    """
     try:
         fig, axs = plt.subplots(1, 2, figsize=(12, 6))  # Dos subplots en una fila
 

@@ -4,6 +4,17 @@ from src.components.step_3_rrt.find_nearest_obstacle_on_map import find_nearest_
 
 
 def find_nearest_obstacle(occupancy_grid, point):
+    """
+    Find the nearest obstacle to a given point on an occupancy grid.
+
+    Args:
+        occupancy_grid (numpy.ndarray): The occupancy grid.
+        point (tuple): The coordinates of the point.
+
+    Returns:
+        tuple: The coordinates of the nearest obstacle.
+        float: The distance to the nearest obstacle.
+    """
     x_idx = point.row
     y_idx = point.col
     point = np.array([x_idx, y_idx])

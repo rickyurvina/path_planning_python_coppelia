@@ -9,15 +9,25 @@ from src.steps import config
 
 
 def export_to_excel_and_json(path_array, name_folder):
+    """
+    Export a path array to Excel and JSON formats.
+
+    Args:
+        path_array (list): List of tuples representing the path coordinates.
+        name_folder (str): Name of the folder to save the files.
+
+    Returns:
+        None
+    """
     path_array_meters = pixels_to_meters(path_array)
     df = pd.DataFrame(path_array, columns=['x', 'y'])
     df_2 = pd.DataFrame(path_array_meters, columns=['x', 'y'])
     filename = "path_pixels"
     filename_2 = f"path_meters"
-    file_name_excel = get_name_to_save_excel(name_folder, filename, '../../solutions', ext=".xlsx")
-    file_name_excel_2 = get_name_to_save_excel(name_folder, filename_2, '../../solutions', ext=".xlsx")
-    file_name_json = get_name_to_save_excel(name_folder, filename, '../../solutions', ext=".json")
-    file_name_json_2 = get_name_to_save_excel(name_folder, filename_2, '../../solutions', ext=".json")
+    file_name_excel = get_name_to_save_excel(name_folder, filename, config.PATH_FOLDER, ext=".xlsx")
+    file_name_excel_2 = get_name_to_save_excel(name_folder, filename_2, config.PATH_FOLDER, ext=".xlsx")
+    file_name_json = get_name_to_save_excel(name_folder, filename, config.PATH_FOLDER, ext=".json")
+    file_name_json_2 = get_name_to_save_excel(name_folder, filename_2, config.PATH_FOLDER, ext=".json")
     df.to_excel(file_name_excel, index=False)
     df_2.to_excel(file_name_excel_2, index=False)
     path_json = df.to_dict(orient='records')

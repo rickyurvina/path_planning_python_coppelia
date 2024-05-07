@@ -1,21 +1,24 @@
-from datetime import datetime
+# Import necessary libraries
 import mysql.connector
-import traceback
 from colorama import init, Fore
 from src.components import create_folder
 from src.components.common.save_files import get_name_to_save_plot
-from src.steps import config
 import matplotlib.pyplot as plt
 import numpy as np
 from prettytable import PrettyTable
 import seaborn as sns
 import pandas as pd
 
+from src.steps import config
+
+# Initialize colorama for colored terminal text
 init()
 
 
+# Function to calculate average test results
 def average_test(test_number='20231112-d66cad06-6c3a-47e0-8234-99c2c428936a', name_folder='solution_825_12112023_1',
                  path_solutions='../../solutions', num_tests=1):
+    # Connect to the database
     conn = mysql.connector.connect(
         user='root',
         password='12345678',
@@ -23,8 +26,10 @@ def average_test(test_number='20231112-d66cad06-6c3a-47e0-8234-99c2c428936a', na
         database='tesis'
     )
 
+    # Create a cursor object
     cursor = conn.cursor()
 
+    # SQL query to fetch average test results
     query = """
         SELECT
             method,
@@ -45,22 +50,29 @@ def average_test(test_number='20231112-d66cad06-6c3a-47e0-8234-99c2c428936a', na
         GROUP BY
             method;
     """
+    # Execute the query
     cursor.execute(query, (test_number,))
-    # cursor.execute(query, (test_number,))
 
+    # Fetch the results
     results = cursor.fetchall()
+
+    # Plot the results
     plot_test_rrt(results, name_folder, path_solutions, num_tests)
 
+    # Print the results
     for row in results:
         print(row)
 
+    # Close the cursor and connection
     cursor.close()
     conn.close()
 
 
+# Function to calculate success and failure rate by method
 def success_failure_rate_by_method(test_number='20231112-d66cad06-6c3a-47e0-8234-99c2c428936a',
                                    name_folder='solution_825_12112023_1',
                                    path_solutions='../../solutions', num_tests=1):
+    # Connect to the database
     conn = mysql.connector.connect(
         user='root',
         password='12345678',
@@ -68,8 +80,10 @@ def success_failure_rate_by_method(test_number='20231112-d66cad06-6c3a-47e0-8234
         database='tesis'
     )
 
+    # Create a cursor object
     cursor = conn.cursor()
 
+    # SQL query to fetch success and failure rate by method
     query = """
         SELECT
             method,
@@ -82,13 +96,16 @@ def success_failure_rate_by_method(test_number='20231112-d66cad06-6c3a-47e0-8234
         GROUP BY
             method, success;
     """
+    # Execute the query
     cursor.execute(query, (test_number,))
-    # cursor.execute(query)
 
+    # Fetch the results
     results = cursor.fetchall()
 
+    # Initialize a dictionary to store success and failure rates
     method_success_failure = {}
 
+    # Iterate over the results and calculate success and failure rates
     for row in results:
         method = row[0]
         success = row[1]
@@ -102,9 +119,11 @@ def success_failure_rate_by_method(test_number='20231112-d66cad06-6c3a-47e0-8234
         elif success == 0:  # Failure
             method_success_failure[method]['failure'] += total_tests
 
+    # Close the cursor and connection
     cursor.close()
     conn.close()
 
+    # Print the success and failure rates
     for method, rates in method_success_failure.items():
         total_tests_method = rates['success'] + rates['failure']
         success_rate = (rates['success'] / total_tests_method) * 100
@@ -115,16 +134,20 @@ def success_failure_rate_by_method(test_number='20231112-d66cad06-6c3a-47e0-8234
         print(f"  Failure Rate: {failure_rate}%")
         print("---------------------")
 
+    # Plot the success and failure rates
     plot_success_failure_bar_by_method(method_success_failure, name_folder, path_solutions, num_tests)
 
 
+# Function to plot success and failure rates by method
 def plot_success_failure_bar_by_method(method_success_failure, name_folder, path_solutions='../../solutions',
                                        num_tests=1):
+    # Get the methods and success rates
     methods = list(method_success_failure.keys())
     success_rates = [(rates['success'] / (rates['success'] + rates['failure'])) * 100 for rates in
                      method_success_failure.values()]
     failure_rates = 100 - np.array(success_rates)
 
+    # Create a bar plot
     fig, ax = plt.subplots(1, figsize=(12, 10))
 
     bar_width = 0.35
@@ -138,24 +161,26 @@ def plot_success_failure_bar_by_method(method_success_failure, name_folder, path
 
     ax.set_xlabel('Method', fontsize="18")
     ax.set_ylabel('Percentage', fontsize="18")
-    # ax.set_title('Success-Failure Rate by Method')
     ax.set_xticks(index + bar_width / 2)
     ax.set_xticklabels(methods, fontsize="18")
     yticks = np.arange(0, 101, 20)
     ax.set_yticks(yticks)
     ax.set_yticklabels([f'{val}%' for val in yticks], fontsize="18")
 
-    # Ajustar la posición de la leyenda
+    # Adjust the position of the legend
     ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), fontsize=20, fancybox=True, shadow=True, ncol=2)
     ax.set_ylim(0, 100)
 
+    # Save the plot
     name = 'success_failure_rate_by_method'
     filename = get_name_to_save_plot(name_folder, name, path_solutions, '.svg')
     plt.savefig(filename, format='svg', dpi=500)
     plt.show()
 
 
+# Function to plot average test results
 def plot_test_rrt(results, name_folder, path_solutions='../../solutions', num_tests=10):
+    # Get the methods and average results
     methods = [row[0] for row in results]
     num_tests = results[0][1]
     avg_costs = [row[2] for row in results]
@@ -164,36 +189,35 @@ def plot_test_rrt(results, name_folder, path_solutions='../../solutions', num_te
     avg_nodes = [row[8] for row in results]
     avg_samples = [row[9] for row in results]
 
+    # Create a bar plot
     bar_width = 0.2
     index = np.arange(len(methods))
     fig, ax = plt.subplots(figsize=(14, 10))
 
     p = ax.bar(index - bar_width, avg_costs, bar_width, label='Average Cost')
     ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
-    # p = ax.bar(index, avg_collisions, bar_width, label='Average Collisions')
-    # ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
     p = ax.bar(index, avg_nodes, bar_width, label='Average Nodes')
     ax.bar_label(p, fmt='{:,.0f}', fontsize=20)
     p = ax.bar(index + bar_width, avg_planning_time, bar_width, label='Average Planning Time')
     ax.bar_label(p, fmt='{:,.0f}' + 's', fontsize=20)
-    # p = ax.bar(index + bar_width * 2, avg_samples, bar_width, label='Average Samples')
-    # ax.bar_label(p, fmt='{:,.0f}', fontsize=18)
 
     ax.set_xlabel('Method', fontsize="20")
     ax.set_ylabel('Average Value', fontsize="20")
-    # ax.set_title('Average Metrics for Successful Tests by Method of ' + str(num_tests) + " Experiments", fontsize=20,
-    #              fontweight="bold")
     ax.set_xticks(index)
     ax.set_xticklabels(methods, fontsize=20)
     ax.legend(fontsize=20)
+
+    # Save the plot
     name = 'average_test_rrt'
     filename = get_name_to_save_plot(name_folder, name, path_solutions, '.svg')
     plt.savefig(filename, format='svg', dpi=500)
     plt.show()
 
 
+# Function to calculate average metrics by method from the database
 def calculate_average_by_method_from_db(test_number=None):
     try:
+        # Connect to the database
         cnx = mysql.connector.connect(
             user='root',
             password='12345678',
@@ -202,7 +226,7 @@ def calculate_average_by_method_from_db(test_number=None):
         )
         cursor = cnx.cursor(dictionary=True)
 
-        # Construir la consulta SQL
+        # Build the SQL query
         query = """
             SELECT
                 method,
@@ -214,18 +238,18 @@ def calculate_average_by_method_from_db(test_number=None):
                 results_tests_rrt
         """
 
-        # Añadir cláusula WHERE si se proporciona test_number
+        # Add WHERE clause if test_number is provided
         if test_number is not None:
             query += f" WHERE test_number = '{test_number}'"
 
         query += " GROUP BY method;"
 
-        # Ejecutar la consulta SQL
+        # Execute the SQL query
         cursor.execute(query)
         result = cursor.fetchall()
         data_keys = ['avg_distance', 'avg_std_dev', 'avg_max_distance', 'avg_min_distance']
 
-        # Imprimir resultados en una tabla
+        # Print results in a table
         table = PrettyTable()
         table.field_names = ['Method', 'Average Distance', 'Std Dev Distance', 'Max Distance', 'Min Distance']
 
@@ -234,25 +258,16 @@ def calculate_average_by_method_from_db(test_number=None):
                                              ['avg_distance', 'avg_std_dev', 'avg_max_distance', 'avg_min_distance']])
 
         print(table)
-        # create_bar_chart(result)
-        # create_boxplot(result)
-        # create_violin_plot(result)
-        # create_line_plot(result)
-        # create_stacked_bar_chart(result)
-        # create_grouped_bar_chart(result)
-        # create_heatmap(result)
-        # create_scatter_plot(result)
-        # create_radar_chart(result)
-
     except Exception as e:
         print(e)
     finally:
-        # Cerrar la conexión a la base de datos
+        # Close the database connection
         if cnx.is_connected():
             cursor.close()
             cnx.close()
 
 
+# Function to create a scatter plot
 def create_scatter_plot(result):
     df = pd.DataFrame(result)
     plt.figure(figsize=(10, 6))
@@ -263,6 +278,7 @@ def create_scatter_plot(result):
     plt.show()
 
 
+# Function to create a heatmap
 def create_heatmap(result):
     sns.set(style="whitegrid")
     df = pd.DataFrame(result)
@@ -275,6 +291,7 @@ def create_heatmap(result):
     plt.show()
 
 
+# Function to create a stacked bar chart
 def create_stacked_bar_chart(result):
     df = pd.DataFrame(result)
     df.set_index('method', inplace=True)
@@ -285,6 +302,7 @@ def create_stacked_bar_chart(result):
     plt.show()
 
 
+# Function to create a grouped bar chart
 def create_grouped_bar_chart(result):
     df = pd.DataFrame(result)
     df.set_index('method', inplace=True)
@@ -295,6 +313,7 @@ def create_grouped_bar_chart(result):
     plt.show()
 
 
+# Function to create a bar chart
 def create_bar_chart(result):
     df = pd.DataFrame(result)
     df.plot(x='method', y=['avg_distance'], kind='bar', rot=0, legend=False)
@@ -304,6 +323,7 @@ def create_bar_chart(result):
     plt.show()
 
 
+# Function to create a boxplot
 def create_boxplot(result):
     df = pd.DataFrame(result)
     sns.boxplot(x='method', y='avg_distance', data=df)
@@ -313,178 +333,6 @@ def create_boxplot(result):
     plt.show()
 
 
+# Function to create a violin plot
 def create_violin_plot(result):
     df = pd.DataFrame(result)
-    sns.violinplot(x='method', y='avg_distance', data=df)
-    plt.title('Violin Plot of Average Distance')
-    plt.ylabel('Average Distance')
-    plt.xlabel('Method')
-    plt.show()
-
-
-def create_line_plot(result):
-    df = pd.DataFrame(result)
-    df.set_index('method', inplace=True)
-    df.plot(legend=True)
-    plt.title('Line Plot of Average Distance Over Tests')
-    plt.ylabel('Average Distance')
-    plt.xlabel('Method')
-    plt.show()
-
-
-def create_radar_chart(methods, data_values):
-    # Normalizar los datos para que estén en el rango [0, 1]
-    data_normalized = np.array(data_values) / np.array(data_values).max(axis=0)
-
-    # Crear el gráfico radar
-    angles = np.linspace(0, 2 * np.pi, len(data_values[0]), endpoint=False)
-    fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
-    ax.set_theta_offset(np.pi / 2)
-    ax.set_theta_direction(-1)
-
-    for i, label in enumerate(methods):
-        values = data_normalized[i]
-        values = np.concatenate((values, [values[0]]))  # Cerrar el círculo
-        ax.plot(angles, values, label=label)
-        ax.fill(angles, values, alpha=0.25)
-
-    ax.set_yticklabels([])
-    ax.set_xticks(angles[:-1])
-    # ax.set_xticklabels(data_keys)
-    plt.title('Radar Chart - Average Metrics by Method')
-    plt.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
-
-    # Mostrar el gráfico
-    plt.show()
-
-
-def average_curvature(test_number='20240219-07bd2315-a44a-4e0f-852d-3ca7275941b4'):
-    try:
-        cnx = mysql.connector.connect(
-            user='root',
-            password='12345678',
-            host='localhost',
-            database='tesis'
-        )
-        cursor = cnx.cursor(dictionary=True)
-
-        # Construir la consulta SQL
-        query = """
-             SELECT
-                 method,
-                 AVG(smoothness) AS avg_smoothness,
-                 AVG(curvature) AS avg_curvature
-             FROM
-                 results_tests_rrt
-         """
-
-        # Añadir cláusula WHERE si se proporciona test_number
-        if test_number is not None:
-            query += f" WHERE test_number = '{test_number}'"
-
-        query += " GROUP BY method;"
-
-        # Ejecutar la consulta SQL
-        cursor.execute(query)
-        result = cursor.fetchall()
-        # Imprimir resultados en una tabla
-        table = PrettyTable()
-        table.field_names = ['Method', 'Avg Smoothness', 'Avg Curvature', 'Best Method (Suavidad)',
-                             'Diff. Suavidad (%)']
-
-        # Encontrar el método con la mejor suavidad y curvatura
-        best_smoothness = min(result, key=lambda x: x['avg_smoothness'])
-
-        for row in result:
-            smoothness_improvement = ((best_smoothness['avg_smoothness'] - row['avg_smoothness']) / best_smoothness[
-                'avg_smoothness']) * 100
-            best_method_smoothness = 'Yes' if row['method'] == best_smoothness['method'] else 'No'
-
-            table.add_row([
-                row['method'],
-                round(row['avg_smoothness'], 2),
-                round(row['avg_curvature'], 5),
-                best_method_smoothness,
-                f"{smoothness_improvement:.2f}%"
-            ])
-
-        print(table)
-    except Exception as e:
-        print(e)
-    finally:
-        # Cerrar la conexión a la base de datos
-        if cnx.is_connected():
-            cursor.close()
-            cnx.close()
-
-
-def get_column_data(test_number, column_name):
-    try:
-        cnx = mysql.connector.connect(
-            user='root',
-            password='12345678',
-            host='localhost',
-            database='tesis'
-        )
-        cursor = cnx.cursor()
-
-        query = f"""
-            SELECT 
-                method,
-                {column_name}
-            FROM 
-                results_tests_rrt
-            WHERE 
-                test_number = '{test_number}'
-        """
-
-        cursor.execute(query)
-        data = cursor.fetchall()
-
-        df = pd.DataFrame(data, columns=['method', column_name])
-        plot_smoothness_stacked_line(df, column_name)
-        return df
-
-    except Exception as e:
-        print(e)
-    finally:
-        if cnx.is_connected():
-            cursor.close()
-            cnx.close()
-
-
-def plot_smoothness_stacked_line(df, column_name):
-    # Crear una lista de métodos únicos
-    methods = df['method'].unique()
-    colors = ['blue', 'orange', 'green']
-    fig, ax = plt.subplots()
-    valores = list(range(150))
-    for method, color in zip(methods, colors):
-        method_data = df[df['method'] == method]
-        smoothness_strings = method_data[column_name].values
-        smoothness_floats = smoothness_strings.astype(float)
-        ax.plot(valores, smoothness_floats, color=color, lw=2, label=method)
-        # ax.scatter(valores, smoothness_floats, fc=color, s=100, lw=1.5,
-        #            ec="white", zorder=22)
-
-        # Configurar leyenda y etiquetas
-    ax.legend(fontsize=14, edgecolor='black')
-    ax.set_xlabel('# Test', fontsize=14)
-    ax.set_ylabel(column_name.capitalize(), fontsize=14)
-    name = column_name
-    filename = get_name_to_save_plot(name_folder, name, path_solutions, '.svg')
-    plt.savefig(filename, format='svg', dpi=500)
-    plt.show()
-
-
-if __name__ == "__main__":
-    name_folder = create_folder.create_folder("../solutions")
-    test_number = '20240219-9d82c29e-99a1-493f-bd2f-e5f6b81e0332'
-    # test_number = '20240219-9d82c29e-99a1-493f-bd2f-e5f6b81e0332'
-
-    path_solutions = '../solutions'
-    # success_failure_rate_by_method(test_number, name_folder, path_solutions, 10)
-    # average_test(test_number, name_folder, path_solutions, 10)
-    # average_curvature(test_number)
-    # calculate_average_by_method_from_db(test_number)
-    get_column_data(test_number, column_name='std_dev_distance')

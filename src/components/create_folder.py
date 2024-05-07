@@ -5,18 +5,27 @@ from src.steps import config
 
 
 def create_folder(path_folder=config.PATH_FOLDER):
+    """
+    Create a new folder for saving solutions.
+
+    Args:
+        path_folder (str): Path to the folder where solutions will be saved. Defaults to config.PATH_FOLDER.
+
+    Returns:
+        str: Name of the newly created folder.
+    """
     fecha_actual = datetime.datetime.now().strftime("%d%m%Y")
 
-    # Ruta de la carpeta donde se guardarán las soluciones
+    # Path to the folder where solutions will be saved
     ruta_solutions = path_folder
 
-    # Obtener el número de la última solución en el directorio
+    # Get the number of the last solution in the directory
     num_soluciones = sum(1 for _ in os.listdir(ruta_solutions) if os.path.isdir(os.path.join(ruta_solutions, _)))
 
-    # Crear el nombre base de la nueva carpeta
+    # Create the base name of the new folder
     nombre_base = f"solution_{num_soluciones + 1}_{fecha_actual}"
 
-    # Comprobar si ya existe una carpeta con el nombre base
+    # Check if a folder with the base name already exists
     nombre_carpeta = nombre_base
     contador = 1
     while os.path.exists(os.path.join(ruta_solutions, nombre_carpeta)):

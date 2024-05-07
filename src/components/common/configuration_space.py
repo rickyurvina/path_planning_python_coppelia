@@ -1,12 +1,21 @@
 class ConfigurationSpace:
+    """
+    This class represents the configuration space of a robot.
+    """
+
     def __init__(self, occupancy_grid, robot_radius):
+        """
+        Initialize the ConfigurationSpace with an occupancy grid and the robot's radius.
+        """
         self.occupancy_grid = occupancy_grid
         self.robot_radius = robot_radius
         self.x_min, self.x_max, self.y_min, self.y_max = self.calculate_limits()
 
     def calculate_limits(self):
-        # Calcular los límites del espacio de configuración en función del tamaño del occupancy grid
-        # y las dimensiones físicas del robot
+        """
+        Calculate the limits of the configuration space based on the size of the occupancy grid
+        and the physical dimensions of the robot.
+        """
         x_min = 0
         x_max = len(self.occupancy_grid[0]) - 1
         y_min = 0
@@ -14,16 +23,19 @@ class ConfigurationSpace:
         return x_min, x_max, y_min, y_max
 
     def is_valid_configuration(self, x, y):
-        # Verificar si la configuración (x, y) es válida en el occupancy grid
+        """
+        Check if the configuration (x, y) is valid in the occupancy grid.
+        """
         if x < self.x_min or x > self.x_max or y < self.y_min or y > self.y_max:
-            return False  # Fuera de los límites del occupancy grid
+            return False  # Outside the limits of the occupancy grid
         if self.occupancy_grid[y][x] == 1:
-            return False  # Dentro de un obstáculo
+            return False  # Inside an obstacle
         return True
 
-# Ejemplo de uso
+
+# Example of use
 if __name__ == "__main__":
-    # Supongamos que tienes un occupancy grid representado como una matriz donde 0 es espacio libre y 1 es obstáculo
+    # Assume you have an occupancy grid represented as a matrix where 0 is free space and 1 is an obstacle
     occupancy_grid = [
         [0, 0, 0, 1, 1],
         [0, 1, 0, 0, 1],
@@ -31,13 +43,13 @@ if __name__ == "__main__":
         [1, 0, 1, 1, 0],
         [1, 0, 0, 0, 0],
     ]
-    robot_radius = 0.5  # Radio del robot uniciclo
+    robot_radius = 0.5  # Radius of the unicycle robot
     config_space = ConfigurationSpace(occupancy_grid, robot_radius)
 
-    # Verificar si una configuración (x, y) es válida
+    # Check if a configuration (x, y) is valid
     x = 2
     y = 3
     if config_space.is_valid_configuration(x, y):
-        print(f"La configuración ({x}, {y}) es válida.")
+        print(f"The configuration ({x}, {y}) is valid.")
     else:
-        print(f"La configuración ({x}, {y}) no es válida debido a un obstáculo o está fuera del espacio.")
+        print(f"The configuration ({x}, {y}) is not valid due to an obstacle or it is outside the space.")
