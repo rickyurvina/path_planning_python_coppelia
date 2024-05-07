@@ -20,10 +20,10 @@ def average_test(test_number='20231112-d66cad06-6c3a-47e0-8234-99c2c428936a', na
                  path_solutions='../../solutions', num_tests=1):
     # Connect to the database
     conn = mysql.connector.connect(
-        user='root',
-        password='12345678',
-        host='localhost',
-        database='tesis'
+        user=config.MYSQL_USER,
+        password=config.MYSQL_PASSWORD,
+        host=config.MYSQL_HOST,
+        database=config.MYSQL_DATABASE
     )
 
     # Create a cursor object
@@ -74,10 +74,10 @@ def success_failure_rate_by_method(test_number='20231112-d66cad06-6c3a-47e0-8234
                                    path_solutions='../../solutions', num_tests=1):
     # Connect to the database
     conn = mysql.connector.connect(
-        user='root',
-        password='12345678',
-        host='localhost',
-        database='tesis'
+        user=config.MYSQL_USER,
+        password=config.MYSQL_PASSWORD,
+        host=config.MYSQL_HOST,
+        database=config.MYSQL_DATABASE
     )
 
     # Create a cursor object
@@ -219,10 +219,10 @@ def calculate_average_by_method_from_db(test_number=None):
     try:
         # Connect to the database
         cnx = mysql.connector.connect(
-            user='root',
-            password='12345678',
-            host='localhost',
-            database='tesis'
+            user=config.MYSQL_USER,
+            password=config.MYSQL_PASSWORD,
+            host=config.MYSQL_HOST,
+            database=config.MYSQL_DATABASE
         )
         cursor = cnx.cursor(dictionary=True)
 

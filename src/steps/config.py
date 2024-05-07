@@ -1,8 +1,7 @@
 # Maximum capacity of the vehicle
 VEHICLE_CAPACITIES = 100
-
 # Starting point for the Traveling Salesman Problem (TSP)
-START_POINT_TSP = 2
+START_POINT_TSP = 0
 
 # Number of rows in the grid
 NUM_ROWS = 6
@@ -17,10 +16,10 @@ NUM_POINTS_CENTER_BY_ROW = 0
 GOAL_SAMPLE_RATE = 0.05
 
 # Minimum number of iterations for RRT
-MIN_ITER = 2000
+MIN_ITER = 2500
 
 # Maximum number of iterations for RRT
-MAX_ITER = 2000
+MAX_ITER = 2500
 
 # Radius for extending the RRT tree
 RADIUS = 60
@@ -29,7 +28,7 @@ RADIUS = 60
 NEIGHBOR_SIZE = 100
 
 # Break the RRT loop if the distance to the goal is less than this value
-BREAK_AT = 1
+BREAK_AT = 10
 
 # Method used for RRT (e.g., "INFORMED_RRT_UNICYCLE")
 METHOD = "INFORMED_RRT_UNICYCLE"
@@ -92,7 +91,7 @@ SIZE_MAP = 1000
 SCALE_MAP = 15
 
 # Time limit for operations
-TIME_LIMIT = 15000000
+TIME_LIMIT = 1500
 
 # Flag to indicate whether to draw the RRT tree
 DRAW_TREE_RRT = 0
@@ -123,3 +122,9 @@ DETECT_FRICTION_TERRAIN = True
 
 # Identifier for test reports
 TEST_NUMBER_REPORTS = '20240219-9d82c29e-99a1-493f-bd2f-e5f6b81e0332'
+
+# Variables for MySql
+MYSQL_HOST = 'localhost'
+MYSQL_USER = 'root'
+MYSQL_PASSWORD = '12345678'
+MYSQL_DATABASE = 'tesis2'

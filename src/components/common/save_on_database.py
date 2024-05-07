@@ -20,10 +20,10 @@ def save_data_base(data):
     try:
         # Establish a connection to the MySQL database
         cnx = mysql.connector.connect(
-            user='root',
-            password='12345678',
-            host='localhost',
-            database='tesis'
+            user=config.MYSQL_USER,
+            password=config.MYSQL_PASSWORD,
+            host=config.MYSQL_HOST,
+            database=config.MYSQL_DATABASE
         )
 
         cursor = cnx.cursor()
@@ -82,10 +82,10 @@ def save_data_rrt_test(data):
     try:
         # Establish a connection to the MySQL database
         cnx = mysql.connector.connect(
-            user='root',
-            password='12345678',
-            host='localhost',
-            database='tesis'
+            user=config.MYSQL_USER,
+            password=config.MYSQL_PASSWORD,
+            host=config.MYSQL_HOST,
+            database=config.MYSQL_DATABASE
         )
         cursor = cnx.cursor()
 
