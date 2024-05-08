@@ -16,7 +16,7 @@ init()
 
 
 # Function to calculate average test results
-def average_test(test_number='20231112-d66cad06-6c3a-47e0-8234-99c2c428936a', name_folder='solution_825_12112023_1',
+def average_test(test_number='20240219-9d82c29e-99a1-493f-bd2f-e5f6b81e0332', name_folder='solution_825_12112023_1',
                  path_solutions='../../solutions', num_tests=1):
     # Connect to the database
     conn = mysql.connector.connect(
@@ -62,6 +62,20 @@ def average_test(test_number='20231112-d66cad06-6c3a-47e0-8234-99c2c428936a', na
     # Print the results
     for row in results:
         print(row)
+
+    table = PrettyTable()
+
+    # Agrega las columnas a la tabla
+    table.field_names = ["Method", "Total Tests", "Average Total Cost", "Average Total Collisions",
+                         "Average Total Planning Time", "Average Waypoints Number", "Average Min Iter",
+                         "Average Max Iter", "Average Total Nodes", "Average Total Samples"]
+
+    # Agrega los resultados a la tabla
+    for row in results:
+        table.add_row(row)
+
+    # Imprime la tabla
+    print(table)
 
     # Close the cursor and connection
     cursor.close()
@@ -209,8 +223,8 @@ def plot_test_rrt(results, name_folder, path_solutions='../../solutions', num_te
 
     # Save the plot
     name = 'average_test_rrt'
-    filename = get_name_to_save_plot(name_folder, name, path_solutions, '.svg')
-    plt.savefig(filename, format='svg', dpi=500)
+    # filename = get_name_to_save_plot(name_folder, name, path_solutions, '.svg')
+    # plt.savefig(filename, format='svg', dpi=500)
     plt.show()
 
 
@@ -336,3 +350,7 @@ def create_boxplot(result):
 # Function to create a violin plot
 def create_violin_plot(result):
     df = pd.DataFrame(result)
+
+
+if __name__ == '__main__':
+    average_test()
