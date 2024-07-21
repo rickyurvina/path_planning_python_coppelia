@@ -1,4 +1,4 @@
-# Thesis: Probabilistic Learning-Based Routing Scheme with Path Planning for Autonomous Agricultural Vehicles
+# An Integrated Route and Path Planning Strategy for Skid--Steer Mobile Robots in Assisted Harvesting Tasks with Terrain Traversability Constraints
 
 ## Overview
 
@@ -135,3 +135,11 @@ python3 src/steps/app.py
     ```bash
     python src/steps/step_3_rrt.py
     ```
+
+## Notes
+
+This project was carried out at the Universidad Católica del Norte of Antofagasta in the Department of Systems and
+Computer Engineering (DISC).
+
+If you wish to use this code in your work, please cite our paper available
+at [this link](https://www.preprints.org/manuscript/202406.0326/v1).
