@@ -1,70 +1,78 @@
-# Tesis de A probabilistic learning-based routing scheme with path planning of autonomous agricultural vehicles for assisted harvesting tasks
+# An Integrated Route and Path Planning Strategy for Skid--Steer Mobile Robots in Assisted Harvesting Tasks with Terrain Traversability Constraints
 
-## Descripción General
+## General Description
 
-This article presents a combined route and path planning strategy to guide autonomous ground vehicles in scheduled
-harvesting tasks within expansive crop rows subject to complex terrain conditions of agricultural fields. The proposed
-planning strategy integrates i) a global planning method based on the Traveling Salesman Problem under the Capacitated
-Vehicle Routing approach to prioritize harvesting positions according to criteria of minimum path length and vehicle's
-load capacity, and ii) a local planning strategy based on an Informed Rapidly-exploring Random Trees (RRT$^*$) to
-coordinate the previously scheduled harvesting points while simultaneously avoiding obstacles of low-traction terrain.
-Moreover, the global approach aims to generate an ordered queue of harvesting locations, maximizing the harvested
-product of the expected crop yield. On the other hand, in the second stage, the informed RRT$^*$ planner avoids
-obstacles around the configuration space of the robotic vehicle and incorporates a dynamical model of the vehicle motion
-dynamics to meet constraints compatible with those of the planned path. Experimental results demonstrated the
-effectiveness of the proposed planning strategy, achieving smooth and collision-free paths, making it suitable for
-practical applications in precision agriculture
+This article presents a combined route and path planning strategy to guide Skid–Steer Mobile Robots (SSMRs) in scheduled
+harvest tasks within expansive crop rows with complex terrain conditions. The proposed strategy integrates: (i) a global
+planning algorithm based on the Traveling Salesman Problem under the Capacitated Vehicle Routing approach and
+Optimization Routing (OR-tools from Google) to prioritize harvesting positions by minimum path length, unexplored
+harvest points, and vehicle payload capacity; and (ii) a local planning strategy using Informed Rapidly-exploring Random
+Tree (IRRT∗) to coordinate scheduled harvesting points while avoiding low-traction terrain obstacles. The global
+approach generates an ordered queue of harvesting locations, maximizing the crop yield in a workspace map. In the second
+stage, the IRRT∗ planner avoids potential obstacles, including farm layout and slippery terrain. The path planning
+scheme incorporates a traversability model and a motion model of SSMRs to meet kinematic constraints. Experimental
+results in a generic fruit orchard demonstrate the effectiveness of the proposed strategy. In particular, the IRRT∗
+algorithm outperformed RRT and RRT∗ with 96.1% and 97.6% smoother paths, respectively. The IRRT∗ also showed improved
+navigation efficiency, avoiding obstacles and slippage zones, making it suitable for precision agriculture.
 
-## Requisitos Previos
+## Prerequisites
 
-Asegúrate de tener instalado lo siguiente antes de comenzar:
+Make sure you have the following installed before starting:
 
-- CoppeliaSim (Versión 4.5.1)
-- Python (Versión 3.9)
+- CoppeliaSim (Version 4.5.1)
+- Python (Version 3.9)
 
-## Instalación
+## Installation
 
 1. **CoppeliaSim:**
-    - Descarga CoppeliaSim desde [el sitio oficial](https://www.coppeliarobotics.com/downloads).
-    - Sigue las instrucciones de instalación proporcionadas en la documentación.
+    - Download CoppeliaSim from [the official site](https://www.coppeliarobotics.com/downloads).
+    - Follow the installation instructions provided in the documentation.
 
-2. **Python y Dependencias:**
-    - Instala Python > 3.9 desde [python.org](https://www.python.org/downloads/).
-    - Instala las dependencias requeridas ejecutando el siguiente comando:
-      ```bash
-      pip install -r requirements.txt
-      ```
+2. **Python and Dependencies:**
+    - Install Python > 3.9 from [python.org](https://www.python.org/downloads/).
+    - Install the required dependencies by running the following command:
+       ```bash
+       pip install -r requirements.txt
+       ```
 
-## Obtención del Mapa de CoppeliaSim
+## Obtaining the CoppeliaSim Map
 
-1. Abre CoppeliaSim
-1. Abre el archivo de la carpeta coppelia_map
+1. Open CoppeliaSim
+1. Open the file from the coppelia_map folder
 
-## Consideraciones
+## Considerations
 
-- El mapa debe tener un plano de trabajo de 1x15 metros
-- Si deseas ejecutar la aplicación On Line obteniendo el mapa desde coppelia, debes cambiar en el archivo config.py el
-  valor de la variable ON_LINE a True
-- Si deseas ejecutar la aplicación Off Line obteniendo el mapa desde un archivo, debes cambiar en el archivo config.py
-  el valor de la variable ON_LINE a False
+- The map must have a working plane of 1x15 meters
+- If you want to run the application On Line getting the map from coppelia, you must change in the config.py file
+  the value of the ON_LINE variable to True
+- If you want to run the application Off Line getting the map from a file, you must change in the config.py file
+  the value of the ON_LINE variable to False
 
-## Ejecución del Programa
+## Program Execution
 
-1. Utiliza el script `app.py` de la carpeta steps para ejecutar el programa
+1. Use the `app.py` script from the steps folder to run the program
     ```bash
     python app.py
     ```
 
-## Ejecución por partes
+## Execution by Parts
 
-1. Utiliza el script `step_1_get_data.py` de la carpeta steps para obtener el mapa procesado desde coppelia
+1. Use the `step_1_get_data.py` script from the steps folder to obtain the processed map from coppelia
     ```bash
     python step_1_get_data.py
 
-2. Utiliza el script `step_2_tsp.py` de la carpeta steps para ejecutar el algoritmo de TSP
+2. Use the `step_2_tsp.py` script from the steps folder to run the TSP algorithm
     ```bash
     python step_2_tsp.py
 
-3. Utiliza el script `step_3_rrt.py` de la carpeta steps para ejecutar el algortimo de RRT
+3. Use the `step_3_rrt.py` script from the steps folder to run the RRT algorithm
     ```bash
     python step_3_rrt.py
+
+## Notes
+
+This project was carried out at the Universidad Católica del Norte of Antofagasta in the Department of Systems and
+Computer Engineering (DISC).
+
+If you wish to use this code in your work, please cite our paper available
+at [this link](https://www.preprints.org/manuscript/202406.0326/v1).
