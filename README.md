@@ -142,4 +142,4 @@ This project was carried out at the Universidad Católica del Norte of Antofagas
 Computer Engineering (DISC).
 
 If you wish to use this code in your work, please cite our paper available
-at [this link](https://www.preprints.org/manuscript/202406.0326/v1).
+at [this link](https://doi.org/10.3390/agriculture14081206) DOI: 10.3390/agriculture14081206.
